@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V7 — Interaction & Simulation Engine
+
+V7 adds project variables, interactive hotspots, WHEN/IF/THEN simulation rules, branching to scenes, conditional actions, timer events, bonus scoring, and SCORM-resumable simulation state. Production audit checks validate event sources, branching targets, variables, timers and whether any simulation behavior is enabled.
+
 ## V6 — Live 3D Authoring Studio
 
 V6 adds a real WebGL/A-Frame authoring scene, direct object selection, hierarchy view, X/Y/Z transforms, rotation, scale, keyboard nudging, camera presets, duplication, and undo/redo. The production audit now also checks 3D scale validity, spatial bounds, empty scenes, and orphaned scene mappings.
