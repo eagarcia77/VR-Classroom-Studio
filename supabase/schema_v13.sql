@@ -179,7 +179,7 @@ with check (public.xr_is_workspace_admin(workspace_id));
 drop policy if exists "xr_members_update" on public.xr_workspace_members;
 create policy "xr_members_update" on public.xr_workspace_members
 for update to authenticated
-using (public.xr_can_write_workspace(workspace_id))
+using (public.xr_is_workspace_admin(workspace_id))
 with check (public.xr_is_workspace_admin(workspace_id));
 
 drop policy if exists "xr_members_delete" on public.xr_workspace_members;
@@ -204,7 +204,7 @@ drop policy if exists "xr_projects_update" on public.xr_projects;
 create policy "xr_projects_update" on public.xr_projects
 for update to authenticated
 using (public.xr_can_write_workspace(workspace_id))
-with check (public.xr_is_workspace_admin(workspace_id));
+with check (public.xr_can_write_workspace(workspace_id));
 
 drop policy if exists "xr_projects_delete" on public.xr_projects;
 create policy "xr_projects_delete" on public.xr_projects
