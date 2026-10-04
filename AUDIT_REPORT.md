@@ -182,3 +182,16 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added a private Supabase Storage bucket design with project-scoped RLS policies.
 - Hardened cloud collaboration policies so task/media identity fields cannot be reassigned by update.
 - Cloud collaboration/storage remains unprovisioned until a dedicated Supabase project is explicitly authorized.
+
+
+## V15 audit extension
+- Added Supabase Realtime Presence for authenticated collaborators on the same cloud project.
+- Added cloud synchronization for review comments, remediation tasks and approval gates.
+- Sync updates now modify only mutable fields; cloud identity fields remain database-protected.
+- Added private cloud media upload adapter for the project-scoped `xr-media` bucket.
+- Added secure workspace invitation records and authenticated email-matched claim RPC.
+- Invitation acceptance state cannot be arbitrarily updated from the browser; it is changed by the secure claim RPC.
+- Added cloud merge preflight comparing local/cloud structural counts before overwrite decisions.
+- Added V15 audit checks for realtime session readiness, review-sync backlog, media-sync backlog, media-integrity blockers and cloud-adapter availability.
+- Added Realtime publication setup for review comments, tasks, approvals, project locks and media metadata.
+- V15 remains cloud-ready but unprovisioned until a dedicated Supabase project is explicitly authorized.
