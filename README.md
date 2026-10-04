@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V4 — Production Audit & Hardened SCORM
+
+V4 adds a built-in production readiness audit, hardened SCORM session/resume handling, accessible runtime dialogs, and a self-contained A-Frame 1.8.0 runtime bundled into new SCORM exports. See `AUDIT_REPORT.md` for the current engineering status.
+
 VR Classroom Studio is a browser-based immersive authoring platform for instructors who want to create VR/AR-ready learning experiences and export them as **SCORM 2004** packages for **Blackboard Ultra**.
 
 ## V3 — Spatial Authoring + Assessment
