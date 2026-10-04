@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V8 — Immersive Simulation Objects
+
+V8 adds collectibles and inventory, smart doors/locks, trigger zones, inspectable objects, packaged media screens, proximity audio zones, and packaged 360° scene backgrounds. The runtime persists inventory through SCORM suspend data and the production audit now validates inventory mappings, door dependencies, trigger-zone geometry, immersive media references, and 360° assets.
+
 ## V7 — Interaction & Simulation Engine
 
 V7 adds project variables, interactive hotspots, WHEN/IF/THEN simulation rules, branching to scenes, conditional actions, timer events, bonus scoring, and SCORM-resumable simulation state. Production audit checks validate event sources, branching targets, variables, timers and whether any simulation behavior is enabled.
