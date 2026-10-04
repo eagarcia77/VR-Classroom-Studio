@@ -45,6 +45,46 @@ create index if not exists xr_projects_workspace_idx on public.xr_projects(works
 create index if not exists xr_projects_owner_idx on public.xr_projects(owner_id);
 create index if not exists xr_project_versions_project_idx on public.xr_project_versions(project_id, created_at desc);
 
+create or replace function public.xr_protect_workspace_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.owner_id is distinct from old.owner_id then
+    raise exception 'workspace owner_id is immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_workspaces_protect_identity on public.xr_workspaces;
+create trigger xr_workspaces_protect_identity
+before update on public.xr_workspaces
+for each row execute function public.xr_protect_workspace_identity();
+
+create or replace function public.xr_protect_project_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.owner_id is distinct from old.owner_id then
+    raise exception 'project owner_id is immutable';
+  end if;
+  if new.workspace_id is distinct from old.workspace_id then
+    raise exception 'project workspace_id is immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_projects_protect_identity on public.xr_projects;
+create trigger xr_projects_protect_identity
+before update on public.xr_projects
+for each row execute function public.xr_protect_project_identity();
+
+
 alter table public.xr_workspaces enable row level security;
 alter table public.xr_workspace_members enable row level security;
 alter table public.xr_projects enable row level security;
@@ -101,7 +141,7 @@ drop policy if exists "xr_workspaces_update" on public.xr_workspaces;
 create policy "xr_workspaces_update" on public.xr_workspaces
 for update to authenticated
 using (owner_id = (select auth.uid()) or public.xr_can_write_workspace(id))
-with check (owner_id = owner_id);
+with check (public.xr_is_workspace_member(id));
 
 drop policy if exists "xr_workspaces_delete" on public.xr_workspaces;
 create policy "xr_workspaces_delete" on public.xr_workspaces
