@@ -53,5 +53,22 @@ document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].include
 
 const oldRender=render;
 render=function(){oldRender();ensure();setTimeout(render3D,0)};
+const oldAuditRun=window.VRClassroomAudit?.run, oldAuditChecks=window.VRClassroomAudit?.checks;
+function v6Checks(){
+ const r=[];const objs=state.objects||[],scenes=state.scenes||[],stations=state.stations||[];
+ const badScale=objs.filter(o=>!Number.isFinite(Number(o.scale))||Number(o.scale)<=0);
+ r.push({level:badScale.length?'fail':'pass',name:'3D object scale',detail:badScale.length?badScale.length+' object(s) have invalid scale values.':'All object scales are valid.'});
+ const extreme=objs.filter(o=>Math.abs(Number(o.x||0))>25||Math.abs(Number(o.y||0))>25||Math.abs(Number(o.z||0))>25);
+ r.push({level:extreme.length?'warn':'pass',name:'Spatial bounds',detail:extreme.length?extreme.length+' object(s) are more than 25m from the scene origin. Verify they are reachable.':'Objects are within the recommended authoring bounds.'});
+ const emptyScenes=scenes.filter(s=>!objs.some(o=>o.sceneId===s.id)&&!stations.some(st=>st.sceneId===s.id));
+ r.push({level:emptyScenes.length?'warn':'pass',name:'Scene content',detail:emptyScenes.length?emptyScenes.length+' scene(s) contain no objects or learning stations.':'All scenes contain authored content.'});
+ const orphanObjects=objs.filter(o=>!scenes.some(s=>s.id===o.sceneId));
+ r.push({level:orphanObjects.length?'fail':'pass',name:'Object scene mapping',detail:orphanObjects.length?orphanObjects.length+' object(s) reference missing scenes.':'All 3D objects belong to existing scenes.'});
+ const orphanStations=stations.filter(st=>!scenes.some(s=>s.id===st.sceneId));
+ r.push({level:orphanStations.length?'fail':'pass',name:'Station scene mapping',detail:orphanStations.length?orphanStations.length+' station(s) reference missing scenes.':'All learning stations belong to existing scenes.'});
+ return r
+}
+if(oldAuditChecks)window.VRClassroomAudit.checks=()=>[...oldAuditChecks(),...v6Checks()];
+if(oldAuditRun)window.VRClassroomAudit.run=(scroll=false)=>{const base=oldAuditRun(scroll),extras=v6Checks(),all=[...base,...extras];const p=all.filter(x=>x.level==='pass').length,w=all.filter(x=>x.level==='warn').length,fl=all.filter(x=>x.level==='fail').length;if(document.getElementById('auditPass'))document.getElementById('auditPass').textContent=p;if(document.getElementById('auditWarn'))document.getElementById('auditWarn').textContent=w;if(document.getElementById('auditFail'))document.getElementById('auditFail').textContent=fl;if(document.getElementById('auditResults')){const html=extras.map(x=>`<div class="station" style="${x.level==='fail'?'border-color:#7f1d1d':x.level==='warn'?'border-color:#854d0e':''}"><span class="num">${x.level==='pass'?'✓':x.level==='warn'?'!':'×'}</span><div><b>${x.name}</b><div class="muted">${x.detail}</div></div><span class="v3-pill">${x.level.toUpperCase()}</span></div>`).join('');document.getElementById('auditResults').insertAdjacentHTML('beforeend',html)}return all};
 loadAFrame(()=>build3D());
 })();
