@@ -1,0 +1,54 @@
+# Production Audit Report — VR Classroom Studio V4
+
+Date: 2026-10-03 (Puerto Rico)
+
+## Scope
+Audit of the instructor authoring application, multi-scene XR runtime, assessment engine, SCORM 2004 packaging, Blackboard portability, accessibility controls and deployment architecture.
+
+## Corrected in V4
+- Fixed reflection-question completion so required stations can complete.
+- Removed reliance on browser-created global variables for runtime UI element IDs.
+- Added accessible modal semantics, close control, keyboard Escape handling and live announcements.
+- Added SCORM suspend/resume data.
+- Added SCORM session time and exit-state handling.
+- Hardened SCORM API discovery with guarded cross-frame access.
+- Added explicit completion/success updates on every scoring update.
+- Added production audit checks before export.
+- Added portal-target integrity checks.
+- Added orphan-assessment and answer-key checks.
+- Added external-model dependency warnings.
+- Added transparent warning that AR-ready is not yet equivalent to production immersive-AR placement.
+- Vendored A-Frame 1.8.0 and bundle it into newly exported SCORM ZIP files.
+- Added A-Frame license notice to the package.
+- Added GLB/GLTF rendering for custom model URLs in the student runtime.
+- Added audited SCORM export filename and package README.
+
+## Current production readiness
+### Ready
+- Instructor authoring
+- Multi-scene projects
+- Spatial top-view designer
+- Portals
+- Desktop 3D / WebXR VR
+- Multiple-choice, true/false and reflection assessment
+- SCORM 2004 score/progress/completion/success tracking
+- Resume state via cmi.suspend_data
+- Self-contained A-Frame runtime in exported packages
+- Render auto-deploy
+- Project JSON portability
+
+### Still engineering work
+- Full visual 3D transform gizmos
+- True immersive-AR placement/hit testing
+- Bundling locally uploaded GLB/GLTF assets
+- 360 image/video authoring
+- Advanced branching rules
+- Question pools/randomization
+- Automated WCAG test suite
+- xAPI/cmi5 output
+- LTI 1.3 institutional integration
+- Automated LMS integration tests against a Blackboard test course
+
+## Deployment
+Production URL: https://vr-classroom-studio.onrender.com
+Repository: https://github.com/eagarcia77/VR-Classroom-Studio
