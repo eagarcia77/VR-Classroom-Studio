@@ -53,3 +53,11 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Activity events are append-only to authenticated project/workspace members.
 - Realtime publication is prepared for review comments, tasks, approvals, locks and media metadata.
 - Private Storage uploads remain project-scoped through V14 RLS policies.
+
+
+## V16 intelligent collaboration extension
+- `xr_alignment_reports` is RLS-protected and readable only by workspace members.
+- Authenticated workspace members may insert alignment reports only as themselves.
+- `xr_activity_events` and alignment reports are prepared for Supabase Realtime publication.
+- V16 does not add privileged browser credentials or bypass V13/V14/V15 authorization helpers.
+- Conflict resolution remains an explicit user decision per audited project domain; there is no automatic destructive merge.
