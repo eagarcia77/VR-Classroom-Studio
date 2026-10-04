@@ -52,3 +52,13 @@ Audit of the instructor authoring application, multi-scene XR runtime, assessmen
 ## Deployment
 Production URL: https://vr-classroom-studio.onrender.com
 Repository: https://github.com/eagarcia77/VR-Classroom-Studio
+
+
+## V5 audit extension
+- Added local asset packaging into exported SCORM ZIP files.
+- Added Project Bundle ZIP export/import to preserve project JSON plus local media.
+- Added audit checks for missing local media bytes, orphaned asset references and remaining external 3D dependencies.
+- Added active-scene duplication/deletion and in-session snapshot/restore.
+- Added browser/device WebXR capability detection using isSessionSupported for immersive-vr and immersive-ar.
+- Confirmed SCORM 2004 remains supported by Blackboard Ultra when the institutional SCORM Engine is enabled.
+- AR remains capability-detected and experimental where browser support is incomplete; V5 does not claim universal immersive-AR compatibility.
