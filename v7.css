@@ -1,0 +1,10 @@
+/* V7 Interaction & Simulation Engine */
+.v7-rule{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#091425}
+.v7-rule-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.v7-rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.v7-flow{font-size:12px;color:var(--muted);margin-top:8px;padding:8px;border-radius:8px;background:#07101e}
+.v7-flow b{color:#dff7ff}
+.v7-vars{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.v7-var{padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:#10213a;font-size:12px}
+.v7-event{color:#7dd3fc}.v7-action{color:#a7f3d0}.v7-condition{color:#fde68a}
+@media(max-width:760px){.v7-rule-grid{grid-template-columns:1fr}}
