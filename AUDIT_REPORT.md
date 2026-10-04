@@ -153,3 +153,17 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added audit checks for project identity metadata, course/author metadata, duplicate local project IDs, autosave media limitations, local role security semantics and structural autosave size.
 - Autosave persists structure/metadata only; Project Bundle remains the durable recovery format for local media binaries.
 - Version restore now preserves the active stored project identity instead of silently creating a new project ID.
+
+
+## V13 audit extension
+- Added an optional browser cloud adapter for a dedicated Supabase project.
+- Added magic-link authentication using a browser-safe publishable/anon key.
+- Browser configuration rejects privileged server credentials.
+- Added cloud workspaces, project sync, cloud versions and restore-as-working-copy.
+- Added optimistic revision checks to detect stale project overwrites.
+- Added a dedicated Supabase schema with RLS on all exposed tables.
+- Workspace owner/Admin can manage membership; Instructor can create/update projects and versions; Reviewer is read-only through the supplied policies.
+- Workspace owner and project ownership/workspace identity are protected from reassignment by database triggers.
+- Cloud sync stores structured project JSON only; local media binaries continue to use Project Bundle/SCORM packaging.
+- Existing Supabase projects are intentionally not reused or modified automatically.
+- Backend provisioning remains pending until a dedicated Supabase project is explicitly created and authorized.
