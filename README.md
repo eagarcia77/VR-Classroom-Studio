@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V12 — Institutional XR Workspace
+
+V12 adds a local multi-project dashboard, institutional metadata, structural autosave, persistent local version history, project cloning, reusable structural templates, local workflow roles (Instructor/Reviewer/Admin), and institutional audit checks. Roles are intentionally identified as workflow/UI roles only until real authentication and server-side RBAC are introduced.
+
 ## V11 — Professional XR Authoring
 
 V11 adds direct in-canvas transform gizmo controls, multi-selection, grouping/ungrouping, duplication, grid snapping, animation timeline authoring, authoring-side learning analytics, and an experimental capability-gated immersive-AR placement mode using WebXR hit-test where supported. Desktop 3D and VR remain the stable fallback modes.
