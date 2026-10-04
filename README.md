@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V16 — Intelligent Collaborative Authoring
+
+V16 adds clickable 3D review pins anchored to scene objects, a collaborative activity feed with Realtime-ready cloud events, a learning-alignment audit across objectives/activities/assessment/SCORM scoring, persisted cloud alignment reports, and a domain-level conflict resolver for selectively keeping local or cloud project sections. All cloud capabilities remain optional.
+
 ## V15 — Live Collaboration Ready
 
 V15 adds Supabase Realtime presence, cloud review/task/approval synchronization, private cloud media upload adapter, secure workspace invitation records, pending-invite claim flow, cloud merge preflight, and a V15 schema extension for invitations, activity events and Realtime publication. All cloud features remain optional; local authoring and standalone Blackboard SCORM continue to work without a backend.
