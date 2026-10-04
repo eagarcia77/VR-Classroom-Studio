@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V5 — Media Packaging, Project Bundles & XR Capability Checks
+
+V5 adds local-media packaging for GLB/GLTF, images, video, audio and PDF; Project Bundle export/import; scene duplication/deletion; browser-session snapshots; device XR capability checks; and V5 audit checks for missing media bytes, orphaned local assets and remaining external-model dependencies.
+
 ## V4 — Production Audit & Hardened SCORM
 
 V4 adds a built-in production readiness audit, hardened SCORM session/resume handling, accessible runtime dialogs, and a self-contained A-Frame 1.8.0 runtime bundled into new SCORM exports. See `AUDIT_REPORT.md` for the current engineering status.
