@@ -113,7 +113,7 @@ runtimeHTML=function(preview=false){
  function applyAnimations(){if(typeof world==='undefined')return;(v11.animations||[]).forEach(a=>{const el=world.querySelector('[data-object-id="'+a.objectId+'"]');if(!el)return;const prop=a.property==='rotation'?'rotation':a.property==='scale'?'scale':a.property==='position'?'position':a.property==='visible'?'visible':a.property;el.setAttribute('animation__v11_'+String(a.id).replace(/[^a-z0-9]/gi,''),'property:'+prop+'; to:'+a.to+'; dur:'+Number(a.dur||1000)+'; easing:'+(a.easing||'linear')+'; loop:'+!!a.loop)})}
  function initAR(){
   if(!v11.ar.arPlacementExperimental||!navigator.xr)return;
-  const scene=document.querySelector('a-scene');if(!scene)return;
+  const scene=document.querySelector('a-scene');if(!scene)return;scene.setAttribute('webxr','optionalFeatures: hit-test, local-floor, bounded-floor; referenceSpaceType: local');
   const btn=document.createElement('button');btn.textContent='Enter AR Placement';btn.style.cssText='position:fixed;z-index:40;left:12px;bottom:12px;padding:10px 14px;border-radius:10px;border:1px solid #ffffff44;background:#071225ee;color:#fff;font-weight:700';document.body.appendChild(btn);
   const ret=document.createElement('a-ring');ret.id='v11ARReticle';ret.setAttribute('radius-inner','.08');ret.setAttribute('radius-outer','.12');ret.setAttribute('rotation','-90 0 0');ret.setAttribute('color','#7dd3fc');ret.setAttribute('visible','false');scene.appendChild(ret);
   let hitSource=null,localSpace=null,viewerSpace=null,session=null,lastPose=null,rafActive=false;
