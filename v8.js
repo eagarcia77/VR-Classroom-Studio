@@ -56,6 +56,8 @@ function editObject(id){const o=state.objects.find(x=>x.id===id);if(!o)return;
 const prevRuntime=runtimeHTML;
 runtimeHTML=function(preview=false){
  let html=prevRuntime(preview);
+ html=html.replace("currentScene=r.currentScene||currentScene;earnedQ=Number(r.earnedQ||0);completed=new Set(r.completed||[]);answered=new Set(r.answered||[])","currentScene=r.currentScene||currentScene;earnedQ=Number(r.earnedQ||0);completed=new Set(r.completed||[]);answered=new Set(r.answered||[]);window.__v8savedInventory=r.v8inventory||[]");
+ html=html.replace("v7fired:window.V7Runtime?window.V7Runtime.fired():[]})","v7fired:window.V7Runtime?window.V7Runtime.fired():[],v8inventory:window.V8Runtime?window.V8Runtime.inventory():window.__v8savedInventory||[]})");
  const sceneSkies={};for(const s of state.scenes||[]){if(s.skyAssetId){const m=(state.media||[]).find(x=>x.id===s.skyAssetId);if(m)sceneSkies[s.id]=preview&&window.VRClassroomMediaFiles?.has(m.id)?URL.createObjectURL(new Blob([window.VRClassroomMediaFiles.get(m.id)],{type:m.type||'image/jpeg'})):m.path}}
  const payload=JSON.stringify({inventoryCatalog:state.inventoryCatalog||[],sceneSkies}).replace(/</g,'\\u003c');
  const code=`
@@ -64,9 +66,9 @@ runtimeHTML=function(preview=false){
  const cfg=${payload},inventory=new Set(),triggered=new Set(),by=id=>document.getElementById(id);
  const inventoryBox=document.createElement('div');inventoryBox.id='v8InventoryHUD';inventoryBox.style.cssText='position:fixed;z-index:25;right:12px;bottom:12px;max-width:260px;background:#071225ee;border:1px solid #ffffff2a;border-radius:12px;padding:9px 11px;color:#fff;font:12px system-ui';inventoryBox.innerHTML='<b>Inventory</b><div id="v8InventoryItems">Empty</div>';document.body.appendChild(inventoryBox);
  function hud(){const e=by('v8InventoryItems');if(e)e.textContent=inventory.size?[...inventory].join(', '):'Empty'}
- function msg(t){if(window.ui){ui.mt.textContent='Interaction';ui.mc.textContent=t||'Interaction completed.';ui.choices.innerHTML='';ui.completeBtn.style.display='none';ui.modal.style.display='block'}if(window.announce)announce(t||'Interaction completed.')}
+ function msg(t){if(typeof ui!=='undefined'){ui.mt.textContent='Interaction';ui.mc.textContent=t||'Interaction completed.';ui.choices.innerHTML='';ui.completeBtn.style.display='none';ui.modal.style.display='block'}if(typeof announce==='function')announce(t||'Interaction completed.')}
  function hasVar(n,val){if(!n)return true;return window.V7Vars&&String(window.V7Vars[n])===String(val)}
- function currentObjects(){return (project.objects||[]).filter(o=>o.sceneId===window.currentScene)}
+ function currentObjects(){return (project.objects||[]).filter(o=>o.sceneId===currentScene)}
  function wire(){
    document.querySelectorAll('[data-object-id]').forEach(el=>{if(el.dataset.v8wired)return;el.dataset.v8wired='1';const o=(project.objects||[]).find(x=>String(x.id)===String(el.dataset.objectId));if(!o)return;
     if(o.type==='collectible'){el.addEventListener('click',()=>{if(o.once&&inventory.has(o.inventoryItemId))return;inventory.add(o.inventoryItemId);el.setAttribute('visible','false');msg(o.inspectionText||('Collected '+o.label));hud();persist()})}
@@ -74,11 +76,11 @@ runtimeHTML=function(preview=false){
     if(o.type==='inspection'){el.addEventListener('click',()=>msg(o.inspectionText||o.label))}
    })
  }
- function sky(){const src=cfg.sceneSkies[window.currentScene];const s=document.querySelector('a-sky');if(s&&src)s.setAttribute('src',src);else if(s){s.removeAttribute('src');s.setAttribute('color','#284e73')}}
+ function sky(){const src=cfg.sceneSkies[currentScene];const s=document.querySelector('a-sky');if(s&&src)s.setAttribute('src',src);else if(s){s.removeAttribute('src');s.setAttribute('color','#284e73')}}
  function proximity(){const cam=document.querySelector('[camera]');if(!cam?.object3D)return;const p=cam.object3D.getWorldPosition(new THREE.Vector3());for(const o of currentObjects().filter(x=>x.type==='trigger-zone')){const dx=p.x-Number(o.x||0),dy=p.y-Number(o.y||0),dz=p.z-Number(o.z||0),d=Math.sqrt(dx*dx+dy*dy+dz*dz),key=String(o.id);if(d<=Number(o.radius||2)&&!triggered.has(key)){triggered.add(key);if(o.setVariable&&window.V7Vars)window.V7Vars[o.setVariable]=o.setValue;msg(o.message||'Interactive zone entered.');persist()}else if(d>Number(o.radius||2)+1)triggered.delete(key)}}
  function persist(){try{const raw=SCORM.get('cmi.suspend_data'),d=raw?JSON.parse(raw):{};d.v8inventory=[...inventory];SCORM.set('cmi.suspend_data',JSON.stringify(d).slice(0,60000));SCORM.commit()}catch(e){}}
- try{const raw=SCORM.get('cmi.suspend_data');if(raw){const d=JSON.parse(raw);(d.v8inventory||[]).forEach(x=>inventory.add(x))}}catch(e){}
- hud();const oldShow=window.showScene;window.showScene=function(id){oldShow(id);setTimeout(()=>{wire();sky()},50)};setInterval(()=>{wire();proximity()},500);setTimeout(()=>{wire();sky()},150);
+ try{(window.__v8savedInventory||[]).forEach(x=>inventory.add(x))}catch(e){}
+ window.V8Runtime={inventory:()=>[...inventory]};hud();const oldShow=window.showScene;window.showScene=function(id){oldShow(id);setTimeout(()=>{wire();sky()},50)};setInterval(()=>{wire();proximity()},500);setTimeout(()=>{wire();sky()},150);
  })();
  <\/script>`;
  return html.replace('</body></html>',code+'</body></html>')
