@@ -46,12 +46,6 @@ with check (
   and public.xr_is_workspace_admin(workspace_id)
 );
 
-drop policy if exists "xr_invites_admin_update" on public.xr_workspace_invites;
-create policy "xr_invites_admin_update" on public.xr_workspace_invites
-for update to authenticated
-using (public.xr_is_workspace_admin(workspace_id))
-with check (public.xr_is_workspace_admin(workspace_id));
-
 drop policy if exists "xr_invites_admin_delete" on public.xr_workspace_invites;
 create policy "xr_invites_admin_delete" on public.xr_workspace_invites
 for delete to authenticated
@@ -146,7 +140,7 @@ with check (
   )
 );
 
-grant select, insert, update, delete on public.xr_workspace_invites to authenticated;
+grant select, insert, delete on public.xr_workspace_invites to authenticated;
 grant select, insert on public.xr_activity_events to authenticated;
 
 -- Protect immutable invitation identity fields.
