@@ -35,3 +35,11 @@ SCORM playback does not require Supabase. Exported SCORM packages remain standal
 
 ## Provisioning requirement
 Do not apply this schema to FYNEXO or another unrelated database. Create a dedicated Supabase project, apply the migration, then run Supabase Security and Performance Advisors before enabling production cloud sync.
+
+## V14 collaboration extension
+- Review comments: project members can read; authenticated project members can create; comment author or workspace Admin can modify/delete.
+- Review tasks: workspace writers can create/update/delete; identity fields are immutable.
+- Project approvals: workspace owner/Admin/Reviewer can approve; project/gate identity is immutable.
+- Project locks: workspace writers can acquire/update their own locks.
+- Media asset metadata: workspace writers can create/update/delete; project/uploader identity is immutable.
+- Private `xr-media` Storage bucket uses project ID as the first path segment and inherits workspace membership/write authorization.
