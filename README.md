@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V13 — Cloud-Ready Institutional Platform
+
+V13 adds an optional authenticated Supabase cloud adapter while preserving the V12 local workspace and standalone SCORM workflow. It supports magic-link authentication, cloud workspaces, project sync with optimistic revision checks, cloud version snapshots and restore-as-working-copy. A dedicated RLS schema is included in `supabase/schema_v13.sql`. No existing Supabase project is modified automatically.
+
 ## V12 — Institutional XR Workspace
 
 V12 adds a local multi-project dashboard, institutional metadata, structural autosave, persistent local version history, project cloning, reusable structural templates, local workflow roles (Instructor/Reviewer/Admin), and institutional audit checks. Roles are intentionally identified as workflow/UI roles only until real authentication and server-side RBAC are introduced.
