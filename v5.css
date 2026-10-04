@@ -1,0 +1,10 @@
+/* V5 production authoring additions */
+.v5-media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px}
+.v5-media{border:1px solid var(--line);background:#0a1324;border-radius:12px;padding:12px;min-width:0}
+.v5-media b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v5-media small{color:var(--muted);display:block;margin-top:4px}
+.v5-status{display:inline-block;padding:3px 8px;border-radius:999px;background:#17304b;font-size:11px;margin-left:6px}
+.v5-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.v5-cap{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.v5-cap:last-child{border-bottom:0}
+.v5-ok{color:#9cf6c2}.v5-warn{color:#fde68a}
