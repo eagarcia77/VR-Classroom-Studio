@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V14 — Collaborative Review & Governance
+
+V14 adds anchored review comments, remediation tasks, configurable publication approvals, local multi-tab presence/locking, SHA-256 media integrity fingerprints, publication governance checks, and a cloud-ready collaboration/storage schema for a future dedicated Supabase backend. Critical review blockers, blocker tasks, required approvals, or media integrity mismatches can prevent an audited export.
+
 ## V13 — Cloud-Ready Institutional Platform
 
 V13 adds an optional authenticated Supabase cloud adapter while preserving the V12 local workspace and standalone SCORM workflow. It supports magic-link authentication, cloud workspaces, project sync with optimistic revision checks, cloud version snapshots and restore-as-working-copy. A dedicated RLS schema is included in `supabase/schema_v13.sql`. No existing Supabase project is modified automatically.
