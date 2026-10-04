@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="UCAN_VR_001" version="1" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3">
+<manifest identifier="VR_CLASSROOM_STUDIO_001" version="1" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3">
   <metadata><schema>ADL SCORM</schema><schemaversion>2004 4th Edition</schemaversion></metadata>
-  <organizations default="ORG1"><organization identifier="ORG1"><title>UCAN Academic Mall VR</title><item identifier="ITEM1" identifierref="RES1"><title>UCAN Academic Mall VR Activity</title></item></organization></organizations>
+  <organizations default="ORG1"><organization identifier="ORG1"><title>Immersive Academic Hub VR</title><item identifier="ITEM1" identifierref="RES1"><title>Immersive Academic Hub VR Activity</title></item></organization></organizations>
   <resources><resource identifier="RES1" type="webcontent" adlcp:scormType="sco" href="index.html"><file href="index.html"/><file href="scorm_api.js"/></resource></resources>
 </manifest>
