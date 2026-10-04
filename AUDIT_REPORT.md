@@ -81,3 +81,13 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Simulation variables and fired one-time rules are persisted through SCORM suspend_data.
 - Added audit checks for broken rule sources, invalid scene targets, undefined variables, invalid timers and missing enabled simulation behavior.
 - Corrected timer execution so each timer triggers only its own configured rule.
+
+
+## Branding and script-loader audit
+- Removed all current-branch references to the former UCAN example branding.
+- Renamed the starter experience to **Immersive Academic Hub**.
+- Replaced the reference SCORM manifest identifier and titles with neutral VR Classroom Studio / Immersive Academic Hub names.
+- Corrected an HTML script-loading defect that inserted V3–V7 module tags inside the generated SCORM runtime template. This defect caused JavaScript source text to render at the bottom of the authoring page.
+- Verified the main inline authoring script parses successfully after the repair.
+- Verified V3, V4 audit, V5, V6 and V7 JavaScript modules parse successfully.
+- Verified the current repository text files contain zero occurrences of the string UCAN.
