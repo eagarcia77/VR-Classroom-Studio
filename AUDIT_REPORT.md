@@ -140,3 +140,16 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added experimental WebXR immersive-AR placement with capability checks, optional hit-test request, reticle and select-to-place behavior when supported.
 - AR remains explicitly experimental/capability-gated; VR/Desktop fallback remains the production baseline.
 - Added audit checks for broken group members, missing animation targets, invalid animation durations, experimental AR readiness and duplicate group membership.
+
+
+## V12 audit extension
+- Added a local multi-project dashboard with open, clone and delete workflows.
+- Added institutional metadata for project name, institution, department, course code, term/cohort and author/owner.
+- Added debounced structural autosave using browser localStorage.
+- Added persistent local version history with manual snapshots and restore.
+- Added reusable structural template library while preserving packaged media and institutional metadata when applying a template.
+- Added local workspace roles for Instructor, Reviewer and Admin; these are explicitly workflow/UI roles and are not presented as authenticated RBAC.
+- Reviewer mode disables structural autosave and project-save controls.
+- Added audit checks for project identity metadata, course/author metadata, duplicate local project IDs, autosave media limitations, local role security semantics and structural autosave size.
+- Autosave persists structure/metadata only; Project Bundle remains the durable recovery format for local media binaries.
+- Version restore now preserves the active stored project identity instead of silently creating a new project ID.
