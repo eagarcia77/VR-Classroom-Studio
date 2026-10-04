@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V15 — Live Collaboration Ready
+
+V15 adds Supabase Realtime presence, cloud review/task/approval synchronization, private cloud media upload adapter, secure workspace invitation records, pending-invite claim flow, cloud merge preflight, and a V15 schema extension for invitations, activity events and Realtime publication. All cloud features remain optional; local authoring and standalone Blackboard SCORM continue to work without a backend.
+
 ## V14 — Collaborative Review & Governance
 
 V14 adds anchored review comments, remediation tasks, configurable publication approvals, local multi-tab presence/locking, SHA-256 media integrity fingerprints, publication governance checks, and a cloud-ready collaboration/storage schema for a future dedicated Supabase backend. Critical review blockers, blocker tasks, required approvals, or media integrity mismatches can prevent an audited export.
