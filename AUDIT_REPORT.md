@@ -105,3 +105,15 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added audit checks for collectible mappings, smart-door dependencies, trigger-zone radius validity, missing 360° assets and immersive media-object mappings.
 - Corrected inventory resume so the initial SCO persist does not erase previously saved inventory state.
 - Updated visible product labeling from legacy prototype/version labels to V8 where appropriate.
+
+
+## V9 audit extension
+- Added virtual guides/NPCs with scene placement, roles and text dialogue.
+- Added optional packaged GLB/GLTF models for NPCs.
+- Added conditional NPC availability using simulation variables.
+- Added variable updates and optional bonus scoring from NPC interactions.
+- Added automatic Scenario State Map based on real rule, portal and smart-door origins.
+- Added object states with runtime effects for visibility, color and opacity.
+- Added direct transform pad linked to the selected V6 3D object.
+- Added SCORM persistence for NPC one-time awards and object states.
+- Added audit checks for NPC scene mapping, NPC model assets, accessible dialogue, variable references, deleted-object state records and potentially unreachable scenes.
