@@ -91,3 +91,17 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Verified the main inline authoring script parses successfully after the repair.
 - Verified V3, V4 audit, V5, V6 and V7 JavaScript modules parse successfully.
 - Verified the current repository text files contain zero occurrences of the string UCAN.
+
+
+## V8 audit extension
+- Added collectibles and an inventory catalog.
+- Added smart doors/locks gated by inventory items and/or simulation variables.
+- Added trigger zones with configurable radius, messages and variable updates.
+- Added inspectable objects.
+- Added packaged image/video media screens.
+- Added proximity audio zones using packaged audio assets.
+- Added packaged 360° scene backgrounds.
+- Added SCORM-resumable inventory state.
+- Added audit checks for collectible mappings, smart-door dependencies, trigger-zone radius validity, missing 360° assets and immersive media-object mappings.
+- Corrected inventory resume so the initial SCO persist does not erase previously saved inventory state.
+- Updated visible product labeling from MVP/V2 to V8 where appropriate.
