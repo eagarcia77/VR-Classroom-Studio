@@ -117,3 +117,15 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added direct transform pad linked to the selected V6 3D object.
 - Added SCORM persistence for NPC one-time awards and object states.
 - Added audit checks for NPC scene mapping, NPC model assets, accessible dialogue, variable references, deleted-object state records and potentially unreachable scenes.
+
+
+## V10 audit extension
+- Added visual WHEN / IF / THEN rule authoring with inline event, condition and action editors.
+- Added branching NPC dialogue nodes, choice targets and dialogue preview.
+- Added local Smart Scenario Generator for guided exploration, simulations, escape rooms and immersive case studies.
+- Generated blueprint scoring now totals exactly 100 points.
+- Applying a generated blueprint updates the active learning objective and preserves existing packaged media.
+- Added asset-level accessible titles, language, caption/transcript status and transcript/description metadata.
+- Added runtime branching dialogue interception for actual NPC click events.
+- Added audit checks for missing dialogue targets, duplicate node IDs, unreachable dialogue nodes, missing video captions/transcripts, missing audio descriptions/transcripts and duplicate rule IDs.
+- Smart generation is explicitly local/deterministic; no external AI service or student data is used.
