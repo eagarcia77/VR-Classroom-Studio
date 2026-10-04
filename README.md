@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V9 — NPC & Scenario Studio
+
+V9 adds virtual guides/NPCs, optional packaged GLB/GLTF NPC models, accessible text dialogue, conditional NPC availability, variable updates, bonus scoring, an automatic Scenario State Map, object-state metadata with runtime effects, and a direct transform pad linked to the V6 3D selection. NPC awards and object states persist through SCORM suspend data.
+
 ## V8 — Immersive Simulation Objects
 
 V8 adds collectibles and inventory, smart doors/locks, trigger zones, inspectable objects, packaged media screens, proximity audio zones, and packaged 360° scene backgrounds. The runtime persists inventory through SCORM suspend data and the production audit now validates inventory mappings, door dependencies, trigger-zone geometry, immersive media references, and 360° assets.
