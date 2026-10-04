@@ -167,3 +167,18 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Cloud sync stores structured project JSON only; local media binaries continue to use Project Bundle/SCORM packaging.
 - Existing Supabase projects are intentionally not reused or modified automatically.
 - Backend provisioning remains pending until a dedicated Supabase project is explicitly created and authorized.
+
+
+## V14 audit extension
+- Added anchored review comments for project, scene, object and station targets.
+- Added remediation task tracking with normal, high and blocker priorities.
+- Added instructional, accessibility, technical and final publication approvals.
+- Added advisory vs required approval enforcement; required pending approvals become audit blockers.
+- Added local multi-tab presence using BroadcastChannel and project edit locks using localStorage.
+- Added SHA-256 media integrity manifests for loaded local assets.
+- Media hash changes after verification are detected as publication blockers.
+- Added audit checks for unresolved blockers, review tasks, warnings, approvals, media integrity and conflicting local locks.
+- Added V14 cloud-ready collaboration schema for comments, tasks, approvals, locks and media asset metadata.
+- Added a private Supabase Storage bucket design with project-scoped RLS policies.
+- Hardened cloud collaboration policies so task/media identity fields cannot be reassigned by update.
+- Cloud collaboration/storage remains unprovisioned until a dedicated Supabase project is explicitly authorized.
