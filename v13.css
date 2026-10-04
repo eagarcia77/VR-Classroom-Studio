@@ -1,0 +1,12 @@
+/* V13 Cloud-ready Institutional Platform */
+.v13-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v13-card{border:1px solid var(--line);border-radius:13px;background:#091425;padding:14px}
+.v13-cloud-status{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px;border:1px solid var(--line);border-radius:10px;background:#07101d}
+.v13-dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#64748b}.v13-dot.ok{background:#86efac}.v13-dot.warn{background:#fde68a}.v13-dot.bad{background:#fda4af}
+.v13-project{border:1px solid var(--line);border-radius:11px;padding:10px;background:#08111f;margin:7px 0}
+.v13-project.active{border-color:#7dd3fc}
+.v13-project small{display:block;color:var(--muted);margin-top:3px}
+.v13-cloud-list{max-height:330px;overflow:auto}
+.v13-version{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px;margin:6px 0;background:#07101d}
+.v13-security{font-size:12px;color:var(--muted);border-left:3px solid #7dd3fc;padding:8px 10px;background:#07101d;border-radius:6px;margin-top:9px}
+@media(max-width:900px){.v13-grid{grid-template-columns:1fr}}
