@@ -21,14 +21,14 @@ main.appendChild(feed);
 /* alignment audit */
 const align=document.createElement('section');align.className='card';align.id='alignmentAuditCard';
 align.innerHTML=`
-<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Learning Alignment Audit <span class="v6-badge">V16</span></h3><div class="muted">Cross-check objectives → activities → assessment evidence → SCORM scoring.</div></div><button class="btn primary" id="v16RunAlignment">Run alignment audit</button></div>
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Learning Alignment Audit <span class="v6-badge">V16</span></h3><div class="muted">Cross-check objectives → activities → assessment evidence → SCORM scoring.</div></div><div class="toolbar"><button class="btn primary" id="v16RunAlignment">Run alignment audit</button><button class="btn" id="v16SaveAlignment">Save cloud report</button></div></div>
 <div id="v16AlignmentSummary" class="v11-metric" style="margin-top:12px"></div><div id="v16Alignment" style="margin-top:12px"></div>`;
 main.appendChild(align);
 
 /* conflict resolver */
 const merge=document.createElement('section');merge.className='card';merge.id='fieldConflictCard';
 merge.innerHTML=`
-<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Field-Level Conflict Resolver <span class="v6-badge">V16</span></h3><div class="muted">Compare important top-level project domains and selectively keep local or cloud values.</div></div><button class="btn primary" id="v16LoadConflict">Load cloud comparison</button></div><div id="v16Conflicts" style="margin-top:12px"><div class="muted">No cloud comparison loaded.</div></div>`;
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Domain Conflict Resolver <span class="v6-badge">V16</span></h3><div class="muted">Compare audited top-level project domains and selectively keep local or cloud values. This is not a deep semantic merge.</div></div><button class="btn primary" id="v16LoadConflict">Load cloud comparison</button></div><div id="v16Conflicts" style="margin-top:12px"><div class="muted">No cloud comparison loaded.</div></div>`;
 main.appendChild(merge);
 
 const nav=document.querySelector('aside .nav');if(nav){[['📍 3D Review Pins',pins],['📰 Activity Feed',feed],['🎯 Alignment Audit',align],['🧩 Conflict Resolver',merge]].forEach(([label,target])=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>target.scrollIntoView({behavior:'smooth'});nav.appendChild(b)})}
@@ -94,6 +94,7 @@ function runAlignment(){
  return {rows,totalScore,covered,assessed,ruleCount:rules.filter(r=>r.enabled).length}
 }
 Q('v16RunAlignment').onclick=()=>{const result=runAlignment();logCloud('alignment_audit_run',{objectives:result.rows.length,covered:result.covered,assessed:result.assessed,scoreWeight:result.totalScore})};
+Q('v16SaveAlignment').onclick=async()=>{const result=runAlignment(),c=cl(),u=usr(),p=pid();if(!c||!u||!p)return alert('Connect, sign in and open/sync a cloud project first.');const summary={objectives:result.rows.length,covered:result.covered,assessed:result.assessed,scoreWeight:result.totalScore,enabledRules:result.ruleCount};const report={objectives:result.rows.map(r=>({objective:r.text,activity:r.bestStation?.name||'',activityConfidence:Number(r.bestS.toFixed(3)),assessment:r.bestQ?.prompt||r.bestQ?.question||r.bestQ?.text||'',assessmentConfidence:Number(r.bestQv.toFixed(3)),scoreEvidence:r.scoreEvidence}))};const {error}=await c.from('xr_alignment_reports').insert({project_id:p,created_by:u.id,summary,report_data:report});if(error)return alert('Cloud alignment report unavailable: '+error.message);await logCloud('alignment_report_saved',summary);alert('Alignment report saved to cloud.')};
 
 /* field-level conflict resolver */
 const domains=['title','objectives','instructions','scenes','stations','questions','objects','variables','rules','npcs','mediaMeta','reviewComments','reviewTasks','reviewApprovals'];
