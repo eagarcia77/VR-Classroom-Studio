@@ -143,13 +143,24 @@ for select to authenticated
 using (public.xr_is_workspace_member(public.xr_project_workspace(project_id)));
 
 drop policy if exists "xr_review_tasks_write" on public.xr_review_tasks;
-create policy "xr_review_tasks_write" on public.xr_review_tasks
-for all to authenticated
-using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+drop policy if exists "xr_review_tasks_insert" on public.xr_review_tasks;
+create policy "xr_review_tasks_insert" on public.xr_review_tasks
+for insert to authenticated
 with check (
   created_by = (select auth.uid())
   and public.xr_can_write_workspace(public.xr_project_workspace(project_id))
 );
+
+drop policy if exists "xr_review_tasks_update" on public.xr_review_tasks;
+create policy "xr_review_tasks_update" on public.xr_review_tasks
+for update to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+with check (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
+
+drop policy if exists "xr_review_tasks_delete" on public.xr_review_tasks;
+create policy "xr_review_tasks_delete" on public.xr_review_tasks
+for delete to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
 
 drop policy if exists "xr_project_approvals_select" on public.xr_project_approvals;
 create policy "xr_project_approvals_select" on public.xr_project_approvals
@@ -201,13 +212,101 @@ for select to authenticated
 using (public.xr_is_workspace_member(public.xr_project_workspace(project_id)));
 
 drop policy if exists "xr_media_assets_write" on public.xr_media_assets;
-create policy "xr_media_assets_write" on public.xr_media_assets
-for all to authenticated
-using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+drop policy if exists "xr_media_assets_insert" on public.xr_media_assets;
+create policy "xr_media_assets_insert" on public.xr_media_assets
+for insert to authenticated
 with check (
   uploaded_by = (select auth.uid())
   and public.xr_can_write_workspace(public.xr_project_workspace(project_id))
 );
+
+drop policy if exists "xr_media_assets_update" on public.xr_media_assets;
+create policy "xr_media_assets_update" on public.xr_media_assets
+for update to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+with check (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
+
+drop policy if exists "xr_media_assets_delete" on public.xr_media_assets;
+create policy "xr_media_assets_delete" on public.xr_media_assets
+for delete to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
+
+
+create or replace function public.xr_protect_review_comment_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.project_id is distinct from old.project_id
+     or new.created_by is distinct from old.created_by then
+    raise exception 'review comment identity fields are immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_review_comments_protect_identity on public.xr_review_comments;
+create trigger xr_review_comments_protect_identity
+before update on public.xr_review_comments
+for each row execute function public.xr_protect_review_comment_identity();
+
+create or replace function public.xr_protect_review_task_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.project_id is distinct from old.project_id
+     or new.created_by is distinct from old.created_by then
+    raise exception 'review task identity fields are immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_review_tasks_protect_identity on public.xr_review_tasks;
+create trigger xr_review_tasks_protect_identity
+before update on public.xr_review_tasks
+for each row execute function public.xr_protect_review_task_identity();
+
+create or replace function public.xr_protect_approval_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.project_id is distinct from old.project_id
+     or new.gate is distinct from old.gate then
+    raise exception 'approval identity fields are immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_project_approvals_protect_identity on public.xr_project_approvals;
+create trigger xr_project_approvals_protect_identity
+before update on public.xr_project_approvals
+for each row execute function public.xr_protect_approval_identity();
+
+create or replace function public.xr_protect_media_asset_identity()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.project_id is distinct from old.project_id
+     or new.uploaded_by is distinct from old.uploaded_by then
+    raise exception 'media asset identity fields are immutable';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_media_assets_protect_identity on public.xr_media_assets;
+create trigger xr_media_assets_protect_identity
+before update on public.xr_media_assets
+for each row execute function public.xr_protect_media_asset_identity();
 
 grant select, insert, update, delete on public.xr_review_comments to authenticated;
 grant select, insert, update, delete on public.xr_review_tasks to authenticated;
