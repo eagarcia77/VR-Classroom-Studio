@@ -195,3 +195,15 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V15 audit checks for realtime session readiness, review-sync backlog, media-sync backlog, media-integrity blockers and cloud-adapter availability.
 - Added Realtime publication setup for review comments, tasks, approvals, project locks and media metadata.
 - V15 remains cloud-ready but unprovisioned until a dedicated Supabase project is explicitly authorized.
+
+
+## V16 audit extension
+- Added clickable review pins inside the V6 3D authoring canvas for object-anchored review comments.
+- Added a local/cloud activity feed using the V15 activity-event table and Realtime publication.
+- Local activity entries are marked cloud-confirmed only after a successful database insert.
+- Added learning alignment audit across objectives, learning stations, assessment evidence and configured SCORM score weight.
+- Alignment matching is heuristic/lexical and is presented as an audit aid, not as semantic AI judgment.
+- Added optional cloud persistence for alignment reports through `xr_alignment_reports`.
+- Added Domain Conflict Resolver for selected top-level project domains; it is explicitly not a deep semantic merge.
+- Added audit checks for objective/activity alignment, objective/assessment evidence, score model, orphaned 3D review pins and activity-feed synchronization backlog.
+- Added Realtime publication for `xr_activity_events` and optional `xr_alignment_reports`.
