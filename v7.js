@@ -78,10 +78,11 @@ runtimeHTML=function(preview=false){
   function persistRules(){try{const raw=SCORM.get('cmi.suspend_data'),d=raw?JSON.parse(raw):{};d.v7vars=window.V7Vars;d.v7fired=[...fired];SCORM.set('cmi.suspend_data',JSON.stringify(d).slice(0,60000));SCORM.commit()}catch(e){}}
   function restore(){try{const raw=SCORM.get('cmi.suspend_data');if(!raw)return;const d=JSON.parse(raw);if(d.v7vars)window.V7Vars=Object.assign({},window.V7Vars,d.v7vars);(d.v7fired||[]).forEach(x=>fired.add(x))}catch(e){}}
   function fire(event,source){(project.rules||[]).filter(r=>r.enabled&&r.event===event&&(event==='timer'||String(r.sourceId)===String(source))).forEach(r=>{if(r.once&&fired.has(r.id))return;if(!condition(r))return;if(r.once)fired.add(r.id);act(r)})}
-  restore();setTimeout(()=>{(project.rules||[]).filter(r=>r.enabled&&r.event==='timer').forEach(r=>setTimeout(()=>fire('timer','timer'),Math.max(1,Number(r.seconds||1))*1000))},0);
-  return{fire,vars:window.V7Vars}
+  restore();setTimeout(()=>{(project.rules||[]).filter(r=>r.enabled&&r.event==='timer').forEach(r=>setTimeout(()=>{if(r.once&&fired.has(r.id))return;if(!condition(r))return;if(r.once)fired.add(r.id);act(r)},Math.max(1,Number(r.seconds||1))*1000))},0);
+  return{fire,vars:window.V7Vars,fired:()=>[...fired]}
  })();
  `;
+ html=html.replace("JSON.stringify({currentScene,earnedQ,completed:[...completed],answered:[...answered]})","JSON.stringify({currentScene,earnedQ,completed:[...completed],answered:[...answered],v7vars:window.V7Vars||{},v7fired:window.V7Runtime?window.V7Runtime.fired():[]})");
  html=html.replace("update();showScene(currentScene);",engine+"update();showScene(currentScene);");
  return html
 };
