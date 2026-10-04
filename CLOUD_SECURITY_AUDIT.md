@@ -43,3 +43,13 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Project locks: workspace writers can acquire/update their own locks.
 - Media asset metadata: workspace writers can create/update/delete; project/uploader identity is immutable.
 - Private `xr-media` Storage bucket uses project ID as the first path segment and inherits workspace membership/write authorization.
+
+
+## V15 realtime and invitation extension
+- Realtime Presence uses authenticated Supabase channels and does not expose privileged server credentials.
+- Workspace invitations are created by workspace Admin/Owner and matched against the authenticated user's email when claimed.
+- Invitation acceptance is performed through a security-definer RPC with expiry, email and authentication checks.
+- Authenticated browser clients do not receive direct UPDATE permission on invitation state.
+- Activity events are append-only to authenticated project/workspace members.
+- Realtime publication is prepared for review comments, tasks, approvals, locks and media metadata.
+- Private Storage uploads remain project-scoped through V14 RLS policies.
