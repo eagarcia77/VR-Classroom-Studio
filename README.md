@@ -32,7 +32,7 @@ VR Classroom Studio is a browser-based immersive authoring platform for instruct
 - Scene switching from the authoring interface
 
 ### Immersive templates
-- UCAN Academic Mall
+- Immersive Academic Hub
 - Virtual Classroom
 - Simulation Lab
 - Museum / Gallery
