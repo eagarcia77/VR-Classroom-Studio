@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V10 — Visual Logic & Smart Scenario Studio
+
+V10 adds a visual WHEN/IF/THEN rule editor, branching NPC dialogue nodes and choices, a local Smart Scenario Generator that creates scenes/stations/rules/NPC guidance from a pedagogical brief, and asset-level accessibility metadata for media. Generated station scoring is normalized to exactly 100 points and no external AI/API is required.
+
 ## V9 — NPC & Scenario Studio
 
 V9 adds virtual guides/NPCs, optional packaged GLB/GLTF NPC models, accessible text dialogue, conditional NPC availability, variable updates, bonus scoring, an automatic Scenario State Map, object-state metadata with runtime effects, and a direct transform pad linked to the V6 3D selection. NPC awards and object states persist through SCORM suspend data.
