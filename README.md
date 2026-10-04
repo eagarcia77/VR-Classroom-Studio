@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V11 — Professional XR Authoring
+
+V11 adds direct in-canvas transform gizmo controls, multi-selection, grouping/ungrouping, duplication, grid snapping, animation timeline authoring, authoring-side learning analytics, and an experimental capability-gated immersive-AR placement mode using WebXR hit-test where supported. Desktop 3D and VR remain the stable fallback modes.
+
 ## V10 — Visual Logic & Smart Scenario Studio
 
 V10 adds a visual WHEN/IF/THEN rule editor, branching NPC dialogue nodes and choices, a local Smart Scenario Generator that creates scenes/stations/rules/NPC guidance from a pedagogical brief, and asset-level accessibility metadata for media. Generated station scoring is normalized to exactly 100 points and no external AI/API is required.
