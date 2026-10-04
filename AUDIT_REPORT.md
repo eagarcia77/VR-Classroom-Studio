@@ -129,3 +129,14 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added runtime branching dialogue interception for actual NPC click events.
 - Added audit checks for missing dialogue targets, duplicate node IDs, unreachable dialogue nodes, missing video captions/transcripts, missing audio descriptions/transcripts and duplicate rule IDs.
 - Smart generation is explicitly local/deterministic; no external AI service or student data is used.
+
+
+## V11 audit extension
+- Added direct in-canvas X/Y/Z transform handles and Y-rotation ring for selected objects.
+- Added multi-selection, grid snapping, grouping/ungrouping and selected-object duplication.
+- Added animation timeline authoring for position, rotation, scale and visibility tracks.
+- Added runtime application of authored animations.
+- Added Preflight Learning Analytics for scenes, interactions, score weight, complexity, required completion and video accessibility coverage.
+- Added experimental WebXR immersive-AR placement with capability checks, optional hit-test request, reticle and select-to-place behavior when supported.
+- AR remains explicitly experimental/capability-gated; VR/Desktop fallback remains the production baseline.
+- Added audit checks for broken group members, missing animation targets, invalid animation durations, experimental AR readiness and duplicate group membership.
