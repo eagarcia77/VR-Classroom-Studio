@@ -62,3 +62,12 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added browser/device WebXR capability detection using isSessionSupported for immersive-vr and immersive-ar.
 - Confirmed SCORM 2004 remains supported by Blackboard Ultra when the institutional SCORM Engine is enabled.
 - AR remains capability-detected and experimental where browser support is incomplete; V5 does not claim universal immersive-AR compatibility.
+
+
+## V6 audit extension
+- Added live WebGL/A-Frame authoring canvas.
+- Added object hierarchy and direct selection in the 3D scene.
+- Added X/Y/Z position editing, Y rotation, scale, nudge controls and keyboard shortcuts.
+- Added camera presets, duplication, undo and redo.
+- Added audit checks for invalid scale, extreme spatial bounds, empty scenes, orphaned objects and orphaned learning stations.
+- V6 is a functional 3D authoring layer, but does not yet include graphical transform gizmos comparable to Unity/Three.js editor controls.
