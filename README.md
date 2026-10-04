@@ -1,44 +1,66 @@
 # VR Classroom Studio
 
-VR Classroom Studio is an immersive authoring platform for instructors to design VR/AR-ready learning activities and export them as **SCORM 2004** packages for **Blackboard Ultra**.
+VR Classroom Studio is a browser-based immersive authoring platform for instructors who want to create VR/AR-ready learning experiences and export them as **SCORM 2004** packages for **Blackboard Ultra**.
 
-## V2 — Immersive Authoring Studio
+## V3 — Spatial Authoring + Assessment
 
-### Authoring
-- Instructor dashboard
-- UCAN Academic Mall starter experience
-- Immersive template gallery
-- Add, edit, reorder and remove learning stations
-- Learning objectives editor
-- Station types: resource, question/challenge, video, reflection and teleport/navigation
-- Configurable required stations, points, completion rule and passing score
+### Spatial Designer
+- Multi-scene immersive projects
+- Visual top-view room designer
+- Drag-and-drop positioning
+- Editable X/Z coordinates
+- Rotation and scale controls
+- Scene-specific objects
+- Portal objects that connect scenes
+- Learning-station markers
+- Scene switching from the authoring interface
 
-### XR
-- A-Frame/WebXR runtime
+### Immersive templates
+- UCAN Academic Mall
+- Virtual Classroom
+- Simulation Lab
+- Museum / Gallery
+- Cybersecurity Operations Center
+- Clinical Simulation Room
+
+### 3D/XR authoring
+- A-Frame / WebXR runtime
 - Desktop 3D fallback
-- VR-prioritized, Desktop-prioritized and AR-ready project modes
+- VR-prioritized and desktop-prioritized modes
+- AR-ready project mode
 - Locomotion configuration
 - Environment themes
 - Spatial-audio project setting
-- 3D object library
+- Built-in object types
 - Custom GLB/GLTF URL registration
 
-### Accessibility & comfort
-- Reduced-motion project setting
-- High-contrast project setting
-- Captions/transcript policy
-- Non-VR alternative policy
-- Accessibility labels for learning stations
+### Advanced assessment engine
+- Questions attached to immersive stations
+- Multiple choice
+- True/false
+- Reflection activities
+- Per-question points
+- Automated answer scoring
+- Station completion + assessment points combined in the SCORM score
 
-### Blackboard / SCORM
-- Browser-side SCORM 2004 ZIP generation using JSZip
-- SCORM reporting for score, scaled score, progress, completion and success
-- Student preview before export
-- Validation before packaging
+### Accessibility and comfort
+- Accessibility labels for stations
+- Reduced-motion project policy
+- High-contrast project policy
+- Captions/transcript policy
+- Required non-VR alternative option
+
+### Blackboard / SCORM 2004
+The exported SCO reports:
+- `cmi.score.raw`
+- `cmi.score.scaled`
+- `cmi.progress_measure`
+- `cmi.completion_status`
+- `cmi.success_status`
 
 ### Project portability
-- Local browser save/load
-- Export project definition as JSON
+- Save/load project locally
+- Export project definition to JSON
 - Import project JSON
 - No student data is stored by the authoring site
 
@@ -48,34 +70,37 @@ https://vr-classroom-studio.onrender.com
 
 ## Blackboard workflow
 
-1. Create the immersive activity.
-2. Add learning objectives and required stations.
-3. Configure XR and accessibility settings.
-4. Select **Validate**.
-5. Preview the student experience.
-6. Select **Export SCORM**.
-7. In Blackboard Ultra, create/upload a SCORM package.
-8. Configure Blackboard grading and attempt options.
+1. Design the immersive experience.
+2. Create one or more scenes.
+3. Place stations, objects and portals.
+4. Add learning objectives.
+5. Add assessments.
+6. Configure XR and accessibility.
+7. Validate the project.
+8. Preview the student experience.
+9. Export SCORM 2004.
+10. Upload the generated ZIP to Blackboard Ultra.
 
-## Repository architecture
+## Repository
 
-- `index.html` — instructor authoring application, preview and SCORM generator
+- `index.html` — core instructor authoring application and SCORM exporter
+- `v3.js` — spatial designer, multi-scene system and assessment engine
+- `v3.css` — V3 authoring UI styles
 - `scorm_template/` — reference SCORM source files
-- `render.yaml` — Render static-site blueprint
+- `render.yaml` — Render static-site configuration
 
-## Development roadmap
+## Next engineering priorities
 
-- True drag-and-drop 3D scene canvas with transform gizmos
-- Local GLB/GLTF upload and bundling into exported SCORM
-- 360° image/video environments
-- Advanced assessment engine with answer choices and automated scoring
-- Branching scenarios
-- Interactive hotspot editor
-- Media manager
-- Scene-to-scene portals
-- WebXR AR placement runtime
-- xAPI/cmi5 option
-- LTI 1.3 integration architecture
-- Institutional template library
-- AI-assisted room and assessment generation
+- Full 3D authoring canvas with transform gizmos
+- Bundled local GLB/GLTF uploads inside SCORM ZIP
+- 360° images and video environments
+- Rich media manager
+- Branching rules and conditional portals
+- Question banks and randomized assessment pools
+- AR placement workflow
+- Scene thumbnails and room cloning
+- Autosave/version history
 - WCAG-oriented authoring audit
+- xAPI/cmi5 output
+- LTI 1.3 institutional integration
+- AI-assisted scene, assessment and learning-objective generation
