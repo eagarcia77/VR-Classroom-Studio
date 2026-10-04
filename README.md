@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V6 — Live 3D Authoring Studio
+
+V6 adds a real WebGL/A-Frame authoring scene, direct object selection, hierarchy view, X/Y/Z transforms, rotation, scale, keyboard nudging, camera presets, duplication, and undo/redo. The production audit now also checks 3D scale validity, spatial bounds, empty scenes, and orphaned scene mappings.
+
 ## V5 — Media Packaging, Project Bundles & XR Capability Checks
 
 V5 adds local-media packaging for GLB/GLTF, images, video, audio and PDF; Project Bundle export/import; scene duplication/deletion; browser-session snapshots; device XR capability checks; and V5 audit checks for missing media bytes, orphaned local assets and remaining external-model dependencies.
