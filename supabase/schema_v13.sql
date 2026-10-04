@@ -110,7 +110,7 @@ create or replace function public.xr_can_write_workspace(target_workspace uuid)
 returns boolean
 language sql stable security definer
 set search_path = public
-as $$
+as $
   select exists (
     select 1 from public.xr_workspaces w
     where w.id = target_workspace and w.owner_id = (select auth.uid())
@@ -120,12 +120,30 @@ as $$
       and m.user_id = (select auth.uid())
       and m.role in ('admin','instructor')
   );
-$$;
+$;
+
+create or replace function public.xr_is_workspace_admin(target_workspace uuid)
+returns boolean
+language sql stable security definer
+set search_path = public
+as $
+  select exists (
+    select 1 from public.xr_workspaces w
+    where w.id = target_workspace and w.owner_id = (select auth.uid())
+  ) or exists (
+    select 1 from public.xr_workspace_members m
+    where m.workspace_id = target_workspace
+      and m.user_id = (select auth.uid())
+      and m.role = 'admin'
+  );
+$;
 
 revoke all on function public.xr_is_workspace_member(uuid) from public;
 revoke all on function public.xr_can_write_workspace(uuid) from public;
+revoke all on function public.xr_is_workspace_admin(uuid) from public;
 grant execute on function public.xr_is_workspace_member(uuid) to authenticated;
 grant execute on function public.xr_can_write_workspace(uuid) to authenticated;
+grant execute on function public.xr_is_workspace_admin(uuid) to authenticated;
 
 drop policy if exists "xr_workspaces_select" on public.xr_workspaces;
 create policy "xr_workspaces_select" on public.xr_workspaces
@@ -140,8 +158,8 @@ with check ((select auth.uid()) is not null and owner_id = (select auth.uid()));
 drop policy if exists "xr_workspaces_update" on public.xr_workspaces;
 create policy "xr_workspaces_update" on public.xr_workspaces
 for update to authenticated
-using (owner_id = (select auth.uid()) or public.xr_can_write_workspace(id))
-with check (public.xr_is_workspace_member(id));
+using (public.xr_is_workspace_admin(id))
+with check (public.xr_is_workspace_admin(id));
 
 drop policy if exists "xr_workspaces_delete" on public.xr_workspaces;
 create policy "xr_workspaces_delete" on public.xr_workspaces
@@ -156,18 +174,18 @@ using (public.xr_is_workspace_member(workspace_id));
 drop policy if exists "xr_members_insert" on public.xr_workspace_members;
 create policy "xr_members_insert" on public.xr_workspace_members
 for insert to authenticated
-with check (public.xr_can_write_workspace(workspace_id));
+with check (public.xr_is_workspace_admin(workspace_id));
 
 drop policy if exists "xr_members_update" on public.xr_workspace_members;
 create policy "xr_members_update" on public.xr_workspace_members
 for update to authenticated
 using (public.xr_can_write_workspace(workspace_id))
-with check (public.xr_can_write_workspace(workspace_id));
+with check (public.xr_is_workspace_admin(workspace_id));
 
 drop policy if exists "xr_members_delete" on public.xr_workspace_members;
 create policy "xr_members_delete" on public.xr_workspace_members
 for delete to authenticated
-using (public.xr_can_write_workspace(workspace_id));
+using (public.xr_is_workspace_admin(workspace_id));
 
 drop policy if exists "xr_projects_select" on public.xr_projects;
 create policy "xr_projects_select" on public.xr_projects
@@ -186,7 +204,7 @@ drop policy if exists "xr_projects_update" on public.xr_projects;
 create policy "xr_projects_update" on public.xr_projects
 for update to authenticated
 using (public.xr_can_write_workspace(workspace_id))
-with check (public.xr_can_write_workspace(workspace_id));
+with check (public.xr_is_workspace_admin(workspace_id));
 
 drop policy if exists "xr_projects_delete" on public.xr_projects;
 create policy "xr_projects_delete" on public.xr_projects
