@@ -1,0 +1,14 @@
+/* V9 NPC, Scenario Map & Object State Authoring */
+.v9-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v9-card{border:1px solid var(--line);border-radius:12px;background:#091425;padding:13px}
+.v9-list{display:grid;gap:8px;margin-top:10px}
+.v9-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:#08111f}
+.v9-row small{display:block;color:var(--muted);margin-top:3px}
+.v9-map{min-height:260px;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at center,#14243b,#07101d);padding:14px;overflow:auto}
+.v9-scene{display:inline-flex;flex-direction:column;gap:4px;min-width:150px;margin:8px;padding:10px;border:1px solid #38557a;border-radius:10px;background:#0e1c31;vertical-align:top}
+.v9-scene b{color:#eaf4ff}.v9-edge{font-size:11px;color:#a7f3d0}
+.v9-pad{display:grid;grid-template-columns:repeat(3,56px);gap:7px;justify-content:center;margin-top:10px}
+.v9-pad button{height:44px;border:1px solid var(--line);border-radius:9px;background:#13243f;color:white;font-weight:800;cursor:pointer}
+.v9-state{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.v9-state span{padding:5px 8px;border:1px solid #355272;border-radius:999px;background:#10233e;font-size:11px}
+@media(max-width:850px){.v9-grid{grid-template-columns:1fr}}
