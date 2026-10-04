@@ -39,8 +39,8 @@ function selectedObject(){
  return null
 }
 function logLocal(type,data={}){
- state.activityFeed.unshift({id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2),event_type:type,event_data:data,actor:state.metadata?.author||'Local author',created_at:new Date().toISOString(),source:'local'});
- state.activityFeed=state.activityFeed.slice(0,100);renderFeed()
+ const evt={id:'local-'+Date.now()+'-'+Math.random().toString(36).slice(2),event_type:type,event_data:data,actor:state.metadata?.author||'Local author',created_at:new Date().toISOString(),source:'local'};
+ state.activityFeed.unshift(evt);state.activityFeed=state.activityFeed.slice(0,100);renderFeed();return evt
 }
 function openReviewComment(id){
  const x=(state.reviewComments||[]).find(r=>String(r.id)===String(id));if(!x)return;
@@ -70,8 +70,9 @@ async function fetchFeed(){
  const cloudRows=(data||[]).map(x=>({...x,source:'cloud'}));const locals=(state.activityFeed||[]).filter(x=>x.source==='local');state.activityFeed=[...cloudRows,...locals].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,100);renderFeed()
 }
 async function logCloud(type,data={}){
- logLocal(type,data);const c=cl(),u=usr(),p=pid(),w=cloud()?.getWorkspaceId?.();if(!c||!u||!p||!w)return;
- const {error}=await c.from('xr_activity_events').insert({workspace_id:w,project_id:p,actor_id:u.id,event_type:type,event_data:data});if(error)console.warn('Cloud activity log skipped',error)
+ const evt=logLocal(type,data);const c=cl(),u=usr(),p=pid(),w=cloud()?.getWorkspaceId?.();if(!c||!u||!p||!w)return;
+ const {data:row,error}=await c.from('xr_activity_events').insert({workspace_id:w,project_id:p,actor_id:u.id,event_type:type,event_data:data}).select('id,actor_id,created_at').single();if(error){console.warn('Cloud activity log skipped',error);return}
+ evt.source='cloud-confirmed';evt.cloudId=row.id;evt.actor_id=row.actor_id;evt.created_at=row.created_at;renderFeed()
 }
 async function startActivityRealtime(){
  const c=cl(),p=pid();if(!c||!usr()||!p||activityChannel)return;
