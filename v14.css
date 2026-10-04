@@ -1,0 +1,16 @@
+/* V14 Collaborative Review & Governance */
+.v14-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v14-card{border:1px solid var(--line);border-radius:13px;background:#091425;padding:14px}
+.v14-review{border:1px solid var(--line);border-radius:11px;padding:10px;background:#08111f;margin:7px 0}
+.v14-review.blocker{border-color:#7f1d1d}.v14-review.warning{border-color:#854d0e}
+.v14-review small{display:block;color:var(--muted);margin-top:4px}
+.v14-pill{display:inline-block;padding:3px 7px;border-radius:999px;background:#17304b;font-size:11px;margin-right:5px}
+.v14-pill.blocker{background:#3f1218;color:#fecaca}.v14-pill.warning{background:#3f2d0b;color:#fde68a}
+.v14-approvals{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v14-approval{border:1px solid var(--line);border-radius:10px;padding:10px;background:#07101d}
+.v14-approval.approved{border-color:#166534;background:#0b2418}
+.v14-presence{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.v14-presence span{padding:5px 8px;border:1px solid #355272;border-radius:999px;background:#10233e;font-size:11px}
+.v14-hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all;color:var(--muted)}
+.v14-task{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px;background:#08111f;margin:7px 0}
+@media(max-width:900px){.v14-grid{grid-template-columns:1fr}.v14-approvals{grid-template-columns:1fr 1fr}}
