@@ -51,7 +51,16 @@ function renderSelection(){
  const arr=selectedObjects();box.innerHTML=arr.length?arr.map(o=>'<span>'+e11(o.label||o.type)+' <button data-unsel="'+e11(o.id)+'" style="border:0;background:none;color:#fca5a5">×</button></span>').join(''):'<span class="muted">No objects selected.</span>';
  box.querySelectorAll('[data-unsel]').forEach(b=>b.onclick=()=>{selectedIds.delete(String(b.dataset.unsel));renderSelection();syncCanvasHighlights()})
 }
-function syncCanvasHighlights(){document.querySelectorAll('#v6Canvas [data-object-id]').forEach(el=>{const on=selectedIds.has(String(el.dataset.objectId));if(on)el.setAttribute('animation__v11','property: scale; dir: alternate; dur: 260; loop: 2; to: 1.06 1.06 1.06')})}
+function syncCanvasHighlights(){document.querySelectorAll('#v6Canvas [data-object-id]').forEach(el=>{const on=selectedIds.has(String(el.dataset.objectId));if(on)el.setAttribute('animation__v11','property: scale; dir: alternate; dur: 260; loop: 2; to: 1.06 1.06 1.06')});renderCanvasGizmo()}
+function renderCanvasGizmo(){
+ const scene=document.querySelector('#v6Canvas a-scene');if(!scene)return;scene.querySelector('#v11CanvasGizmo')?.remove();const arr=selectedObjects();if(!arr.length)return;
+ const center=arr.reduce((a,o)=>({x:a.x+Number(o.x||0),y:a.y+Number(o.y||0),z:a.z+Number(o.z||0)}),{x:0,y:0,z:0});center.x/=arr.length;center.y/=arr.length;center.z/=arr.length;
+ const g=document.createElement('a-entity');g.id='v11CanvasGizmo';g.setAttribute('position',center.x+' '+(center.y+1.2)+' '+center.z);
+ const axes=[['x','#ef4444','1 0 0','0 0 -90'],['y','#22c55e','0 1 0','0 0 0'],['z','#3b82f6','0 0 -1','90 0 0']];
+ axes.forEach(([axis,color,pos,rot])=>{const h=document.createElement('a-cylinder');h.setAttribute('radius','.055');h.setAttribute('height','1.1');h.setAttribute('color',color);h.setAttribute('position',pos);h.setAttribute('rotation',rot);h.dataset.v11Axis=axis;h.classList.add('clickable');h.addEventListener('click',ev=>{ev.stopPropagation();const snap=Number(state.v11Settings.snap||.25);selectedObjects().forEach(o=>o[axis]=Number(o[axis]||0)+snap);if(typeof render==='function')render();setTimeout(()=>{renderSelection();syncCanvasHighlights()},0)});g.appendChild(h)});
+ const ring=document.createElement('a-torus');ring.setAttribute('radius','.8');ring.setAttribute('radius-tubular','.035');ring.setAttribute('color','#f59e0b');ring.setAttribute('rotation','90 0 0');ring.classList.add('clickable');ring.addEventListener('click',ev=>{ev.stopPropagation();selectedObjects().forEach(o=>o.rotationY=Number(o.rotationY||0)+15);if(typeof render==='function')render();setTimeout(()=>{renderSelection();syncCanvasHighlights()},0)});g.appendChild(ring);
+ scene.appendChild(g)
+}
 P('v11SelectAll').onclick=()=>{sceneObjects().forEach(o=>selectedIds.add(String(o.id)));renderSelection();syncCanvasHighlights()};
 P('v11ClearSel').onclick=()=>{selectedIds.clear();renderSelection()};
 P('v11Snap').onchange=()=>state.v11Settings.snap=Number(P('v11Snap').value)||.25;
@@ -95,14 +104,25 @@ P('v11Analyze').onclick=analyze;
 const prevRuntime=runtimeHTML;
 runtimeHTML=function(preview=false){
  let html=prevRuntime(preview);
- const payload=JSON.stringify({animations:state.animations||[],ar:state.v11Settings||{},arAssetId:P('v11ARAsset')?.value||''}).replace(/</g,'\\u003c');
+ const arId=P('v11ARAsset')?.value||'';let arAssetSrc='';if(arId){const m=(state.media||[]).find(x=>x.id===arId);if(m){arAssetSrc=preview&&window.VRClassroomMediaFiles?.has(m.id)?URL.createObjectURL(new Blob([window.VRClassroomMediaFiles.get(m.id)],{type:m.type||'model/gltf-binary'})):m.path}}
+ const payload=JSON.stringify({animations:state.animations||[],ar:state.v11Settings||{},arAssetId:arId,arAssetSrc}).replace(/</g,'\\u003c');
  const code=`
  <script>
  (function(){
  const v11=${payload};
  function applyAnimations(){if(typeof world==='undefined')return;(v11.animations||[]).forEach(a=>{const el=world.querySelector('[data-object-id="'+a.objectId+'"]');if(!el)return;const prop=a.property==='rotation'?'rotation':a.property==='scale'?'scale':a.property==='position'?'position':a.property==='visible'?'visible':a.property;el.setAttribute('animation__v11_'+String(a.id).replace(/[^a-z0-9]/gi,''),'property:'+prop+'; to:'+a.to+'; dur:'+Number(a.dur||1000)+'; easing:'+(a.easing||'linear')+'; loop:'+!!a.loop)})}
- const oldShow=showScene;showScene=function(id){oldShow(id);setTimeout(applyAnimations,120)};setTimeout(applyAnimations,220);
- window.V11Runtime={applyAnimations,arExperimental:!!v11.ar.arPlacementExperimental};
+ function initAR(){
+  if(!v11.ar.arPlacementExperimental||!navigator.xr)return;
+  const scene=document.querySelector('a-scene');if(!scene)return;
+  const btn=document.createElement('button');btn.textContent='Enter AR Placement';btn.style.cssText='position:fixed;z-index:40;left:12px;bottom:12px;padding:10px 14px;border-radius:10px;border:1px solid #ffffff44;background:#071225ee;color:#fff;font-weight:700';document.body.appendChild(btn);
+  const ret=document.createElement('a-ring');ret.id='v11ARReticle';ret.setAttribute('radius-inner','.08');ret.setAttribute('radius-outer','.12');ret.setAttribute('rotation','-90 0 0');ret.setAttribute('color','#7dd3fc');ret.setAttribute('visible','false');scene.appendChild(ret);
+  let hitSource=null,localSpace=null,viewerSpace=null,session=null,lastPose=null,rafActive=false;
+  btn.onclick=async()=>{try{const supported=await navigator.xr.isSessionSupported('immersive-ar');if(!supported)return alert('Immersive AR is not supported on this device/browser.');if(typeof scene.enterAR==='function')await scene.enterAR();else alert('This A-Frame runtime cannot enter AR on this device.')}catch(e){alert('AR session could not start: '+e.message)}};
+  scene.addEventListener('enter-vr',async()=>{session=scene.renderer?.xr?.getSession?.();if(!session||session.environmentBlendMode==='opaque')return;try{viewerSpace=await session.requestReferenceSpace('viewer');localSpace=await session.requestReferenceSpace('local');hitSource=await session.requestHitTestSource({space:viewerSpace});session.addEventListener('select',()=>{if(!lastPose)return;let placed;if(v11.arAssetSrc){placed=document.createElement('a-gltf-model');placed.setAttribute('src',v11.arAssetSrc);placed.setAttribute('scale','.5 .5 .5')}else{placed=document.createElement('a-box');placed.setAttribute('color','#7dd3fc');placed.setAttribute('scale','.25 .25 .25')}placed.object3D.position.copy(lastPose.transform.position);placed.object3D.quaternion.copy(lastPose.transform.orientation);scene.appendChild(placed)});if(!rafActive){rafActive=true;const loop=(t,frame)=>{if(!frame||!hitSource||!localSpace){session?.requestAnimationFrame(loop);return}const hits=frame.getHitTestResults(hitSource);if(hits.length){lastPose=hits[0].getPose(localSpace);if(lastPose){ret.object3D.position.copy(lastPose.transform.position);ret.object3D.quaternion.copy(lastPose.transform.orientation);ret.setAttribute('visible','true')}}else ret.setAttribute('visible','false');session?.requestAnimationFrame(loop)};session.requestAnimationFrame(loop)}}catch(e){console.warn('AR hit-test unavailable',e)}});
+  scene.addEventListener('exit-vr',()=>{hitSource?.cancel?.();hitSource=null;session=null;lastPose=null;rafActive=false;ret.setAttribute('visible','false')})
+ }
+ const oldShow=showScene;showScene=function(id){oldShow(id);setTimeout(applyAnimations,120)};setTimeout(()=>{applyAnimations();initAR()},220);
+ window.V11Runtime={applyAnimations,initAR,arExperimental:!!v11.ar.arPlacementExperimental};
  })();
  <\/script>`;
  return html.replace('</body></html>',code+'</body></html>')
