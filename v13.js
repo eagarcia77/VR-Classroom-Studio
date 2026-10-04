@@ -116,5 +116,17 @@ function v13Checks(){
 if(oldChecks)window.VRClassroomAudit.checks=()=>[...oldChecks(),...v13Checks()];
 if(oldRun)window.VRClassroomAudit.run=(scroll=false)=>{const base=oldRun(scroll),extras=v13Checks(),all=[...base,...extras];const p=all.filter(x=>x.level==='pass').length,w=all.filter(x=>x.level==='warn').length,f=all.filter(x=>x.level==='fail').length;if(C('auditPass'))C('auditPass').textContent=p;if(C('auditWarn'))C('auditWarn').textContent=w;if(C('auditFail'))C('auditFail').textContent=f;if(C('auditResults'))C('auditResults').insertAdjacentHTML('beforeend',extras.map(x=>'<div class="station" style="'+(x.level==='fail'?'border-color:#7f1d1d':x.level==='warn'?'border-color:#854d0e':'')+'"><span class="num">'+(x.level==='pass'?'✓':x.level==='warn'?'!':'×')+'</span><div><b>'+esc13(x.name)+'</b><div class="muted">'+esc13(x.detail)+'</div></div><span class="v3-pill">'+x.level.toUpperCase()+'</span></div>').join(''));return all};
 
+window.VRCloudV13={
+ getClient:()=>client,
+ getUser:()=>currentUser,
+ getWorkspaceId:()=>currentWorkspaceId,
+ getCloudProjectId:()=>state.metadata?.cloudProjectId||'',
+ getRevision:()=>cloudRevision,
+ refresh:refreshAll,
+ sync:syncCurrent,
+ connected:()=>!!client,
+ authenticated:()=>!!currentUser
+};
+window.dispatchEvent(new CustomEvent('vrcloud-ready'));
 autoConnect().catch(e=>{status('Cloud auto-connect unavailable','warn');C('v13AuthInfo').textContent=e.message});
 })();
