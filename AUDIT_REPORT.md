@@ -71,3 +71,13 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added camera presets, duplication, undo and redo.
 - Added audit checks for invalid scale, extreme spatial bounds, empty scenes, orphaned objects and orphaned learning stations.
 - V6 is a functional 3D authoring layer, but does not yet include graphical transform gizmos comparable to Unity/Three.js editor controls.
+
+
+## V7 audit extension
+- Added project variables and conditional rule engine.
+- Added WHEN/IF/THEN interactions for object click, scene enter, station completion and timers.
+- Added actions for messages, scene branching, variable assignment and bonus scoring.
+- Added interactive hotspots as scene objects.
+- Simulation variables and fired one-time rules are persisted through SCORM suspend_data.
+- Added audit checks for broken rule sources, invalid scene targets, undefined variables, invalid timers and missing enabled simulation behavior.
+- Corrected timer execution so each timer triggers only its own configured rule.
