@@ -85,13 +85,21 @@ async function transition(rel){
  if(to==='published'){
    releases().filter(x=>x.status==='published'&&x.id!==rel.id).forEach(x=>{x.status='retired';x.updatedAt=now();x.transitions.push({from:'published',to:'retired',at:now(),by:state.metadata?.author||'Author',reason:'Superseded by '+rel.version});logEvent('release_retired',{releaseId:x.id,version:x.version,reason:'superseded'})});
  }
- const from=rel.status;rel.status=to;rel.updatedAt=now();rel.transitions.push({from,to,at:now(),by:state.metadata?.author||'Author'});logEvent('release_transition',{releaseId:rel.id,version:rel.version,from,to});persistLocal();renderAll()
+ const from=rel.status;
+ if(rel.cloudId){
+   const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.();
+   if(!c||!u)return alert('This release is cloud-linked. Connect and authenticate the V13 Cloud Workspace before changing its status.');
+   const {data,error}=await c.rpc('xr_transition_release',{target_release:rel.cloudId,target_status:to});
+   if(error)return alert('Cloud release transition blocked: '+error.message);
+ }
+ rel.status=to;rel.updatedAt=now();rel.transitions.push({from,to,at:now(),by:state.metadata?.author||'Author'});logEvent('release_transition',{releaseId:rel.id,version:rel.version,from,to});persistLocal();renderAll()
 }
 function renderReleases(){
  const box=R('v21Releases'),items=[...releases()].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
- box.innerHTML=items.length?items.map(r=>{const next=nextStatus(r.status);return '<div class="v21-release '+(r.status==='published'?'production':'')+'"><span class="v21-pill '+r.status+'">'+r.status.toUpperCase()+'</span><span class="v21-pill">v'+esc21(r.version)+'</span><b style="display:block;margin-top:7px">'+esc21(r.name)+'</b><small class="muted">'+esc21(new Date(r.createdAt).toLocaleString())+' · '+esc21(r.deliveryProfile||'')+'</small><div style="margin-top:7px">'+esc21(r.notes||'No release notes.')+'</div><div class="v20-hash" style="margin-top:7px">'+esc21(r.fingerprint)+'</div><div class="toolbar" style="margin-top:8px">'+(next?'<button class="btn '+(next==='published'?'primary':'')+'" data-transition="'+esc21(r.id)+'">Move to '+next.toUpperCase()+'</button>':'')+'<button class="btn" data-baseline="'+esc21(r.id)+'">Compare</button></div></div>'}).join(''):'<div class="muted">No releases recorded.</div>';
+ box.innerHTML=items.length?items.map(r=>{const next=nextStatus(r.status);return '<div class="v21-release '+(r.status==='published'?'production':'')+'"><span class="v21-pill '+r.status+'">'+r.status.toUpperCase()+'</span><span class="v21-pill">v'+esc21(r.version)+'</span><b style="display:block;margin-top:7px">'+esc21(r.name)+'</b><small class="muted">'+esc21(new Date(r.createdAt).toLocaleString())+' · '+esc21(r.deliveryProfile||'')+'</small><div style="margin-top:7px">'+esc21(r.notes||'No release notes.')+'</div><div class="v20-hash" style="margin-top:7px">'+esc21(r.fingerprint)+'</div><div class="toolbar" style="margin-top:8px">'+(next?'<button class="btn '+(next==='published'?'primary':'')+'" data-transition="'+esc21(r.id)+'">Move to '+next.toUpperCase()+'</button>':'')+'<button class="btn" data-baseline="'+esc21(r.id)+'">Compare</button><button class="btn" data-cloudrelease="'+esc21(r.id)+'">'+(r.cloudId?'Cloud linked':'Save to cloud')+'</button></div></div>'}).join(''):'<div class="muted">No releases recorded.</div>';
  box.querySelectorAll('[data-transition]').forEach(b=>b.onclick=()=>{const r=releases().find(x=>x.id===b.dataset.transition);if(r)transition(r)});
- box.querySelectorAll('[data-baseline]').forEach(b=>b.onclick=()=>{R('v21Baseline').value=b.dataset.baseline;compareCurrent()})
+ box.querySelectorAll('[data-baseline]').forEach(b=>b.onclick=()=>{R('v21Baseline').value=b.dataset.baseline;compareCurrent()});
+ box.querySelectorAll('[data-cloudrelease]').forEach(b=>b.onclick=async()=>{const r=releases().find(x=>x.id===b.dataset.cloudrelease);if(!r)return;const saved=await saveReleaseCloud(r);if(!saved.ok)return alert('Cloud release unavailable: '+saved.error);persistLocal();renderReleases();alert('Release linked to cloud.')})
 }
 async function renderProduction(){
  const p=currentProduction(),box=R('v21Production');if(!p){box.innerHTML='<div class="v21-none"><b>No version is currently authorized as Published.</b><div>Move an Approved release to Published after real Blackboard validation.</div></div>';return}
@@ -129,7 +137,9 @@ R('v21Download').onclick=()=>downloadJSON({generatedAt:now(),project:{title:stat
 async function saveReleaseCloud(rel){
  const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.(),p=state.metadata?.cloudProjectId||cloud?.getCloudProjectId?.();if(!c||!u||!p)return {ok:false,error:'Cloud workspace is not connected/authenticated.'};
  if(rel.cloudId)return {ok:true,id:rel.cloudId};
- const {data,error}=await c.from('xr_releases').insert({project_id:p,created_by:u.id,version:rel.version,name:rel.name,status:rel.status,project_fingerprint:rel.fingerprint,release_candidate_ref:rel.releaseCandidateId||null,summary:rel.summary||{},notes:rel.notes||null}).select('id').single();if(error)return {ok:false,error:error.message};rel.cloudId=data.id;return {ok:true,id:data.id}
+ let rcCloudId=null;
+ const rc=v20()?.getReleaseCandidate?.();if(rc?.cloudId)rcCloudId=rc.cloudId;
+ const {data,error}=await c.from('xr_releases').insert({project_id:p,created_by:u.id,version:rel.version,name:rel.name,status:'draft',project_fingerprint:rel.fingerprint,release_candidate_id:rcCloudId,summary:rel.summary||{},notes:rel.notes||null}).select('id').single();if(error)return {ok:false,error:error.message};rel.cloudId=data.id;return {ok:true,id:data.id}
 }
 async function recordTransitionCloud(rel,from,to){
  const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.();if(!c||!u||!rel.cloudId)return;const {error}=await c.from('xr_release_events').insert({release_id:rel.cloudId,actor_id:u.id,event_type:'status_transition',event_data:{from,to}});if(error)console.warn(error)
