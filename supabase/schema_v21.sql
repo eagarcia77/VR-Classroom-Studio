@@ -10,7 +10,7 @@ create table if not exists public.xr_releases (
   name text not null check (char_length(name) between 1 and 240),
   status text not null default 'draft' check (status in ('draft','qa','approved','published','retired')),
   project_fingerprint text not null check (project_fingerprint ~ '^[0-9a-f]{64}$'),
-  release_candidate_id uuid references public.xr_release_candidates(id) on delete set null,
+  release_candidate_id uuid not null references public.xr_release_candidates(id) on delete restrict,
   summary jsonb not null default '{}'::jsonb,
   notes text,
   created_at timestamptz not null default now(),
@@ -52,13 +52,12 @@ with check (
   created_by = (select auth.uid())
   and status = 'draft'
   and public.xr_can_write_workspace(public.xr_project_workspace(project_id))
-  and (
-    release_candidate_id is null
-    or exists (
-      select 1 from public.xr_release_candidates rc
-      where rc.id = release_candidate_id
-        and rc.project_id = project_id
-    )
+  and exists (
+    select 1 from public.xr_release_candidates rc
+    left join public.xr_test_runs tr on tr.id = rc.test_run_id
+    where rc.id = release_candidate_id
+      and rc.project_id = project_id
+      and coalesce(tr.passed,false) = true
   )
 );
 
@@ -123,11 +122,46 @@ begin
     raise exception 'release transition must be sequential';
   end if;
 
-  if target_status = 'qa' and not can_write then
-    raise exception 'workspace write permission required';
-  elsif target_status = 'approved' and not can_approve then
-    raise exception 'approval permission required';
-  elsif target_status in ('published','retired') and not can_admin then
+  if target_status = 'qa' then
+    if not can_write then
+      raise exception 'workspace write permission required';
+    end if;
+    if not exists (
+      select 1
+      from public.xr_release_candidates rc
+      join public.xr_test_runs tr on tr.id = rc.test_run_id
+      where rc.id = rel.release_candidate_id
+        and rc.project_id = rel.project_id
+        and tr.passed = true
+    ) then
+      raise exception 'passing V20 test evidence is required before QA';
+    end if;
+  elsif target_status = 'approved' then
+    if not can_approve then
+      raise exception 'approval permission required';
+    end if;
+    if (
+      select count(distinct gate)
+      from public.xr_project_approvals a
+      where a.project_id = rel.project_id
+        and a.gate in ('instructional','accessibility','technical','final')
+    ) < 4 then
+      raise exception 'all four governance approvals are required';
+    end if;
+  elsif target_status = 'published' then
+    if not can_admin then
+      raise exception 'workspace admin permission required';
+    end if;
+    if not exists (
+      select 1
+      from public.xr_blackboard_validations v
+      where v.project_id = rel.project_id
+        and v.release_candidate_id = rel.release_candidate_id
+        and v.passed = true
+    ) then
+      raise exception 'passing Blackboard validation for the same Release Candidate is required';
+    end if;
+  elsif target_status = 'retired' and not can_admin then
     raise exception 'workspace admin permission required';
   end if;
 
