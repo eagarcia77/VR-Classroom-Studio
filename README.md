@@ -1,5 +1,14 @@
 # VR Classroom Studio
 
+## Ownership
+
+**Owner & Creator:** Eduardo Augusto García Rodríguez  
+**Application:** VR Classroom Studio  
+**Original application copyright:** © 2026 Eduardo Augusto García Rodríguez.
+
+Third-party libraries, standards, trademarks, LMS/platform names and externally supplied content remain subject to their respective owners, licenses and terms. This ownership notice identifies the creator/owner of the original application and does not represent a government trademark registration.
+
+
 ## V21 — Release Management & Institutional QA Dashboard
 
 V21 adds an institutional release lifecycle (Draft → QA → Approved → Published → Retired), semantic versioning, one-authorized-production-release control, Release Candidate fingerprint binding, regression summaries, generated changelog metadata, rollback planning, release governance timeline, local release ledger export, and a cloud-ready release workflow with secure transition RPCs.
