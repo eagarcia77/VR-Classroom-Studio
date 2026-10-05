@@ -234,3 +234,16 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Fixed a V18 audit-recursion risk by evaluating publication blockers against the inherited audit stack instead of the V18 wrapper itself.
 - Fixed Accessible 2D station launch/focus behavior so the station dialog is presented above the alternative-mode surface.
 - Added optional cloud-ready accessibility/publication evidence tables; reports are QA evidence and are not presented as formal WCAG certification.
+
+
+## V19 audit extension
+- Added in-memory SCORM ZIP assembly and self-test before audited export.
+- Added required-file validation for manifest, runtime, SCORM API, A-Frame runtime/license, project metadata and packaged media.
+- Added manifest declaration validation against the actual expected package file list.
+- Added SCORM 2004 lifecycle smoke test using a browser-local mock API for Initialize, SetValue, Commit and Terminate.
+- Added delivery profiles: Blackboard Standard, Blackboard Accessibility Strict and Portable Offline XR Strict.
+- Added package checks for external model dependencies, score-weight policy and V18 accessibility policy where required by the selected profile.
+- Wrapped the stable export button so V19 blockers prevent final download when self-test is required.
+- Added downloadable JSON QA report containing project metadata, delivery profile, self-test, Production Audit, accessibility settings, media integrity metadata and governance state.
+- Added optional cloud persistence for append-only delivery QA reports.
+- V19 self-test is a deterministic package/runtime smoke test and does not replace an actual Blackboard import/launch validation.
