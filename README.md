@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V20 — Blackboard Test Lab & Release Candidate Workflow
+
+V20 adds deterministic SCORM lifecycle/resume tests, a large suspend-data smoke test, score/pass-fail edge-case tests, Release Candidate fingerprints, regression summaries, a delivery-profile-aware Blackboard post-upload checklist, diagnostic report downloads, and optional append-only cloud evidence for test runs, release candidates and Blackboard validation records.
+
 ## V19 — Blackboard Delivery & QA Automation
 
 V19 adds an in-memory SCORM package self-test, ZIP inspector, SCORM 2004 lifecycle simulator against a mock LMS API, delivery profiles, an export gate that runs package QA before download, downloadable QA reports, and optional cloud delivery-report persistence. The self-test validates packaging and runtime assumptions but does not replace a final import test in the institution's actual Blackboard environment.
