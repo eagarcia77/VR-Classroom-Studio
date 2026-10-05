@@ -1,0 +1,14 @@
+/* V17 Adaptive Learning & Experience Intelligence */
+.v17-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v17-card{border:1px solid var(--line);border-radius:13px;background:#091425;padding:14px}
+.v17-list{display:grid;gap:8px}
+.v17-item{border:1px solid var(--line);border-radius:10px;background:#08111f;padding:10px}
+.v17-item small{display:block;color:var(--muted);margin-top:3px}
+.v17-meter{height:10px;border-radius:999px;background:#07101d;border:1px solid var(--line);overflow:hidden;margin-top:6px}
+.v17-meter i{display:block;height:100%;background:linear-gradient(90deg,#7dd3fc,#a7f3d0)}
+.v17-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v17-metrics>div{border:1px solid var(--line);border-radius:10px;background:#07101d;padding:10px}
+.v17-metrics b{display:block;font-size:22px}
+.v17-path{display:grid;grid-template-columns:1fr 120px 1fr;gap:8px;align-items:center}
+.v17-event{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;border:1px solid var(--line);border-radius:8px;background:#07101d;padding:8px;word-break:break-word}
+@media(max-width:900px){.v17-grid{grid-template-columns:1fr}.v17-metrics{grid-template-columns:1fr 1fr}.v17-path{grid-template-columns:1fr}}
