@@ -152,6 +152,16 @@ function v20Checks(){
 if(oldChecks)window.VRClassroomAudit.checks=()=>[...oldChecks(),...v20Checks()];
 if(oldRun)window.VRClassroomAudit.run=(scroll=false)=>{const base=oldRun(scroll),extras=v20Checks(),all=[...base,...extras];const p=all.filter(x=>x.level==='pass').length,w=all.filter(x=>x.level==='warn').length,f=all.filter(x=>x.level==='fail').length;if(T('auditPass'))T('auditPass').textContent=p;if(T('auditWarn'))T('auditWarn').textContent=w;if(T('auditFail'))T('auditFail').textContent=f;if(T('auditResults'))T('auditResults').insertAdjacentHTML('beforeend',extras.map(x=>'<div class="station" style="'+(x.level==='fail'?'border-color:#7f1d1d':x.level==='warn'?'border-color:#854d0e':'')+'"><span class="num">'+(x.level==='pass'?'✓':x.level==='warn'?'!':'×')+'</span><div><b>'+esc20(x.name)+'</b><div class="muted">'+esc20(x.detail)+'</div></div><span class="v3-pill">'+x.level.toUpperCase()+'</span></div>').join(''));return all};
 
+window.VRReleaseV20={
+ getReleaseCandidate:()=>state.v20?.releaseCandidate||null,
+ getLatestTestRun:()=>state.v20?.testRuns?.[0]||null,
+ getBlackboardValidation:()=>state.v20?.lastBlackboardValidation||null,
+ getDiagnostics:diagnostics,
+ getSummary:()=>summary(),
+ getFingerprint:projectFingerprint,
+ getRequireReleaseCandidate:()=>!!state.v20?.requireReleaseCandidate
+};
+window.dispatchEvent(new CustomEvent('vrrelease-ready'));
 const oldRender=render;
 render=function(){oldRender();ensureV20();renderCases();renderPost();renderRC();renderDiagnostics()};
 renderCases();renderPost();renderRC();renderDiagnostics();
