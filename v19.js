@@ -118,6 +118,17 @@ function v19Checks(){
 if(oldChecks)window.VRClassroomAudit.checks=()=>[...oldChecks(),...v19Checks()];
 if(oldRun)window.VRClassroomAudit.run=(scroll=false)=>{const base=oldRun(scroll),extras=v19Checks(),all=[...base,...extras];const p=all.filter(x=>x.level==='pass').length,w=all.filter(x=>x.level==='warn').length,f=all.filter(x=>x.level==='fail').length;if(B('auditPass'))B('auditPass').textContent=p;if(B('auditWarn'))B('auditWarn').textContent=w;if(B('auditFail'))B('auditFail').textContent=f;if(B('auditResults'))B('auditResults').insertAdjacentHTML('beforeend',extras.map(x=>'<div class="station" style="'+(x.level==='fail'?'border-color:#7f1d1d':x.level==='warn'?'border-color:#854d0e':'')+'"><span class="num">'+(x.level==='pass'?'✓':x.level==='warn'?'!':'×')+'</span><div><b>'+esc19(x.name)+'</b><div class="muted">'+esc19(x.detail)+'</div></div><span class="v3-pill">'+x.level.toUpperCase()+'</span></div>').join(''));return all};
 
+window.VRDeliveryV19={
+ buildPackage,
+ runPackageTests,
+ simulateScorm,
+ expectedFiles,
+ reportObject,
+ scoreWeight,
+ getLastTest:()=>state.v19LastTest,
+ getProfile:()=>profile()
+};
+window.dispatchEvent(new CustomEvent('vrdelivery-ready'));
 const oldRender=render;
 render=function(){oldRender();ensureV19();renderLast()};
 renderLast();
