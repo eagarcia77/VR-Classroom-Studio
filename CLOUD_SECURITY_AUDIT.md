@@ -92,3 +92,13 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Client grants are append-only (SELECT + INSERT), preserving historical QA evidence.
 - Realtime publication is prepared for all three evidence tables.
 - Release Candidate records store fingerprints and summaries, not privileged credentials or student records.
+
+## V21 institutional release extension
+- Added RLS-protected xr_releases and xr_release_events.
+- Release rows are created only as Draft and must reference a same-project cloud Release Candidate with passing V20 test evidence.
+- Browser clients do not receive direct UPDATE permission for release status; transitions use the security-definer xr_transition_release(...) RPC.
+- Transition permissions are role-aware: writer for QA, approval-authorized reviewer/admin for Approved, and Admin/Owner for Published/Retired.
+- Approved requires all four governance approval gates.
+- Published requires a passing Blackboard validation tied to the same Release Candidate.
+- A partial unique index guarantees one Published release per project; publishing automatically retires the prior production release.
+- Release identity fields and project fingerprint are immutable after insert.
