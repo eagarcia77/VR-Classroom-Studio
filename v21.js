@@ -82,15 +82,15 @@ async function transition(rel){
  if(to==='qa'&&(!p.rcCurrent||!p.v20Pass||!p.v19Pass))return alert('QA requires a current Release Candidate plus passing V19 and V20 tests.');
  if(to==='approved'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass))return alert('Approval requires all governance approvals, current RC, and passing V19/V20 QA.');
  if(to==='published'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass||!p.bbPass))return alert('Publishing requires all approvals, current RC, passing V19/V20 QA, and complete real Blackboard post-upload validation.');
- if(to==='published'){
-   releases().filter(x=>x.status==='published'&&x.id!==rel.id).forEach(x=>{x.status='retired';x.updatedAt=now();x.transitions.push({from:'published',to:'retired',at:now(),by:state.metadata?.author||'Author',reason:'Superseded by '+rel.version});logEvent('release_retired',{releaseId:x.id,version:x.version,reason:'superseded'})});
- }
  const from=rel.status;
  if(rel.cloudId){
    const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.();
    if(!c||!u)return alert('This release is cloud-linked. Connect and authenticate the V13 Cloud Workspace before changing its status.');
    const {data,error}=await c.rpc('xr_transition_release',{target_release:rel.cloudId,target_status:to});
    if(error)return alert('Cloud release transition blocked: '+error.message);
+ }
+ if(to==='published'){
+   releases().filter(x=>x.status==='published'&&x.id!==rel.id).forEach(x=>{x.status='retired';x.updatedAt=now();x.transitions.push({from:'published',to:'retired',at:now(),by:state.metadata?.author||'Author',reason:'Superseded by '+rel.version});logEvent('release_retired',{releaseId:x.id,version:x.version,reason:'superseded'})});
  }
  rel.status=to;rel.updatedAt=now();rel.transitions.push({from,to,at:now(),by:state.metadata?.author||'Author'});logEvent('release_transition',{releaseId:rel.id,version:rel.version,from,to});persistLocal();renderAll()
 }
@@ -139,7 +139,11 @@ async function saveReleaseCloud(rel){
  if(rel.cloudId)return {ok:true,id:rel.cloudId};
  let rcCloudId=null;
  const rc=v20()?.getReleaseCandidate?.();if(rc?.cloudId)rcCloudId=rc.cloudId;
- const {data,error}=await c.from('xr_releases').insert({project_id:p,created_by:u.id,version:rel.version,name:rel.name,status:'draft',project_fingerprint:rel.fingerprint,release_candidate_id:rcCloudId,summary:rel.summary||{},notes:rel.notes||null}).select('id').single();if(error)return {ok:false,error:error.message};rel.cloudId=data.id;return {ok:true,id:data.id}
+ const {data,error}=await c.from('xr_releases').insert({project_id:p,created_by:u.id,version:rel.version,name:rel.name,status:'draft',project_fingerprint:rel.fingerprint,release_candidate_id:rcCloudId,summary:rel.summary||{},notes:rel.notes||null}).select('id').single();if(error)return {ok:false,error:error.message};
+ rel.cloudId=data.id;
+ const chain=['draft','qa','approved','published','retired'],targetIndex=chain.indexOf(rel.status);
+ for(let i=1;i<=targetIndex;i++){const {error:stepError}=await c.rpc('xr_transition_release',{target_release:rel.cloudId,target_status:chain[i]});if(stepError)return {ok:false,id:rel.cloudId,error:'Cloud release was created as '+chain[i-1]+' but could not advance to '+chain[i]+': '+stepError.message}}
+ return {ok:true,id:data.id}
 }
 async function recordTransitionCloud(rel,from,to){
  const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.();if(!c||!u||!rel.cloudId)return;const {error}=await c.from('xr_release_events').insert({release_id:rel.cloudId,actor_id:u.id,event_type:'status_transition',event_data:{from,to}});if(error)console.warn(error)
