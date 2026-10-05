@@ -19,3 +19,12 @@ Cloud authorization:
 A partial unique index enforces a single `published` release per project. Publishing a new release automatically retires the prior production release.
 
 The release fingerprint is traceability metadata; it does not replace source control or the V19/V20 QA checks.
+
+## QA evidence gates
+
+- A cloud release must reference a same-project V20 Release Candidate linked to a passing V20 test run.
+- Draft → QA requires passing V20 test evidence.
+- QA → Approved requires all four governance approvals: instructional, accessibility, technical and final.
+- Approved → Published requires a passing real Blackboard validation tied to the same Release Candidate.
+- Publishing a new release automatically retires the prior Published release.
+- Browser clients do not directly update release status; all transitions use the secure transition RPC.
