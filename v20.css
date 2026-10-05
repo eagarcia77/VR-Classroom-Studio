@@ -1,0 +1,16 @@
+/* V20 Blackboard Test Lab & Release Candidate */
+.v20-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v20-card{border:1px solid var(--line);border-radius:13px;background:#091425;padding:14px}
+.v20-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v20-metrics>div{border:1px solid var(--line);border-radius:10px;background:#07101d;padding:10px}
+.v20-metrics b{display:block;font-size:22px}
+.v20-case{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:10px;background:#08111f;padding:9px;margin:7px 0}
+.v20-log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:#07101d;border:1px solid var(--line);border-radius:9px;padding:9px;max-height:330px;overflow:auto;white-space:pre-wrap}
+.v20-rc{border:1px solid var(--line);border-radius:11px;padding:11px;background:#08111f}
+.v20-rc.current{border-color:#166534;background:#0b2418}.v20-rc.stale{border-color:#854d0e;background:#2a220d}
+.v20-check{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start;padding:8px;border-bottom:1px solid var(--line)}
+.v20-check input{margin-top:3px}
+.v20-hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all;color:var(--muted)}
+.v20-diff{display:grid;grid-template-columns:1fr 110px 110px;gap:6px;align-items:center}
+.v20-diff>div{padding:7px;border-bottom:1px solid var(--line)}
+@media(max-width:900px){.v20-grid{grid-template-columns:1fr}.v20-metrics{grid-template-columns:1fr 1fr}.v20-diff{grid-template-columns:1fr 80px 80px}}
