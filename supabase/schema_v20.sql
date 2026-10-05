@@ -88,6 +88,49 @@ with check (
   and public.xr_is_workspace_member(public.xr_project_workspace(project_id))
 );
 
+
+create or replace function public.xr_validate_release_candidate_links()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.test_run_id is not null and not exists (
+    select 1 from public.xr_test_runs r
+    where r.id = new.test_run_id and r.project_id = new.project_id
+  ) then
+    raise exception 'release candidate test_run_id must belong to the same project';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_release_candidates_validate_links on public.xr_release_candidates;
+create trigger xr_release_candidates_validate_links
+before insert on public.xr_release_candidates
+for each row execute function public.xr_validate_release_candidate_links();
+
+create or replace function public.xr_validate_blackboard_validation_links()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.release_candidate_id is not null and not exists (
+    select 1 from public.xr_release_candidates r
+    where r.id = new.release_candidate_id and r.project_id = new.project_id
+  ) then
+    raise exception 'Blackboard validation release_candidate_id must belong to the same project';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists xr_blackboard_validations_validate_links on public.xr_blackboard_validations;
+create trigger xr_blackboard_validations_validate_links
+before insert on public.xr_blackboard_validations
+for each row execute function public.xr_validate_blackboard_validation_links();
+
 grant select, insert on public.xr_test_runs to authenticated;
 grant select, insert on public.xr_release_candidates to authenticated;
 grant select, insert on public.xr_blackboard_validations to authenticated;
