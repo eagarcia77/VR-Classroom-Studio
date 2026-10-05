@@ -53,7 +53,10 @@ function call(name,arg1,arg2){try{if(!api||typeof api[name]!=='function')return 
 function duration(ms){let s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600);s-=h*3600;let m=Math.floor(s/60);s-=m*60;return 'PT'+h+'H'+m+'M'+s+'S'}
 window.SCORM={init(){api=findAPI(window);if(!api&&window.opener)api=findAPI(window.opener);if(!api)return false;initialized=call('Initialize','')==='true';start=Date.now();return initialized},get(k){return initialized?(call('GetValue',k)||''):''},set(k,v){if(initialized)return call('SetValue',k,String(v))==='true';return false},commit(){if(initialized)return call('Commit','')==='true';return false},finish(completed){if(initialized){this.set('cmi.session_time',duration(Date.now()-start));this.set('cmi.exit',completed?'':'suspend');this.commit();call('Terminate','');initialized=false}},available(){return initialized}}})();`};
 
-manifest=function(){return `<?xml version="1.0" encoding="UTF-8"?>
+manifest=function(){
+ const files=['index.html','scorm_api.js','aframe.min.js','AFRAME-LICENSE.txt','project.json','README.txt',...(state.media||[]).map(m=>m.path)].filter(Boolean);
+ const fileXML=[...new Set(files)].map(h=>'<file href="'+escXML(h)+'"/>').join('');
+ return `<?xml version="1.0" encoding="UTF-8"?>
 <manifest identifier="VR_CLASSROOM_${Date.now()}" version="1.0"
  xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
@@ -61,14 +64,15 @@ manifest=function(){return `<?xml version="1.0" encoding="UTF-8"?>
  xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd">
  <metadata><schema>ADL SCORM</schema><schemaversion>2004 4th Edition</schemaversion></metadata>
  <organizations default="ORG1"><organization identifier="ORG1"><title>${escXML(state.title)}</title><item identifier="ITEM1" identifierref="RES1"><title>${escXML(state.title)}</title></item></organization></organizations>
- <resources><resource identifier="RES1" type="webcontent" adlcp:scormType="sco" href="index.html"><file href="index.html"/><file href="scorm_api.js"/><file href="aframe.min.js"/><file href="AFRAME-LICENSE.txt"/></resource></resources>
+ <resources><resource identifier="RES1" type="webcontent" adlcp:scormType="sco" href="index.html">${fileXML}</resource></resources>
 </manifest>`};
 
 runtimeHTML=function(preview=false){
  if(typeof syncAdvanced==='function')syncAdvanced();
  const data=JSON.stringify(state).replace(/</g,'\\u003c');
  const aframeSrc=preview?new URL('vendor/aframe-v1.8.0.min.js',location.href).href:'aframe.min.js';
- return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(state.title)}</title><script src="${aframeSrc}"><\/script><script src="scorm_api.js"><\/script><style>
+ const scormLoader=preview?'<script>'+scormAPI().replace(/<\\/script/gi,'<\\\\/script')+'<\\/script>':'<script src="scorm_api.js"><\\/script>';
+ return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(state.title)}</title><script src="${aframeSrc}"><\/script>${scormLoader}<style>
  body{margin:0;background:#06101f;color:#fff;font-family:system-ui}.hud{position:fixed;z-index:20;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.panel,.modal{background:#071225f2;border:1px solid #ffffff35;border-radius:12px;padding:11px 13px}.modal{position:fixed;z-index:30;left:18px;right:18px;bottom:18px;max-width:720px;margin:auto;display:none;max-height:60vh;overflow:auto}.modal button,.modal textarea{pointer-events:auto}.choices button{display:block;width:100%;margin:7px 0;padding:10px;border-radius:8px;border:1px solid #ffffff44;background:#152640;color:#fff;text-align:left}.small{font-size:12px;opacity:.85}.sceneTag{font-size:12px;color:#a7f3d0}.close{float:right;border:1px solid #ffffff44;background:#13233c;color:#fff;border-radius:8px;padding:7px 10px}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
  </style></head><body><div id="live" class="sr" aria-live="polite"></div><div class="hud"><div class="panel"><b id="ttl"></b><div class="small" id="ins"></div><div class="sceneTag" id="sceneName"></div></div><div class="panel"><b id="prog">0%</b><div class="small" id="score">0 pts</div></div></div>
  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><button class="close" id="closeModal" aria-label="Close station">Close</button><h3 id="mt"></h3><p id="mc"></p><div id="choices" class="choices"></div><button id="completeBtn">Complete station</button></div>
