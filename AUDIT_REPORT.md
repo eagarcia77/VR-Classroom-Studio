@@ -261,3 +261,18 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added optional append-only cloud evidence tables for V20 test runs, release candidates and Blackboard validations.
 - Added V20 Production Audit checks for test-matrix status, Release Candidate policy and real Blackboard post-upload validation status.
 - Real Blackboard post-upload validation remains intentionally manual and cannot be substituted by browser-side simulation.
+
+## V21 audit extension
+- Added institutional release lifecycle: Draft → QA → Approved → Published → Retired.
+- Added semantic version validation and prerelease-aware ordering (for example, 1.0.0-beta.1 < 1.0.0).
+- Release creation requires a current V20 Release Candidate fingerprint.
+- Local release transitions are bound to the exact Release Candidate, project fingerprint and V20 test-run fingerprint; newer QA evidence cannot advance an older release.
+- Publishing additionally requires a passing Blackboard validation tied to that exact Release Candidate.
+- Publishing a new release automatically retires the previously Published local release.
+- Added Authorized Blackboard Production panel and audit check that no more than one release is Published.
+- Added structural regression summary and automatic changelog generation against a selected release baseline.
+- Added rollback planning metadata that records target/rationale without silently replacing project content.
+- Added release governance event timeline and downloadable release-ledger JSON.
+- Added cloud-ready xr_releases and xr_release_events with RLS, a partial unique index for one Published release, and secure sequential transition RPC.
+- Cloud QA gates require linked passing V20 test evidence before QA, all four governance approvals before Approved, and a passing Blackboard validation for the same Release Candidate before Published.
+- Cloud release saving requires the V20 Release Candidate to already be linked to cloud QA evidence.
