@@ -247,3 +247,17 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added downloadable JSON QA report containing project metadata, delivery profile, self-test, Production Audit, accessibility settings, media integrity metadata and governance state.
 - Added optional cloud persistence for append-only delivery QA reports.
 - V19 self-test is a deterministic package/runtime smoke test and does not replace an actual Blackboard import/launch validation.
+
+
+## V20 audit extension
+- Added Blackboard Test Lab with baseline lifecycle, suspend/resume, large suspend-data smoke, score edge cases, incomplete-session and V19 package-integration tests.
+- Added persistent mock LMS behavior so suspend_data and cmi.location can be verified across simulated session boundaries.
+- Added Release Candidate workflow with SHA-256 project fingerprint, QA prerequisites and optional export enforcement.
+- Release Candidate fingerprint intentionally excludes QA logs/checklists so saving evidence does not invalidate an unchanged project.
+- Added regression summary comparing structural counts between the frozen RC and the current project.
+- Added Blackboard post-upload validation for actual LMS import, launch, resume, gradebook, completion, accessibility and device-specific XR checks.
+- VR/AR post-upload checks are delivery-profile aware and become N/A when not applicable.
+- Added downloadable Blackboard validation and release-diagnostic JSON reports.
+- Added optional append-only cloud evidence tables for V20 test runs, release candidates and Blackboard validations.
+- Added V20 Production Audit checks for test-matrix status, Release Candidate policy and real Blackboard post-upload validation status.
+- Real Blackboard post-upload validation remains intentionally manual and cannot be substituted by browser-side simulation.
