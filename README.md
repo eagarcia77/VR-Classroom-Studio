@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V17 — Adaptive Learning & Experience Intelligence
+
+V17 adds competencies, mastery thresholds, evidence mapping, adaptive remediation/mastery routes, an Experience Intelligence dashboard, xAPI-shaped local/runtime event objects, and optional cloud analytics tables for competencies, mastery snapshots and experience statements. Blackboard delivery remains SCORM-first and standalone.
+
 ## V16 — Intelligent Collaborative Authoring
 
 V16 adds clickable 3D review pins anchored to scene objects, a collaborative activity feed with Realtime-ready cloud events, a learning-alignment audit across objectives/activities/assessment/SCORM scoring, persisted cloud alignment reports, and a domain-level conflict resolver for selectively keeping local or cloud project sections. All cloud capabilities remain optional.
