@@ -68,10 +68,10 @@ async function exportV5(){
  const [af,lic]=await Promise.all([fetch('vendor/aframe-v1.8.0.min.js'),fetch('vendor/AFRAME-LICENSE.txt')]);if(!af.ok||!lic.ok)return alert('Local XR runtime could not be loaded for packaging.');
  zip.file('aframe.min.js',await af.arrayBuffer());zip.file('AFRAME-LICENSE.txt',await lic.text());
  for(const m of state.media)zip.file(m.path,mediaFiles.get(m.id));
- zip.file('project.json',JSON.stringify(state,null,2));zip.file('README.txt','VR Classroom Studio V5 audited SCORM 2004 package. Local media and A-Frame runtime are bundled.');
- const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'vr-classroom').replace(/[^a-z0-9]+/gi,'_')+'_SCORM2004_V5.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)
+ zip.file('project.json',JSON.stringify(state,null,2));zip.file('README.txt','VR Classroom Studio audited SCORM 2004 package. Local media and A-Frame runtime are bundled.');
+ const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'vr-classroom').replace(/[^a-z0-9]+/gi,'_')+'_SCORM2004.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)
 }
-if(V('exportBtn')){V('exportBtn').textContent='Export V5 SCORM';V('exportBtn').onclick=exportV5}
+if(V('exportBtn')){V('exportBtn').textContent='Export Audited SCORM';V('exportBtn').onclick=exportV5}
 
 V('v5ProjectBundle').onclick=async()=>{const zip=new JSZip();zip.file('project.json',JSON.stringify(state,null,2));for(const m of state.media)if(mediaFiles.has(m.id))zip.file(m.path,mediaFiles.get(m.id));const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='VR-Classroom-Project-Bundle.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)};
 V('v5BundleImport').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const zip=await JSZip.loadAsync(file),pj=zip.file('project.json');if(!pj)throw new Error('project.json missing');const incoming=JSON.parse(await pj.async('text'));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,incoming);mediaFiles.clear();for(const m of state.media||[]){const z=zip.file(m.path);if(z)mediaFiles.set(m.id,await z.async('arraybuffer'))}ensureV5();if(typeof loadAdvanced==='function')loadAdvanced();if(typeof render==='function')render();mediaRender();alert('Project Bundle imported.')}catch(err){alert('Invalid Project Bundle: '+err.message)}e.target.value=''};
