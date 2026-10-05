@@ -84,3 +84,11 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Reports can include self-test and Production Audit snapshots plus non-secret package metadata.
 - A SHA-256 fingerprint of selected package metadata can be stored for traceability; no privileged credential is included.
 - Realtime publication is prepared for delivery reports.
+
+
+## V20 release evidence extension
+- Added RLS-protected `xr_test_runs`, `xr_release_candidates` and `xr_blackboard_validations` tables.
+- Authenticated workspace members can insert test/validation evidence as themselves; Release Candidate insertion requires workspace write permission.
+- Client grants are append-only (SELECT + INSERT), preserving historical QA evidence.
+- Realtime publication is prepared for all three evidence tables.
+- Release Candidate records store fingerprints and summaries, not privileged credentials or student records.
