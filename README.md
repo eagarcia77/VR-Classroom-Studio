@@ -1,5 +1,9 @@
 # VR Classroom Studio
 
+## V18 — Accessibility & Quality Intelligence
+
+V18 adds WCAG-oriented authoring checks, keyboard/focus mapping, a contrast calculator, motion-safety controls, an equivalent Accessible 2D Mode inside the exported runtime, and a Blackboard Publication Checklist that cross-checks SCORM manifest coverage, media bytes, accessibility blockers, score configuration and production-audit blockers. These checks support QA but do not constitute formal WCAG certification.
+
 ## V17 — Adaptive Learning & Experience Intelligence
 
 V17 adds competencies, mastery thresholds, evidence mapping, adaptive remediation/mastery routes, an Experience Intelligence dashboard, xAPI-shaped local/runtime event objects, and optional cloud analytics tables for competencies, mastery snapshots and experience statements. Blackboard delivery remains SCORM-first and standalone.
