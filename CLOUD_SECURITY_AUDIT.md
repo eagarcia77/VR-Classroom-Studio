@@ -76,3 +76,11 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Reports are append-only for authenticated workspace members through the supplied grants.
 - Realtime publication is prepared for both report types.
 - Accessibility reports are explicitly treated as authoring QA evidence, not legal or standards certification.
+
+
+## V19 delivery evidence extension
+- Added RLS-protected `xr_delivery_reports` for append-only delivery QA evidence.
+- Authenticated workspace members can insert reports only as themselves.
+- Reports can include self-test and Production Audit snapshots plus non-secret package metadata.
+- A SHA-256 fingerprint of selected package metadata can be stored for traceability; no privileged credential is included.
+- Realtime publication is prepared for delivery reports.
