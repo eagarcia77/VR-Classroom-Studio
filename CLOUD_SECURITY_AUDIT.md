@@ -69,3 +69,10 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - Mastery snapshots and experience statements are insert-only for authenticated workspace members through the supplied client grants.
 - Realtime publication is prepared for mastery snapshots and experience statements.
 - These analytics tables are optional and do not alter Blackboard SCORM playback requirements.
+
+
+## V18 accessibility evidence extension
+- Added RLS-protected `xr_accessibility_reports` and `xr_publication_reports` tables.
+- Reports are append-only for authenticated workspace members through the supplied grants.
+- Realtime publication is prepared for both report types.
+- Accessibility reports are explicitly treated as authoring QA evidence, not legal or standards certification.
