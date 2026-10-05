@@ -61,3 +61,11 @@ Do not apply this schema to FYNEXO or another unrelated database. Create a dedic
 - `xr_activity_events` and alignment reports are prepared for Supabase Realtime publication.
 - V16 does not add privileged browser credentials or bypass V13/V14/V15 authorization helpers.
 - Conflict resolution remains an explicit user decision per audited project domain; there is no automatic destructive merge.
+
+
+## V17 adaptive learning extension
+- Added RLS-protected `xr_competencies`, `xr_mastery_snapshots` and `xr_experience_statements` tables.
+- Competency identity fields are immutable; workspace writers may update only mutable competency content.
+- Mastery snapshots and experience statements are insert-only for authenticated workspace members through the supplied client grants.
+- Realtime publication is prepared for mastery snapshots and experience statements.
+- These analytics tables are optional and do not alter Blackboard SCORM playback requirements.
