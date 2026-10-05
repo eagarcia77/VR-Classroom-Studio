@@ -47,8 +47,8 @@ function v20(){return window.VRReleaseV20}
 function now(){return new Date().toISOString()}
 function releases(){return state.v21.releases||[]}
 function semverValid(v){return /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(String(v||''))}
-function semverTuple(v){return String(v).split(/[+-]/)[0].split('.').map(Number)}
-function semverCompare(a,b){const A=semverTuple(a),B=semverTuple(b);for(let i=0;i<3;i++){if(A[i]!==B[i])return A[i]-B[i]}return 0}
+function semverParse(v){const m=String(v).match(/^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/);if(!m)return null;return {core:[Number(m[1]),Number(m[2]),Number(m[3])],pre:m[4]?m[4].split('.'):[]}}
+function semverCompare(a,b){const A=semverParse(a),B=semverParse(b);if(!A||!B)return 0;for(let i=0;i<3;i++){if(A.core[i]!==B.core[i])return A.core[i]-B.core[i]}if(!A.pre.length&&!B.pre.length)return 0;if(!A.pre.length)return 1;if(!B.pre.length)return -1;const n=Math.max(A.pre.length,B.pre.length);for(let i=0;i<n;i++){if(A.pre[i]===undefined)return -1;if(B.pre[i]===undefined)return 1;if(A.pre[i]===B.pre[i])continue;const an=/^\d+$/.test(A.pre[i]),bn=/^\d+$/.test(B.pre[i]);if(an&&bn)return Number(A.pre[i])-Number(B.pre[i]);if(an&&!bn)return -1;if(!an&&bn)return 1;return A.pre[i].localeCompare(B.pre[i])}return 0}
 function logEvent(type,data={}){state.v21.events.unshift({id:'rel-event-'+Date.now()+'-'+Math.random().toString(36).slice(2),type,data,at:now(),actor:state.metadata?.author||'Author'});state.v21.events=state.v21.events.slice(0,200);renderTimeline()}
 function persistLocal(){try{localStorage.setItem(STORE,JSON.stringify({releases:state.v21.releases,events:state.v21.events,rollbackTarget:state.v21.rollbackTarget}))}catch(e){}}
 function hydrateLocal(){try{const x=JSON.parse(localStorage.getItem(STORE)||'null');if(x&&!(state.v21.releases||[]).length){state.v21.releases=x.releases||[];state.v21.events=x.events||[];state.v21.rollbackTarget=x.rollbackTarget||null}}catch(e){}}
@@ -78,10 +78,10 @@ R('v21CreateRelease').onclick=createRelease;R('v21Refresh').onclick=renderAll;
 
 async function transition(rel){
  const to=nextStatus(rel.status);if(!to)return;
- const p=await releasePrereqs();
- if(to==='qa'&&(!p.rcCurrent||!p.v20Pass||!p.v19Pass))return alert('QA requires a current Release Candidate plus passing V19 and V20 tests.');
- if(to==='approved'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass))return alert('Approval requires all governance approvals, current RC, and passing V19/V20 QA.');
- if(to==='published'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass||!p.bbPass))return alert('Publishing requires all approvals, current RC, passing V19/V20 QA, and complete real Blackboard post-upload validation.');
+ const p=await releasePrereqs(),releaseCurrent=!!p.rc&&p.rc.id===rel.releaseCandidateId&&p.fp===rel.fingerprint&&p.run?.fingerprint===rel.fingerprint,bbForRelease=!!p.bb?.passed&&p.bb?.releaseCandidate?.id===rel.releaseCandidateId&&p.bb?.releaseCandidate?.fingerprint===rel.fingerprint;
+ if(to==='qa'&&(!p.rcCurrent||!p.v20Pass||!p.v19Pass||!releaseCurrent))return alert('QA requires passing V19/V20 evidence tied to this release fingerprint and its exact Release Candidate.');
+ if(to==='approved'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass||!releaseCurrent))return alert('Approval requires all governance approvals plus QA evidence tied to this exact Release Candidate.');
+ if(to==='published'&&(!p.allApprovals||!p.rcCurrent||!p.v20Pass||!p.v19Pass||!releaseCurrent||!bbForRelease))return alert('Publishing requires all approvals and a passing real Blackboard validation tied to this exact Release Candidate.');
  const from=rel.status;
  if(rel.cloudId){
    const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.();
