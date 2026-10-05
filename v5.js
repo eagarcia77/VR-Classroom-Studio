@@ -68,7 +68,7 @@ async function exportV5(){
  const [af,lic]=await Promise.all([fetch('vendor/aframe-v1.8.0.min.js'),fetch('vendor/AFRAME-LICENSE.txt')]);if(!af.ok||!lic.ok)return alert('Local XR runtime could not be loaded for packaging.');
  zip.file('aframe.min.js',await af.arrayBuffer());zip.file('AFRAME-LICENSE.txt',await lic.text());
  for(const m of state.media)zip.file(m.path,mediaFiles.get(m.id));
- zip.file('project.json',JSON.stringify(state,null,2));zip.file('README.txt','VR Classroom Studio audited SCORM 2004 package. Local media and A-Frame runtime are bundled.');
+ zip.file('project.json',JSON.stringify(state,null,2));zip.file('README.txt','VR Classroom Studio audited SCORM 2004 package. Owner & Creator: Eduardo Augusto García Rodríguez. Original application copyright © 2026 Eduardo Augusto García Rodríguez. Local media and A-Frame runtime are bundled. Third-party components remain subject to their respective licenses and terms.');
  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'vr-classroom').replace(/[^a-z0-9]+/gi,'_')+'_SCORM2004.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)
 }
 if(V('exportBtn')){V('exportBtn').textContent='Export Audited SCORM';V('exportBtn').onclick=exportV5}
