@@ -1,5 +1,10 @@
 # VR Classroom Studio
 
+## V21 — Release Management & Institutional QA Dashboard
+
+V21 adds an institutional release lifecycle (Draft → QA → Approved → Published → Retired), semantic versioning, one-authorized-production-release control, Release Candidate fingerprint binding, regression summaries, generated changelog metadata, rollback planning, release governance timeline, local release ledger export, and a cloud-ready release workflow with secure transition RPCs.
+
+
 ## V20 — Blackboard Test Lab & Release Candidate Workflow
 
 V20 adds deterministic SCORM lifecycle/resume tests, a large suspend-data smoke test, score/pass-fail edge-case tests, Release Candidate fingerprints, regression summaries, a delivery-profile-aware Blackboard post-upload checklist, diagnostic report downloads, and optional append-only cloud evidence for test runs, release candidates and Blackboard validation records.
