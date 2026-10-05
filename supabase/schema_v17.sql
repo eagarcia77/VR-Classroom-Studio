@@ -47,13 +47,24 @@ for select to authenticated
 using (public.xr_is_workspace_member(public.xr_project_workspace(project_id)));
 
 drop policy if exists "xr_competencies_write" on public.xr_competencies;
-create policy "xr_competencies_write" on public.xr_competencies
-for all to authenticated
-using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+drop policy if exists "xr_competencies_insert" on public.xr_competencies;
+create policy "xr_competencies_insert" on public.xr_competencies
+for insert to authenticated
 with check (
   created_by = (select auth.uid())
   and public.xr_can_write_workspace(public.xr_project_workspace(project_id))
 );
+
+drop policy if exists "xr_competencies_update" on public.xr_competencies;
+create policy "xr_competencies_update" on public.xr_competencies
+for update to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)))
+with check (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
+
+drop policy if exists "xr_competencies_delete" on public.xr_competencies;
+create policy "xr_competencies_delete" on public.xr_competencies
+for delete to authenticated
+using (public.xr_can_write_workspace(public.xr_project_workspace(project_id)));
 
 drop policy if exists "xr_mastery_select" on public.xr_mastery_snapshots;
 create policy "xr_mastery_select" on public.xr_mastery_snapshots
