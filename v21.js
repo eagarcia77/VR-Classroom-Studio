@@ -137,8 +137,8 @@ R('v21Download').onclick=()=>downloadJSON({generatedAt:now(),project:{title:stat
 async function saveReleaseCloud(rel){
  const cloud=window.VRCloudV13,c=cloud?.getClient?.(),u=cloud?.getUser?.(),p=state.metadata?.cloudProjectId||cloud?.getCloudProjectId?.();if(!c||!u||!p)return {ok:false,error:'Cloud workspace is not connected/authenticated.'};
  if(rel.cloudId)return {ok:true,id:rel.cloudId};
- let rcCloudId=null;
- const rc=v20()?.getReleaseCandidate?.();if(rc?.cloudId)rcCloudId=rc.cloudId;
+ const rc=v20()?.getReleaseCandidate?.(),rcCloudId=rc?.cloudId||null;
+ if(!rcCloudId)return {ok:false,error:'Save the current V20 Release Candidate to cloud first so the release can be linked to audited QA evidence.'};
  const {data,error}=await c.from('xr_releases').insert({project_id:p,created_by:u.id,version:rel.version,name:rel.name,status:'draft',project_fingerprint:rel.fingerprint,release_candidate_id:rcCloudId,summary:rel.summary||{},notes:rel.notes||null}).select('id').single();if(error)return {ok:false,error:error.message};
  rel.cloudId=data.id;
  const chain=['draft','qa','approved','published','retired'],targetIndex=chain.indexOf(rel.status);
