@@ -221,3 +221,16 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Blob preview now embeds the SCORM API inline instead of relying on a relative scorm_api.js URL.
 - Production Audit now verifies that all packaged media and project metadata are declared in the SCORM manifest.
 - Updated export labeling from a legacy version-specific name to Export Audited SCORM.
+
+
+## V18 audit extension
+- Added WCAG-oriented accessibility preflight for keyboard policy, station labels, video captions/transcripts, audio transcripts/descriptions and motion safety.
+- Added Keyboard & Focus Map across scenes, stations, interactive objects and NPCs.
+- Added Contrast Lab with configurable 3:1, 4.5:1 and 7:1 targets.
+- Added Accessible 2D Mode inside the generated runtime as an equivalent non-VR navigation path.
+- Added Enter/Space activation for runtime elements with `tabindex=0` through a MutationObserver-backed keyboard adapter.
+- Added runtime reduced-motion control and support for the user's `prefers-reduced-motion` preference.
+- Added Blackboard Publication Checklist covering title, objectives, scenes, dynamic SCORM manifest, media bytes, accessibility blockers, non-VR access, score model and full Production Audit blockers.
+- Fixed a V18 audit-recursion risk by evaluating publication blockers against the inherited audit stack instead of the V18 wrapper itself.
+- Fixed Accessible 2D station launch/focus behavior so the station dialog is presented above the alternative-mode surface.
+- Added optional cloud-ready accessibility/publication evidence tables; reports are QA evidence and are not presented as formal WCAG certification.
