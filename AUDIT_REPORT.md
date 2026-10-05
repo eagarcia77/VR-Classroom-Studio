@@ -207,3 +207,17 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added Domain Conflict Resolver for selected top-level project domains; it is explicitly not a deep semantic merge.
 - Added audit checks for objective/activity alignment, objective/assessment evidence, score model, orphaned 3D review pins and activity-feed synchronization backlog.
 - Added Realtime publication for `xr_activity_events` and optional `xr_alignment_reports`.
+
+
+## V17 audit extension
+- Added competency records with objective/evidence mappings and mastery thresholds.
+- Added adaptive routing with remediation and mastery destinations.
+- Added Experience Intelligence dashboard for competency coverage, mapped evidence and adaptive-route integrity.
+- Added xAPI-shaped experience event objects with verb IRIs; these are interoperability-ready event structures, not a replacement for a validated LRS profile.
+- Added SCORM suspend-data persistence for V17 mastery state and recent runtime experience events.
+- Corrected V17 persistence ordering so inherited SCORM state is saved first and V17 mastery/events are appended afterward.
+- Added audit checks for duplicate competency IDs, invalid thresholds, broken adaptive references, missing mastery evidence and ineffective same-destination paths.
+- Hardened SCORM packaging: dynamic manifest now declares packaged media, project.json and README.txt.
+- Blob preview now embeds the SCORM API inline instead of relying on a relative scorm_api.js URL.
+- Production Audit now verifies that all packaged media and project metadata are declared in the SCORM manifest.
+- Updated export labeling from a legacy version-specific name to Export Audited SCORM.
