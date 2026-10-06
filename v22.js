@@ -29,7 +29,7 @@ main.appendChild(graph);
 const synth=document.createElement('section');synth.className='card';synth.id='proceduralScenarioSynthesizer';
 synth.innerHTML=`
 <div><h3 style="margin:0">Procedural Scenario Synthesizer <span class="v6-badge">V22</span></h3><div class="muted">Generate a new immersive “Orbital Knowledge Nexus” from the project objectives using deterministic authoring logic — no external AI service required.</div></div>
-<div class="v22-grid" style="margin-top:12px"><div class="v22-card"><div class="field"><label>Scenario name</label><input id="v22ScenarioName" value="Orbital Knowledge Nexus"></div><div class="field"><label>Architecture</label><select id="v22Architecture"><option value="hub">Central hub + objective stations</option><option value="sequence">Sequential mission path</option><option value="constellation">Constellation clusters</option></select></div><div class="field"><label>Generation scope</label><select id="v22Scope"><option value="scene">Add one new scene</option><option value="scene+stations">Add scene + objective stations</option></select></div><div class="toolbar"><button class="btn primary" id="v22Generate">Generate scenario</button><button class="btn danger" id="v22UndoGenerated">Remove last generated scenario</button></div></div><div class="v22-card"><h4 style="margin-top:0">Synthesis preview</h4><div id="v22SynthesisPreview" class="v22-list"></div></div></div>`;
+<div class="v22-grid" style="margin-top:12px"><div class="v22-card"><div class="field"><label>Scenario name</label><input id="v22ScenarioName" value="Orbital Knowledge Nexus"></div><div class="field"><label>Architecture</label><select id="v22Architecture"><option value="hub">Central hub + objective stations</option><option value="sequence">Sequential mission path</option><option value="constellation">Constellation clusters</option></select></div><div class="field"><label>Generation scope</label><select id="v22Scope"><option value="scene">Add one new scene</option><option value="scene+stations">Add scene + objective stations</option></select></div><div class="toolbar"><button class="btn primary" id="v22Generate">Generate scenario</button><button class="btn" id="v22MarkReviewed">Mark latest as reviewed</button><button class="btn danger" id="v22UndoGenerated">Remove last generated scenario</button></div></div><div class="v22-card"><h4 style="margin-top:0">Synthesis preview</h4><div id="v22SynthesisPreview" class="v22-list"></div></div></div>`;
 main.appendChild(synth);
 
 /* Performance + topology */
@@ -112,6 +112,7 @@ function generateScenario(){
  if(typeof loadAdvanced==='function')loadAdvanced();if(typeof render==='function')render();renderGraph();runTopology();alert('Generated '+name+'. Review and edit the generated content before publication.')
 }
 C('v22Generate').onclick=generateScenario;
+C('v22MarkReviewed').onclick=()=>{const x=state.v22Generated?.[state.v22Generated.length-1];if(!x)return alert('No generated scenario is available.');x.reviewedAt=new Date().toISOString();x.reviewedBy=state.metadata?.author||state.ownership?.owner||'Author';runTopology();alert('Latest generated scenario marked as reviewed.')};
 C('v22UndoGenerated').onclick=()=>{const x=state.v22Generated.pop();if(!x)return alert('No generated scenario to remove.');state.scenes=(state.scenes||[]).filter(s=>String(s.id)!==String(x.sceneId));state.stations=(state.stations||[]).filter(s=>!(x.stationIds||[]).some(id=>String(id)===String(s.id)));if(typeof loadAdvanced==='function')loadAdvanced();if(typeof render==='function')render();renderGraph();runTopology()};
 synthesisPreview();
 
@@ -157,7 +158,7 @@ function v22Checks(){
  const out=topologyChecks(),graph=graphData();
  out.push({level:state.v22Settings.cosmicMode?'pass':'pass',name:'Alien-inspired mode disclosure',detail:'Cosmic/alien-inspired presentation is explicitly aesthetic and does not claim verified extraterrestrial technology.'});
  out.push({level:graph.nodes.length?'pass':'warn',name:'Spatial knowledge constellation',detail:graph.nodes.length?graph.nodes.length+' knowledge nodes and '+graph.edges.length+' relationships are available.':'No graphable learning topology is available.'});
- const generated=(state.v22Generated||[]).filter(g=>(state.scenes||[]).some(s=>String(s.id)===String(g.sceneId)));out.push({level:generated.length?'warn':'pass',name:'Procedural content review',detail:generated.length?generated.length+' generated scenario(s) remain in the project and require human instructional review before publication.':'No unreviewed procedural scenario marker detected.'});
+ const generated=(state.v22Generated||[]).filter(g=>(state.scenes||[]).some(s=>String(s.id)===String(g.sceneId))&&!g.reviewedAt);out.push({level:generated.length?'warn':'pass',name:'Procedural content review',detail:generated.length?generated.length+' generated scenario(s) remain unreviewed and require human instructional review before publication.':'All generated scenarios are reviewed or none remain.'});
  return out
 }
 if(oldChecks)window.VRClassroomAudit.checks=()=>[...oldChecks(),...v22Checks()];
