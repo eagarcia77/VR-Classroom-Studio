@@ -1,0 +1,16 @@
+/* V23 Holographic World Engine */
+.v23-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v23-card{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#091425,#06101c);padding:14px}
+.v23-metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.v23-metrics>div{border:1px solid var(--line);border-radius:10px;background:#07101d;padding:10px}
+.v23-metrics b{display:block;font-size:21px}
+.v23-log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:#07101d;border:1px solid var(--line);border-radius:9px;padding:9px;max-height:300px;overflow:auto;white-space:pre-wrap}
+.v23-agent{border:1px solid var(--line);border-radius:10px;background:#08111f;padding:9px;margin:7px 0}
+.v23-agent small{display:block;color:var(--muted);margin-top:3px}
+.v23-holo{border:1px solid #7dd3fc55;background:radial-gradient(circle at 50% 0,#123665aa,#07101d 65%);border-radius:14px;padding:12px;box-shadow:inset 0 0 28px #38bdf822}
+.v23-nova{display:flex;gap:12px;align-items:center}
+.v23-nova img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 12px #7dd3fc66)}
+.v23-route{display:grid;grid-template-columns:1fr 90px 1fr;gap:7px;align-items:center;border-bottom:1px solid var(--line);padding:7px 0}
+@media(max-width:900px){.v23-grid{grid-template-columns:1fr}.v23-metrics{grid-template-columns:1fr 1fr}.v23-route{grid-template-columns:1fr}}
+header .logo{width:48px!important;height:48px!important;padding:0!important;background:transparent!important;border:none!important}
+header .logo img{width:48px;height:48px;display:block}
