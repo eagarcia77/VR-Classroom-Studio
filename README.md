@@ -1,5 +1,12 @@
 # VR Classroom Studio
 
+## V22 — Cosmic Intelligence / Deep-XR
+
+V22 adds a frontier-technology layer using real browser/XR capabilities: Cosmic Mission Control, device capability telemetry, a Spatial Knowledge Constellation graph, deterministic Procedural Scenario Synthesis, a runtime Constellation Navigator, and Deep-XR topology/performance auditing.
+
+The optional `Alien-Inspired` presentation mode is strictly an aesthetic/interaction concept. The application does not claim to use verified extraterrestrial technology.
+
+
 ## Ownership
 
 **Owner & Creator:** Eduardo Augusto García Rodríguez  
