@@ -1,0 +1,22 @@
+/* V22 Cosmic Intelligence / Deep-XR */
+.v22-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v22-card{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#091425,#070d18);padding:14px}
+.v22-metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.v22-metrics>div{border:1px solid var(--line);border-radius:10px;background:#07101d;padding:10px}
+.v22-metrics b{display:block;font-size:21px}
+.v22-cap{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px;background:#08111f;margin:7px 0}
+.v22-orb{width:10px;height:10px;border-radius:50%;background:#64748b;box-shadow:0 0 12px currentColor}.v22-orb.ok{background:#86efac}.v22-orb.warn{background:#fde68a}.v22-orb.bad{background:#fda4af}
+.v22-graph{position:relative;min-height:500px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:radial-gradient(circle at center,#12284a 0,#081221 44%,#030813 100%)}
+.v22-graph svg{width:100%;height:500px;display:block}
+.v22-node{cursor:pointer}
+.v22-node text{font-size:10px;fill:#fff;pointer-events:none}
+.v22-node circle{stroke:#b9dfff;stroke-width:1.2}
+.v22-node:hover circle{stroke-width:3}
+.v22-edge{stroke:#6ca7d9;stroke-opacity:.35;stroke-width:1}
+.v22-edge.adaptive{stroke:#a7f3d0}.v22-edge.rule{stroke:#fde68a}.v22-edge.portal{stroke:#7dd3fc}
+.v22-list{display:grid;gap:7px}
+.v22-item{border:1px solid var(--line);border-radius:10px;background:#08111f;padding:10px}
+.v22-stars{background-image:radial-gradient(#ffffff88 1px,transparent 1px);background-size:24px 24px}
+.v22-tech{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--muted)}
+.v22-warning{border:1px solid #854d0e;background:#2a220d;border-radius:10px;padding:10px}
+@media(max-width:900px){.v22-grid{grid-template-columns:1fr}.v22-metrics{grid-template-columns:1fr 1fr}.v22-graph{min-height:420px}.v22-graph svg{height:420px}}
