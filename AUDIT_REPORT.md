@@ -289,3 +289,13 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added runtime Constellation Navigator for accessible scene navigation when enabled.
 - Added optional cosmic visual styling without making VR/AR/WebGPU a hard runtime dependency.
 - V22 does not claim production-complete immersive AR placement; AR capability reporting remains a device/API capability signal only.
+
+## V23 audit extension
+- Added production SVG identity assets for the orbital knowledge logo and VRC-NOVA mascot.
+- Added Holographic World Engine with deterministic Course Digital Twin simulation.
+- Added synthetic learner cohorts with mastery, persistence, exploration, remediation and route traces.
+- Added Route Pressure & Friction Map across scenes.
+- Added audit checks for missing digital-twin runs, high synthetic remediation pressure and immediate entry-path termination.
+- Synthetic agents are explicitly disclosed as deterministic QA models, not predictions of real learner behavior.
+- Added identity accessibility metadata in the SVG assets and kept instructional meaning outside imagery.
+- VRC-NOVA is an interface/learning guardian and is not given grading authority.
