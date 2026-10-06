@@ -276,3 +276,16 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added cloud-ready xr_releases and xr_release_events with RLS, a partial unique index for one Published release, and secure sequential transition RPC.
 - Cloud QA gates require linked passing V20 test evidence before QA, all four governance approvals before Approved, and a passing Blackboard validation for the same Release Candidate before Published.
 - Cloud release saving requires the V20 Release Candidate to already be linked to cloud QA evidence.
+
+## V22 audit extension
+- Added Cosmic Mission Control with real capability detection for secure context, WebXR, immersive-vr, immersive-ar, WebGPU, OffscreenCanvas, SharedArrayBuffer, WebAssembly, Device Orientation and Gamepad API.
+- Added explicit disclosure that Alien-Inspired mode is aesthetic/experimental and does not represent verified extraterrestrial technology.
+- Added Spatial Knowledge Constellation connecting scenes, stations, competencies, NPCs, portals, adaptive routes, evidence mappings and scene-opening rules.
+- Added graph export to JSON for external analysis.
+- Added deterministic Procedural Scenario Synthesizer that can create an Orbital Knowledge Nexus scene and optional objective-derived learning stations without using an external AI service.
+- Generated procedural scenarios are marked and remain an audit warning until explicitly marked as reviewed by a human author.
+- Generated objective stations default to zero points and non-required so synthesis does not silently alter the SCORM grading model.
+- Added Deep-XR topology/performance checks for scene reachability, per-scene object density, packaged media pressure, rule complexity, animation complexity, external model dependencies and graph integrity.
+- Added runtime Constellation Navigator for accessible scene navigation when enabled.
+- Added optional cosmic visual styling without making VR/AR/WebGPU a hard runtime dependency.
+- V22 does not claim production-complete immersive AR placement; AR capability reporting remains a device/API capability signal only.
