@@ -1,5 +1,10 @@
 # VR Classroom Studio
 
+## V23 — Holographic World Engine
+
+V23 adds the production visual identity assets, VRC-NOVA interface mascot, Holographic World Engine, and a deterministic Course Digital Twin simulator. Synthetic learner agents are used only for route/QA stress testing; they are not presented as predictions of real student behavior.
+
+
 ## V22 — Cosmic Intelligence / Deep-XR
 
 V22 adds a frontier-technology layer using real browser/XR capabilities: Cosmic Mission Control, device capability telemetry, a Spatial Knowledge Constellation graph, deterministic Procedural Scenario Synthesis, a runtime Constellation Navigator, and Deep-XR topology/performance auditing.
