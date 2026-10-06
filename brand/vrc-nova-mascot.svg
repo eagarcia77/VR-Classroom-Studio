@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+<title id="t">VRC-NOVA mascot</title><desc id="d">A friendly floating cosmic XR learning guardian with orbital knowledge core.</desc>
+<defs><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset=".48" stop-color="#a78bfa"/><stop offset="1" stop-color="#34d399"/></linearGradient><radialGradient id="core"><stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b" stop-opacity=".1"/></radialGradient></defs>
+<ellipse cx="256" cy="454" rx="118" ry="20" fill="#38bdf8" opacity=".13"/>
+<path d="M151 171c0-63 47-111 105-111s105 48 105 111v45c0 57-45 103-105 103s-105-46-105-103z" fill="#0a1730" stroke="url(#a)" stroke-width="10"/>
+<path d="M177 168c18-33 48-51 79-51s61 18 79 51v49c-25 17-52 25-79 25s-54-8-79-25z" fill="#102b51" stroke="#7dd3fc" stroke-width="6"/>
+<path d="M194 176c22-21 42-28 62-28s40 7 62 28" fill="none" stroke="#dbeafe" stroke-width="9" stroke-linecap="round"/>
+<circle cx="219" cy="188" r="10" fill="#34d399"/><circle cx="293" cy="188" r="10" fill="#34d399"/>
+<path d="M226 218c20 14 40 14 60 0" fill="none" stroke="#dbeafe" stroke-width="7" stroke-linecap="round"/>
+<path d="M180 307c20-21 46-31 76-31s56 10 76 31l21 83c-26 32-58 48-97 48s-71-16-97-48z" fill="#081426" stroke="url(#a)" stroke-width="9"/>
+<circle cx="256" cy="352" r="44" fill="url(#core)" stroke="#fde68a" stroke-width="5"/><path d="M256 319l10 22 24 3-18 17 5 24-21-12-21 12 5-24-18-17 24-3z" fill="#fff" opacity=".9"/>
+<ellipse cx="256" cy="352" rx="98" ry="34" fill="none" stroke="#7dd3fc" stroke-width="5" transform="rotate(-18 256 352)"/>
+<circle cx="347" cy="322" r="10" fill="#a78bfa"/>
+<path d="M157 326 99 360l23 32 55-25M355 326l58 34-23 32-55-25" fill="none" stroke="#7dd3fc" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M213 433c-8 26-24 42-48 49M299 433c8 26 24 42 48 49" fill="none" stroke="#a78bfa" stroke-width="10" stroke-linecap="round"/>
+<circle cx="147" cy="76" r="6" fill="#fde68a"/><circle cx="390" cy="132" r="5" fill="#7dd3fc"/><circle cx="88" cy="244" r="4" fill="#34d399"/>
+</svg>
