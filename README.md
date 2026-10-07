@@ -1,5 +1,11 @@
 # VR Classroom Studio
 
+## V25 — Intelligent Minimal Command Center
+
+V25 adds a global Command Palette (Cmd/Ctrl + K), cross-project search across scenes, stations, NPCs, competencies, media, 3D objects and releases, Focus Mode, a compact project-readiness dashboard, keyboard-first navigation and a contextual VRC-NOVA guide driven by the current project state. V25 is authoring-only and does not alter the exported SCORM runtime.
+
+
+
 ## V24 — Minimalist White Experience
 
 V24 establishes the white minimalist interface as the primary visual experience across authoring, governance, QA, adaptive learning and release management. Dark surfaces are intentionally retained only where they improve technical or immersive readability, such as 3D/XR previews, spatial graphs and diagnostic logs. The orbital logo remains in the header and VRC-NOVA is reduced to a subtle interface-guide presence.
