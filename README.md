@@ -1,5 +1,15 @@
 # VR Classroom Studio
 
+## V30 — Functional 3D Scene Builder
+
+V30 repairs and extends the Live 3D Authoring Studio so an empty scene is no longer a dead end. The author can select scenes, create scenes, build a starter instructional scene, place existing learning stations into 3D, and add evidence objects, learning stations, hotspots, work surfaces, presentation screens, trigger zones and portals directly from the Studio.
+
+The V6 editor was hardened to support string-based object and scene identifiers used by later generated-world modules. This fixes selection and scene-matching problems for V26/V27/V30-generated content. The Studio now shows explicit A-Frame/WebGL loading and error states instead of an ambiguous empty/loading canvas.
+
+The authoring shell remains minimalist and light, while the WebGL canvas stays dark for spatial legibility.
+
+
+
 ## V29 — Learning Evidence Record
 
 V29 adds objective-level learner evidence to the SCORM runtime. It records decisions, reflection responses and station completion evidence without introducing a second grading model or an external backend requirement.
