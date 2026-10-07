@@ -1,0 +1,13 @@
+/* V29 Learning Evidence Record */
+.v29-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.v29-panel{border:1px solid #e2e6ea;border-radius:14px;background:#fff;padding:14px}
+.v29-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v29-metrics>div{border:1px solid #e4e8ec;border-radius:10px;background:#fafbfc;padding:10px}
+.v29-metrics b{display:block;font-size:20px;color:#1f2937}.v29-metrics small{color:#748093}
+.v29-row{display:grid;grid-template-columns:38px 1.2fr 1fr 120px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #edf0f2}
+.v29-row:last-child{border-bottom:0}
+.v29-num{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:#eef2f6;color:#46566b;font-weight:750}
+.v29-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dfe4e9;border-radius:999px;background:#fff;padding:4px 8px;font-size:11px;color:#647083}
+.v29-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.v29-dot.warn{background:#d97706}.v29-dot.fail{background:#dc2626}
+.v29-note{padding:10px 12px;border-radius:10px;background:#f7f9fb;border:1px solid #e4e8ec;color:#556174;font-size:12px}
+@media(max-width:900px){.v29-grid{grid-template-columns:1fr}.v29-metrics{grid-template-columns:1fr 1fr}.v29-row{grid-template-columns:34px 1fr}.v29-row>*:nth-child(n+3){grid-column:2}}
