@@ -44,3 +44,12 @@ Precise, exploratory, academic, calm and technologically advanced. Avoid claims 
 ## Accessibility
 
 The logo has an accessible title/description in SVG. The mascot has an accessible title/description. Neither asset contains required instructional text; instructional meaning must remain available as HTML/text.
+
+
+## Primary interface style
+
+**Minimalist White Experience**
+
+The production authoring interface uses white and soft-neutral surfaces, restrained shadows, dark charcoal typography and subtle blue accents. The logo and VRC-NOVA are intentionally understated. Dark/cosmic presentation is reserved for immersive previews, spatial knowledge graphs and other technical contexts where it improves spatial legibility.
+
+The interface should feel academic, professional, modern and calm rather than visually loud.
