@@ -211,6 +211,14 @@ function v26Checks(){
   {level:state.accessibility?.desktopFallback==='required'?'pass':'warn',name:'V26 device resilience',detail:'Desktop fallback is '+(state.accessibility?.desktopFallback||'not configured')+' for immersive delivery.'}
  ]
 }
+const oldValidateV26=validateProject;
+validateProject=function(){
+ const issues=oldValidateV26();
+ const x=state.v26?.lastForge;
+ if(x&&!x.reviewedAt)issues.push('Review and mark the latest V26 forged instructional world before final SCORM export.');
+ return [...new Set(issues)]
+};
+
 const oldChecks=window.VRClassroomAudit?.checks,oldRun=window.VRClassroomAudit?.run;
 if(oldChecks)window.VRClassroomAudit.checks=()=>[...oldChecks(),...v26Checks()];
 if(oldRun)window.VRClassroomAudit.run=(scroll=false)=>{
