@@ -14,3 +14,6 @@
 .v6-shortcuts{font-size:12px;color:var(--muted);line-height:1.7}
 .v6-badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#17304b;color:#dff7ff;font-size:11px}
 @media(max-width:1150px){.v6-layout{grid-template-columns:1fr}.v6-panel{min-height:auto}.v6-tree{max-height:240px}}
+
+.v6-load-state{position:absolute;inset:0;z-index:5;display:grid;place-content:center;text-align:center;gap:6px;padding:24px;background:#f8fafc;color:#334155}
+.v6-load-state small{color:#64748b}.v6-load-state.error{background:#fff7f7;color:#991b1b}
