@@ -356,3 +356,15 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Adds QA for assessment coverage, 100-point assessment weight, duplicate-scoring protection, rule source integrity, dialogue target integrity, NPC scene placement, generated object persistence and reflection-scoring semantics.
 - Adds a V27 instructor-review gate to validateProject(); final SCORM export remains blocked until generated questions, distractors and guide dialogue are reviewed.
 - V27 performs no autonomous grading beyond the existing deterministic runtime semantics.
+
+
+## V28 audit extension
+- Added Learner Mission Runtime inside the final SCORM runtime rather than only in the authoring application.
+- Added objective-level learner progress derived from required evidence stations and competency mappings.
+- Added optional guided navigation to the next incomplete evidence station.
+- Guided navigation verifies the post-routing scene before opening a station so V17 adaptive routing remains authoritative.
+- Added automatic completion debrief after all mapped objectives are complete.
+- Added keyboard Escape handling and focus containment for the completion debrief.
+- Mission progress reuses existing completed/answered SCORM state; no duplicate grade or completion model is introduced.
+- Added authoring QA for objective evidence mappings, mapped-scene integrity, shared evidence mappings, Mission Navigator state and debrief state.
+- Added Learner Mission Runtime to the global command palette.
