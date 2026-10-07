@@ -387,3 +387,20 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V29 QA for station integrity, objective attribution, suspend-data budget, SCORM interaction reporting, reflection semantics and privacy boundary.
 - Added Learning Evidence Record to the global command palette.
 - Real Blackboard cmi.interactions behavior still requires validation after institutional upload.
+
+
+## V30 audit extension
+- Added Functional 3D Scene Builder controls directly above the Live 3D Authoring Studio.
+- Added active-scene selector and direct scene creation.
+- Added Build Starter Scene for empty instructional scenes.
+- Starter scenes create a real mission briefing station, 3D station marker, evidence artifact, work surface and interactive hotspot; a portal is added when another scene exists.
+- Added direct authoring of evidence objects, learning stations, hotspots, tables, screens, trigger zones and portals from the 3D Studio.
+- Added station-to-3D synchronization so existing instructional stations can be represented spatially without manual object creation.
+- Added empty-scene overlay with actionable recovery instead of leaving the canvas functionally blank.
+- Fixed V6 object selection so string IDs from later generated-world modules remain selectable.
+- Fixed V6 scene matching so numeric/string ID coercion from UI controls does not make populated scenes appear empty.
+- Expanded V6 primitive visualization for inspection evidence, trigger zones, smart doors, collectibles, hotspots, media screens and guide markers.
+- Added explicit A-Frame/WebGL loading and failure states.
+- Kept the technical 3D canvas dark while restoring hierarchy and inspector panels to the approved minimalist white interface.
+- Added V30 QA for duplicate object IDs, portal targets, station spatial representation, empty scenes and custom-model sources.
+- Added Functional 3D Scene Builder to the global command palette.
