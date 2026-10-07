@@ -339,3 +339,20 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Adds portal-integrity, scoring, objective coverage, spatial marker, competency alignment, review-gate and desktop-fallback QA checks.
 - Integrates the V26 instructor review gate into validateProject(), blocking final SCORM export until the latest forged instructional world is reviewed.
 - Does not claim verified extraterrestrial technology; the advanced interaction concepts continue to rely on browser, WebXR and SCORM standards.
+
+
+## V27 audit extension
+- Added Instructional Digital Twin Compiler directly after the V26 world forge.
+- Compiles mapped objective evidence into questions, guides, rules, variables and functional interaction objects.
+- Supports Mixed, Decision Check and Reflection assessment strategies.
+- Transfers station weight to generated assessment weight to prevent duplicate scoring.
+- Adds mission-level and/or objective-level virtual guides with editable branching dialogue.
+- Adds inspection artifacts in Standard/Advanced interaction modes and trigger zones in Advanced mode.
+- Adds station-completion variables and simulation rules for evidence tracking.
+- Updates competency questionIds so assessments become explicit mastery evidence.
+- Preserves and restores competency mappings through V27 in-session Undo.
+- Cleans previous V27-generated assessment references before recompilation.
+- Updates V26 scoring audit so compiled question weights count toward the original 100-point evidence blueprint.
+- Adds QA for assessment coverage, 100-point assessment weight, duplicate-scoring protection, rule source integrity, dialogue target integrity, NPC scene placement, generated object persistence and reflection-scoring semantics.
+- Adds a V27 instructor-review gate to validateProject(); final SCORM export remains blocked until generated questions, distractors and guide dialogue are reviewed.
+- V27 performs no autonomous grading beyond the existing deterministic runtime semantics.
