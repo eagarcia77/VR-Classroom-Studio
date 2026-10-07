@@ -94,10 +94,10 @@ D('v27Brief').addEventListener('input',()=>state.v27.brief=D('v27Brief').value);
 D('v27PreviewPlan').onclick=renderPlan;
 
 function snap(){
- return JSON.parse(JSON.stringify({stations:state.stations||[],questions:state.questions||[],npcs:state.npcs||[],rules:state.rules||[],variables:state.variables||{},objects:state.objects||[],v27:state.v27||{}}))
+ return JSON.parse(JSON.stringify({stations:state.stations||[],questions:state.questions||[],npcs:state.npcs||[],rules:state.rules||[],variables:state.variables||{},objects:state.objects||[],competencies:state.competencies||[],v27:state.v27||{}}))
 }
 function restore(s){
- if(!s)return;state.stations=s.stations;state.questions=s.questions;state.npcs=s.npcs;state.rules=s.rules;state.variables=s.variables;state.objects=s.objects;state.v27=s.v27;
+ if(!s)return;state.stations=s.stations;state.questions=s.questions;state.npcs=s.npcs;state.rules=s.rules;state.variables=s.variables;state.objects=s.objects;state.competencies=s.competencies;state.v27=s.v27;
  if(typeof render==='function')render()
 }
 function restorePreviousWeights(){
@@ -108,6 +108,7 @@ function restorePreviousWeights(){
 function removePreviousGenerated(){
  const old=state.v27.lastCompile;if(!old)return;
  const rm=(arr,ids)=>arr.filter(x=>!(ids||[]).some(id=>String(id)===String(x.id)));
+ for(const comp of state.competencies||[])comp.questionIds=(comp.questionIds||[]).filter(id=>!(old.questionIds||[]).some(qid=>String(qid)===String(id)));
  state.questions=rm(state.questions||[],old.questionIds);
  state.npcs=rm(state.npcs||[],old.npcIds);
  state.rules=rm(state.rules||[],old.ruleIds);
