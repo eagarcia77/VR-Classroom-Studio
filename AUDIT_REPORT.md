@@ -310,3 +310,15 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V24 visual QA checks for application canvas luminance, card/side navigation luminance, form-field treatment, primary text contrast, dark-card leakage and logo/mascot integration.
 - Kept all V3–V23 functional modules loaded in their existing order; V24 is a presentation and visual-QA layer.
 - Owner & Creator metadata remains Eduardo Augusto García Rodríguez.
+
+
+## V25 audit extension
+- Added global Command Palette with keyboard access through Cmd/Ctrl + K and quick-search slash shortcut.
+- Added cross-project search over scenes, stations, NPCs, competencies, media, 3D objects and release records.
+- Added command actions for Production Audit, student preview, audited SCORM export, navigation, Course Digital Twin and Focus Mode.
+- Added Focus Mode that hides side navigation/inspector without changing project data.
+- Added compact Project Status using inherited audit checks, Release Candidate state, Published release state and Blackboard validation evidence.
+- Added contextual VRC-NOVA guidance using deterministic project-state rules; it does not grade learners or call an external AI service.
+- Added keyboard navigation for Command Palette results with Arrow Up/Down, Enter and Escape plus focus restoration.
+- Added audit checks for command-palette structure, global search identifier integrity, command coverage, contextual guide availability and V24 minimalist-theme continuity.
+- V25 does not modify the exported learner runtime or SCORM data model.
