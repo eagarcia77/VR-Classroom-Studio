@@ -32,6 +32,7 @@ function commandList(){
     {id:'cmd:forge',type:'command',label:'Open Immersive Lesson Forge',meta:'Authoring',action:()=>P('immersiveLessonForgeCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:digitaltwincompiler',type:'command',label:'Open Instructional Digital Twin Compiler',meta:'Authoring',action:()=>P('instructionalDigitalTwinCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:missionruntime',type:'command',label:'Open Learner Mission Runtime',meta:'Learner Experience',action:()=>P('learnerMissionRuntimeCard')?.scrollIntoView({behavior:'smooth'})},
+    {id:'cmd:evidencerecord',type:'command',label:'Open Learning Evidence Record',meta:'Assessment Evidence',action:()=>P('learningEvidenceRecordCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:audit',type:'command',label:'Run Production Audit',meta:'QA',action:()=>window.VRClassroomAudit?.run?.(true)},
     {id:'cmd:preview',type:'command',label:'Preview Student Experience',meta:'Runtime',action:()=>P('previewBtn')?.click()},
     {id:'cmd:export',type:'command',label:'Export Audited SCORM',meta:'Blackboard',action:()=>P('exportBtn')?.click()},
