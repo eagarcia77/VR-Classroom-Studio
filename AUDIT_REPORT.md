@@ -322,3 +322,20 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added keyboard navigation for Command Palette results with Arrow Up/Down, Enter and Escape plus focus restoration.
 - Added audit checks for command-palette structure, global search identifier integrity, command coverage, contextual guide availability and V24 minimalist-theme continuity.
 - V25 does not modify the exported learner runtime or SCORM data model.
+
+
+## V26 audit extension
+- Added Immersive Lesson Forge as the primary objective-driven authoring workflow.
+- Generates distinct Hub, Sequence and Constellation scene/portal topologies rather than storing architecture as metadata only.
+- Generates one scored required evidence station per learning objective plus spatial station markers.
+- Distributes generated evidence across a normalized 100-point scoring blueprint.
+- Generates competency mappings from each objective to its evidence station.
+- Adds learning-experience modes for exploration, scenario, simulated lab and role-play.
+- Synchronizes generated title, environment, instructions, passing score and completion rule with the original Activity Blueprint.
+- Supports New Activity replacement with in-session undo and Add to Current Project mode.
+- Clears stale V22 generated-world references when replacing the instructional world.
+- Preserves media/project ownership and other non-structural project metadata.
+- Adds generated-world topology visualization and evidence blueprint before generation.
+- Adds portal-integrity, scoring, objective coverage, spatial marker, competency alignment, review-gate and desktop-fallback QA checks.
+- Integrates the V26 instructor review gate into validateProject(), blocking final SCORM export until the latest forged instructional world is reviewed.
+- Does not claim verified extraterrestrial technology; the advanced interaction concepts continue to rely on browser, WebXR and SCORM standards.
