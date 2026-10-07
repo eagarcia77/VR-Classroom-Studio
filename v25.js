@@ -13,7 +13,7 @@ if(!header||!main)return;
 /* Header command trigger */
 if(!P('v25CommandTrigger')){
   const trigger=document.createElement('button');trigger.id='v25CommandTrigger';trigger.className='v25-command-trigger';
-  trigger.innerHTML='<span>⌕</span><span class="label">Search & commands</span><span class="v25-kbd">⌘K</span>';
+  trigger.innerHTML='<span>⌕</span><span class="label">Search & commands</span><span class="v25-kbd">⌘/Ctrl K</span>';
   const actions=header.querySelector('.actions');if(actions)header.insertBefore(trigger,actions);
 }
 
@@ -97,7 +97,7 @@ function execute(item){
 P('v25CommandTrigger').onclick=()=>openPalette();
 overlay.addEventListener('click',e=>{if(e.target===overlay)closePalette()});
 search.addEventListener('input',()=>{activeIndex=0;renderResults()});
-search.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();activeIndex=Math.min(resultItems.length-1,activeIndex+1);highlight()}else if(e.key==='ArrowUp'){e.preventDefault();activeIndex=Math.max(0,activeIndex-1);highlight()}else if(e.key==='Enter'){e.preventDefault();execute(resultItems[activeIndex])}else if(e.key==='Escape'){e.preventDefault();closePalette()}});
+search.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();activeIndex=Math.min(resultItems.length-1,activeIndex+1);highlight()}else if(e.key==='ArrowUp'){e.preventDefault();activeIndex=Math.max(0,activeIndex-1);highlight()}else if(e.key==='Enter'){e.preventDefault();execute(resultItems[activeIndex])}else if(e.key==='Escape'){e.preventDefault();closePalette()}else if(e.key==='Tab'){e.preventDefault();search.focus()}});
 
 function toggleFocus(){
   state.v25.focusMode=!state.v25.focusMode;document.documentElement.dataset.v25Focus=String(state.v25.focusMode);renderGuide();renderStatus()
