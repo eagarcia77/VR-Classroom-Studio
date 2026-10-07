@@ -13,3 +13,14 @@
 .v30-scene-summary b{display:block;font-size:18px;color:#263142}.v30-scene-summary small{color:#748093}
 @media(max-width:1050px){.v30-toolbar{grid-template-columns:1fr 1fr}.v30-toolbar .field:first-child{grid-column:1/-1}.v30-scene-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.v30-toolbar{grid-template-columns:1fr}.v30-toolbar .field:first-child{grid-column:auto}}
+
+/* V30 Studio light shell */
+#live3DEditorCard .v6-panel{background:#fff!important;color:#253044!important;border-color:#e2e6ea!important}
+#live3DEditorCard .v6-panel h4{color:#1f2937!important}
+#live3DEditorCard .v6-tree-item{color:#657083!important}
+#live3DEditorCard .v6-tree-item:hover{background:#f3f5f7!important;color:#263142!important}
+#live3DEditorCard .v6-tree-item.active{background:#eef3f8!important;color:#1f2937!important;border-color:#cfd9e5!important}
+#live3DEditorCard .v6-controls button{background:#fff!important;color:#334155!important;border-color:#dce2e8!important}
+#live3DEditorCard .v6-section{border-color:#e5e9ed!important}
+#live3DEditorCard .v6-shortcuts{color:#718096!important}
+#live3DEditorCard .v6-canvas{background:#111827!important;border-color:#dfe4e9!important}
