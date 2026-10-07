@@ -196,9 +196,11 @@ function renderForgeStatus(){
 function v26Checks(){
  const x=state.v26.lastForge;if(!x)return[{level:'warn',name:'Immersive Lesson Forge',detail:'No V26 immersive world has been forged yet.'}];
  const scenes=state.scenes||[],stations=state.stations||[],objects=state.objects||[],comps=state.competencies||[];
- const sceneIds=new Set(scenes.map(s=>String(s.id))),generatedStations=stations.filter(s=>(x.stationIds||[]).some(id=>String(id)===String(s.id))&&Number(s.points)>0);
+ const sceneIds=new Set(scenes.map(s=>String(s.id))),generatedStations=stations.filter(s=>(x.stationIds||[]).some(id=>String(id)===String(s.id))&&s.required&&s.objectiveIndex!=null);
  const broken=objects.filter(o=>(x.objectIds||[]).some(id=>String(id)===String(o.id))&&o.type==='portal'&&(!o.targetSceneId||!sceneIds.has(String(o.targetSceneId))));
- const points=generatedStations.reduce((a,s)=>a+Number(s.points||0),0),required=generatedStations.filter(s=>s.required).length;
+ const stationPoints=generatedStations.reduce((a,s)=>a+Number(s.points||0),0);
+ const questionPoints=(state.questions||[]).filter(q=>generatedStations.some(s=>String(s.id)===String(q.stationId))).reduce((a,q)=>a+Number(q.points||0),0);
+ const points=stationPoints+questionPoints,required=generatedStations.length;
  const missingMarker=generatedStations.filter(s=>!objects.some(o=>o.type==='station'&&String(o.stationId)===String(s.id)));
  const missingComp=generatedStations.filter(s=>!comps.some(c=>(c.stationIds||[]).some(id=>String(id)===String(s.id))));
  return[
