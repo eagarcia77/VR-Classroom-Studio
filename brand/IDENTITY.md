@@ -53,3 +53,8 @@ The logo has an accessible title/description in SVG. The mascot has an accessibl
 The production authoring interface uses white and soft-neutral surfaces, restrained shadows, dark charcoal typography and subtle blue accents. The logo and VRC-NOVA are intentionally understated. Dark/cosmic presentation is reserved for immersive previews, spatial knowledge graphs and other technical contexts where it improves spatial legibility.
 
 The interface should feel academic, professional, modern and calm rather than visually loud.
+
+
+## V25 interaction identity
+
+The minimalist identity extends to interaction design: global search and commands are available from a compact command palette, VRC-NOVA acts as a subtle contextual guide, and Focus Mode removes nonessential interface chrome. The assistant character remains advisory and never has autonomous grading authority.
