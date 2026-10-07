@@ -1,5 +1,17 @@
 # VR Classroom Studio
 
+## V29 — Learning Evidence Record
+
+V29 adds objective-level learner evidence to the SCORM runtime. It records decisions, reflection responses and station completion evidence without introducing a second grading model or an external backend requirement.
+
+Evidence is retained in a compact ledger inside SCORM suspend_data and, when enabled and accepted by the LMS, question responses are also reported through SCORM 2004 cmi.interactions. Choice interactions use stable choice identifiers, include the correct-response pattern, result, weighting, description and objective link. Reflection interactions use long-fill-in learner responses and neutral result semantics.
+
+The learner can optionally open an Evidence viewer and download a JSON copy of the evidence record. No external evidence endpoint is configured by default.
+
+The local Blackboard Test Lab now simulates cmi.interactions._count and includes a dedicated interaction-evidence test. Passing this mock test does not replace final validation in the institution's Blackboard environment.
+
+
+
 ## V28 — Learner Mission Runtime
 
 V28 improves the actual learner experience inside the exported SCORM package. It adds an accessible Mission Navigator that derives progress from the existing SCORM completion state rather than maintaining a separate grade model.
