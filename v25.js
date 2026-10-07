@@ -30,6 +30,7 @@ const icons={command:'⚡',scene:'◇',station:'●',npc:'◌',competency:'◎',
 function commandList(){
   return [
     {id:'cmd:forge',type:'command',label:'Open Immersive Lesson Forge',meta:'Authoring',action:()=>P('immersiveLessonForgeCard')?.scrollIntoView({behavior:'smooth'})},
+    {id:'cmd:digitaltwincompiler',type:'command',label:'Open Instructional Digital Twin Compiler',meta:'Authoring',action:()=>P('instructionalDigitalTwinCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:audit',type:'command',label:'Run Production Audit',meta:'QA',action:()=>window.VRClassroomAudit?.run?.(true)},
     {id:'cmd:preview',type:'command',label:'Preview Student Experience',meta:'Runtime',action:()=>P('previewBtn')?.click()},
     {id:'cmd:export',type:'command',label:'Export Audited SCORM',meta:'Blackboard',action:()=>P('exportBtn')?.click()},
