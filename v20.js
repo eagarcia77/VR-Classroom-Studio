@@ -56,7 +56,7 @@ function summary(s=state){return {scenes:(s.scenes||[]).length,stations:(s.stati
 /* advanced mock LMS that persists CMI across sessions */
 function persistentMock(seed={}){
  const data={...seed},log=[];let initialized=false;
- const api={Initialize(){log.push('Initialize');if(initialized)return 'false';initialized=true;return 'true'},GetValue(k){log.push('GetValue '+k);return data[k]??''},SetValue(k,v){log.push('SetValue '+k+'='+v);if(!initialized)return 'false';data[k]=String(v);return 'true'},Commit(){log.push('Commit');return initialized?'true':'false'},Terminate(){log.push('Terminate');if(!initialized)return 'false';initialized=false;return 'true'}};
+ const api={Initialize(){log.push('Initialize');if(initialized)return 'false';initialized=true;return 'true'},GetValue(k){log.push('GetValue '+k);return data[k]??''},SetValue(k,v){log.push('SetValue '+k+'='+v);if(!initialized)return 'false';data[k]=String(v);const m=String(k).match(/^cmi\.interactions\.(\d+)\.id$/);if(m){const count=Math.max(Number(data['cmi.interactions._count']||0),Number(m[1])+1);data['cmi.interactions._count']=String(count)}return 'true'},Commit(){log.push('Commit');return initialized?'true':'false'},Terminate(){log.push('Terminate');if(!initialized)return 'false';initialized=false;return 'true'}};
  const win={API_1484_11:api,parent:null,opener:null};win.parent=win;return {data,log,win}
 }
 function apiFrom(mock){return new Function('window',scormAPI()+';return window.SCORM;')(mock.win)}
@@ -69,6 +69,24 @@ function testSuspendResume(){
 function testSuspendCapacity(){
  try{const mock=persistentMock(),a=apiFrom(mock);a.init();const sample=JSON.stringify({payload:'x'.repeat(58000)});const set=a.set('cmi.suspend_data',sample),commit=a.commit();a.finish(false);return {level:set&&commit?'pass':'fail',name:'Large suspend_data smoke test',detail:set&&commit?'58 KB payload passed through the local SCORM wrapper mock. Blackboard/LMS limits must still be validated in the real environment.':'Large suspend_data write failed in the wrapper mock.'}}catch(e){return {level:'fail',name:'Large suspend_data smoke test',detail:e.message}}
 }
+function testInteractions(){
+ try{
+  const mock=persistentMock(),a=apiFrom(mock);if(!a.init())throw new Error('Initialize failed');
+  const n=Number(a.get('cmi.interactions._count')||0),base='cmi.interactions.'+n;
+  const writes=[
+   a.set(base+'.id','q_test_1'),
+   a.set(base+'.type','choice'),
+   a.set(base+'.learner_response','choice_2'),
+   a.set(base+'.correct_responses.0.pattern','choice_2'),
+   a.set(base+'.result','correct'),
+   a.set(base+'.objectives.0.id','objective_1'),
+   a.set(base+'.description','Synthetic evidence interaction')
+  ];
+  const commit=a.commit(),count=mock.data['cmi.interactions._count'];a.finish(true);
+  const ok=writes.every(Boolean)&&commit&&count==='1'&&mock.data[base+'.learner_response']==='choice_2'&&mock.data[base+'.result']==='correct'&&mock.data[base+'.objectives.0.id']==='objective_1';
+  return {level:ok?'pass':'fail',name:'SCORM interaction evidence',detail:ok?'Mock LMS preserved interaction ID, type, response, correct pattern, result and objective link; real Blackboard acceptance still requires institutional validation.':'Interaction evidence fields did not persist as expected in the mock LMS.',log:mock.log}
+ }catch(e){return {level:'fail',name:'SCORM interaction evidence',detail:e.message}}
+}
 function testScoreEdges(){
  const d=delivery();if(!d?.simulateScorm)return {level:'fail',name:'Score edge cases',detail:'V19 simulator unavailable.'};const passing=Math.max(0,Math.min(100,Number(state.passing||70))),cases=[0,Math.max(0,passing-1),passing,100],bad=[];for(const score of cases){const success=score>=passing?'passed':'failed',r=d.simulateScorm({score,completion:'completed',success,progress:1},false);if(!r.ok||r.data['cmi.score.raw']!==String(score)||r.data['cmi.success_status']!==success)bad.push(score)}return {level:bad.length?'fail':'pass',name:'Score / pass-fail edge cases',detail:bad.length?'Failed score cases: '+bad.join(', '):'0, threshold−1, threshold and 100 score cases persisted expected CMI values.'}
 }
@@ -79,7 +97,7 @@ async function testPackage(){
  try{const r=await delivery()?.runPackageTests?.();const fails=r?.tests?.filter(x=>x.level==='fail')||[];return {level:fails.length?'fail':'pass',name:'Package self-test integration',detail:fails.length?fails.length+' V19 package blocker(s) remain.':'V19 package self-test completed without blockers.'}}catch(e){return {level:'fail',name:'Package self-test integration',detail:e.message}}
 }
 async function runMatrix(){
- const tests=[testLifecycle(),testSuspendResume(),testSuspendCapacity(),testScoreEdges(),testIncomplete(),await testPackage()];
+ const tests=[testLifecycle(),testSuspendResume(),testSuspendCapacity(),testInteractions(),testScoreEdges(),testIncomplete(),await testPackage()];
  const run={id:'run-'+Date.now(),at:new Date().toISOString(),tests,passing:Number(state.passing||70),fingerprint:await projectFingerprint()};state.v20.testRuns.unshift(run);state.v20.testRuns=state.v20.testRuns.slice(0,20);renderCases(tests);renderRunLog(run);renderDiagnostics();return run
 }
 T('v20RunMatrix').onclick=()=>runMatrix().catch(e=>alert(e.message));
