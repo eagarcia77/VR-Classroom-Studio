@@ -1,5 +1,11 @@
 # VR Classroom Studio
 
+## V24 — Minimalist White Experience
+
+V24 establishes the white minimalist interface as the primary visual experience across authoring, governance, QA, adaptive learning and release management. Dark surfaces are intentionally retained only where they improve technical or immersive readability, such as 3D/XR previews, spatial graphs and diagnostic logs. The orbital logo remains in the header and VRC-NOVA is reduced to a subtle interface-guide presence.
+
+
+
 ## V23 — Holographic World Engine
 
 V23 adds the production visual identity assets, VRC-NOVA interface mascot, Holographic World Engine, and a deterministic Course Digital Twin simulator. Synthetic learner agents are used only for route/QA stress testing; they are not presented as predictions of real student behavior.
