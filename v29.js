@@ -98,7 +98,13 @@ runtimeHTML=function(preview=false){
    const okType=SCORM.set(base+'.type',q.type==='reflection'?'long-fill-in':'choice');
    SCORM.set(base+'.timestamp',rec.at);
    SCORM.set(base+'.weighting',Number(q.points||0));
-   SCORM.set(base+'.learner_response',rec.response);
+   if(q.type==='reflection')SCORM.set(base+'.learner_response',rec.response);
+   else{
+    const selected=(q.choices||[]).findIndex(x=>String(x).trim().toLowerCase()===String(rec.response).trim().toLowerCase());
+    const correct=(q.choices||[]).findIndex(x=>String(x).trim().toLowerCase()===String(q.answer||'').trim().toLowerCase());
+    SCORM.set(base+'.learner_response','choice_'+(selected>=0?selected+1:0));
+    if(correct>=0)SCORM.set(base+'.correct_responses.0.pattern','choice_'+(correct+1));
+   }
    SCORM.set(base+'.result',rec.result==='correct'?'correct':rec.result==='incorrect'?'incorrect':'neutral');
    SCORM.set(base+'.description',compactText(q.prompt,240));
    if(oid!==null&&oid!==undefined)SCORM.set(base+'.objectives.0.id','objective_'+(Number(oid)+1));
