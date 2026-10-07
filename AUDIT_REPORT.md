@@ -368,3 +368,22 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Mission progress reuses existing completed/answered SCORM state; no duplicate grade or completion model is introduced.
 - Added authoring QA for objective evidence mappings, mapped-scene integrity, shared evidence mappings, Mission Navigator state and debrief state.
 - Added Learner Mission Runtime to the global command palette.
+
+
+## V29 audit extension
+- Added Learning Evidence Record to the learner SCORM runtime.
+- Records question decisions, reflection responses and station-completion evidence with timestamps, station, scene and objective attribution.
+- Adds a learner-facing Evidence viewer and optional JSON export.
+- Persists evidence in SCORM suspend_data using a configurable record and response-size budget.
+- Adds runtime compaction when the combined suspend_data approaches the 60 KB safety boundary used by the application.
+- Attempts SCORM 2004 cmi.interactions reporting when enabled and the LMS API accepts the interaction fields.
+- Choice interactions use stable choice identifiers rather than visible answer text and include correct-response patterns.
+- Interaction records include type, timestamp, weighting, learner response, result, description and objective link where available.
+- Reflection interactions use long-fill-in response semantics and are not claimed as automatically quality-graded.
+- If cmi.interactions reporting fails or is unavailable, the evidence remains in suspend_data.
+- No external evidence endpoint or analytics backend is enabled by default.
+- Extended V20 persistent mock LMS to maintain cmi.interactions._count.
+- Added a V20 SCORM interaction evidence test covering ID, type, learner response, correct pattern, result and objective link.
+- Added V29 QA for station integrity, objective attribution, suspend-data budget, SCORM interaction reporting, reflection semantics and privacy boundary.
+- Added Learning Evidence Record to the global command palette.
+- Real Blackboard cmi.interactions behavior still requires validation after institutional upload.
