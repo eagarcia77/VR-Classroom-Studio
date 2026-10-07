@@ -1,5 +1,20 @@
 # VR Classroom Studio
 
+## V28 — Learner Mission Runtime
+
+V28 improves the actual learner experience inside the exported SCORM package. It adds an accessible Mission Navigator that derives progress from the existing SCORM completion state rather than maintaining a separate grade model.
+
+Learners can:
+- see progress by learning objective;
+- identify the next incomplete evidence station;
+- optionally navigate directly to the next evidence scene;
+- see completed objectives;
+- receive an automatic completion debrief.
+
+Guided navigation respects adaptive routing: if V17 redirects the learner to another scene, V28 does not open evidence from the originally requested scene. Mission state resumes from the same completed/answered data already stored in SCORM 2004 suspend_data.
+
+
+
 ## V27 — Instructional Digital Twin Compiler
 
 V27 compiles the immersive world into a working instructional simulation. It is intentionally deterministic and local: it does not call an external AI model and does not claim semantic understanding of course content.
