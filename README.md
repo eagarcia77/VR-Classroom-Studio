@@ -1,5 +1,24 @@
 # VR Classroom Studio
 
+## V27 — Instructional Digital Twin Compiler
+
+V27 compiles the immersive world into a working instructional simulation. It is intentionally deterministic and local: it does not call an external AI model and does not claim semantic understanding of course content.
+
+Given the current learning objectives and mapped evidence stations, V27 can generate:
+- scored decision checks and/or completion-scored reflections;
+- objective-specific virtual coaches plus an optional mission guide;
+- editable branching dialogue for generated guides;
+- inspection objects and optional trigger zones in objective scenes;
+- project variables that record evidence completion;
+- station-completion rules and optional feedback rules;
+- competency-to-question evidence mappings.
+
+When assessment is compiled, the original station score weight is moved to its assessment so the same evidence is not counted twice. V26 QA was updated to recognize this compiled scoring model.
+
+Generated assessment prompts, distractors and guide dialogue require explicit instructor review before final SCORM export.
+
+
+
 ## V26 — Immersive Lesson Forge
 
 V26 returns the application to its original instructional-authoring purpose: an instructor can transform learning objectives into a functional multi-scene immersive activity, preview it, validate it and export it to Blackboard as SCORM without manual VR programming.
