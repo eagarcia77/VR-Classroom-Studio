@@ -1,5 +1,20 @@
 # VR Classroom Studio
 
+## V26 — Immersive Lesson Forge
+
+V26 returns the application to its original instructional-authoring purpose: an instructor can transform learning objectives into a functional multi-scene immersive activity, preview it, validate it and export it to Blackboard as SCORM without manual VR programming.
+
+The forge creates distinct spatial architectures rather than cosmetic variants:
+- **Central Hub:** a hub-and-spoke world with bidirectional portals between the mission hub and each objective room.
+- **Mission Sequence:** a guided linear path from briefing through each objective to a completion deck.
+- **Knowledge Constellation:** a nonlinear nexus with objective rooms, return routes and cross-links between objective nodes.
+
+For every learning objective, V26 creates a required evidence station, spatial station marker, competency mapping and a share of a 100-point scoring blueprint. Activity modes adapt the instructional prompt for exploration, scenario, simulated lab or role-play. Delivery can target hybrid Desktop + VR, VR-first, AR-oriented or Desktop 3D while retaining the non-VR fallback setting.
+
+Generated instructional worlds require explicit instructor review before final SCORM export.
+
+
+
 ## V25 — Intelligent Minimal Command Center
 
 V25 adds a global Command Palette (Cmd/Ctrl + K), cross-project search across scenes, stations, NPCs, competencies, media, 3D objects and releases, Focus Mode, a compact project-readiness dashboard, keyboard-first navigation and a contextual VRC-NOVA guide driven by the current project state. V25 is authoring-only and does not alter the exported SCORM runtime.
