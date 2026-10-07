@@ -299,3 +299,14 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Synthetic agents are explicitly disclosed as deterministic QA models, not predictions of real learner behavior.
 - Added identity accessibility metadata in the SVG assets and kept instructional meaning outside imagery.
 - VRC-NOVA is an interface/learning guardian and is not given grading authority.
+
+
+## V24 audit extension
+- Replaced the application-level dark visual shell with a minimalist white design system.
+- Normalized primary cards, sidebars, inspector panels, form fields, controls, comparison panels and audit surfaces to white/light-neutral backgrounds.
+- Preserved dark rendering only for functional immersive/technical surfaces such as XR/3D previews, spatial graph canvases and diagnostic logs.
+- Reduced VRC-NOVA to a subtle header guide so the mascot supports identity without dominating the authoring experience.
+- Retained the orbital knowledge logo in the header.
+- Added V24 visual QA checks for application canvas luminance, card/side navigation luminance, form-field treatment, primary text contrast, dark-card leakage and logo/mascot integration.
+- Kept all V3–V23 functional modules loaded in their existing order; V24 is a presentation and visual-QA layer.
+- Owner & Creator metadata remains Eduardo Augusto García Rodríguez.
