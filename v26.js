@@ -142,7 +142,7 @@ function forgeWorld(){
  if(buildMode==='replace'&&!confirm('Create a new immersive activity and replace the current instructional world? The previous world can be restored with Undo during this browser session.'))return;
  lastSnapshot=snapshot();
  if(buildMode==='replace'){
-   state.scenes=[];state.stations=[];state.objects=[];state.questions=[];state.competencies=[];state.masteryRules=[];state.adaptivePaths=[];state.rules=[];state.npcs=[];state.animations=[];
+   state.scenes=[];state.stations=[];state.objects=[];state.questions=[];state.competencies=[];state.masteryRules=[];state.adaptivePaths=[];state.rules=[];state.npcs=[];state.animations=[];state.v22Generated=[];
  }
  const kind=mode(),pts=pointPlan(p.objs.length),created={sceneIds:[],stationIds:[],objectIds:[],competencyIds:[]};
  const sceneMap={};
@@ -167,9 +167,10 @@ function forgeWorld(){
  const introId=uid('v26-intro'),intro={id:introId,sceneId:entryId,name:'Mission Briefing',type:'resource',content:'Review the mission, visit every required evidence station, and demonstrate mastery of each learning objective.',points:0,required:false,alt:'Immersive activity mission briefing',v26Generated:true};
  state.stations.push(intro);created.stationIds.push(introId);
  const introMarker=marker(entryId,introId,'Mission Briefing');introMarker.x=0;introMarker.z=-3;state.objects.push(introMarker);created.objectIds.push(introMarker.id);
- state.title=F('v26Title').value.trim()||p.title;state.environment=p.nodes[0]?.label||'Immersive Learning World';
+ state.title=F('v26Title').value.trim()||p.title;state.environment=kind==='lab'?'Simulation Lab':kind==='exploration'?'Museum / Gallery':'Virtual Classroom';
  state.instructions='Navigate the immersive world, complete each required evidence station, and demonstrate the stated learning objectives.';
  state.passing=Math.max(0,Math.min(100,Number(F('v26Passing').value)||80));state.completion='all';state.activeSceneId=entryId;
+ if(F('title'))F('title').value=state.title;if(F('environment'))F('environment').value=state.environment;if(F('instructions'))F('instructions').value=state.instructions;if(F('passing'))F('passing').value=state.passing;if(F('completion'))F('completion').value=state.completion;
  state.xr=state.xr||{};state.xr.deliveryMode=F('v26Delivery').value;
  state.accessibility=state.accessibility||{};if(!state.accessibility.desktopFallback)state.accessibility.desktopFallback='required';
  state.v26.defaultTopology=p.top;state.v26.defaultMode=kind;
