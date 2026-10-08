@@ -125,6 +125,11 @@ runtimeHTML=function(preview=false){
   if(!s||hasRecord('station',s.id))return;const oi=s.objectiveIndex!=null?Number(s.objectiveIndex):null;
   store({key:uniqueKey('station',s.id),kind:'station',sourceId:s.id,stationId:s.id,sceneId:s.sceneId,objectiveIndex:oi,objective:objectiveLabel(oi),prompt:compactText(s.name,180),response:'Completed',result:'completed',points:Number(s.points||0),at:new Date().toISOString(),lmsReported:false})
  }
+ function recordPerformance(task,response,result,s){
+  if(!task||hasRecord('performance',task.id))return;
+  const oi=task.objectiveIndex!=null?Number(task.objectiveIndex):(s?.objectiveIndex!=null?Number(s.objectiveIndex):null);
+  store({key:uniqueKey('performance',task.id),kind:'performance',sourceId:task.id,stationId:s?.id??task.stationId,sceneId:task.sceneId??s?.sceneId??null,objectiveIndex:oi,objective:objectiveLabel(oi),prompt:compactText(task.title||task.instructions||'Authentic performance task',260),response:compactText(response),result:result||'completed',points:Number(s?.points||task.points||0),at:new Date().toISOString(),lmsReported:false})
+ }
  function evidencePayload(){return records.slice(-maxRecords).map(r=>({...r,response:compactText(r.response)}))}
  function persistEvidence(){
   try{
@@ -157,7 +162,7 @@ runtimeHTML=function(preview=false){
  const previousFinish=finishStationIfReady;finishStationIfReady=function(s,qs){const before=completed.has(s.id);const r=previousFinish(s,qs);if(!before&&completed.has(s.id))recordStation(s);return r};
  const oldComplete=ui.completeBtn.onclick;ui.completeBtn.onclick=()=>{const s=currentStation,was=s?completed.has(s.id):false;const r=oldComplete();if(s&&!was&&completed.has(s.id))recordStation(s);return r};
  if(button&&panel&&close){button.onclick=()=>{panel.classList.toggle('open');if(panel.classList.contains('open'))close.focus()};close.onclick=()=>{panel.classList.remove('open');button.focus()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))close.click()})}
- render();window.V29Evidence={records:()=>records.slice(),recordQuestion,recordStation,download,persist:persistEvidence}
+ render();window.V29Evidence={records:()=>records.slice(),recordQuestion,recordStation,recordPerformance,download,persist:persistEvidence}
  })();
  <\/script>`;
  html=html.replace('</head>',styles+'</head>');if(body)html=html.replace('<a-scene id="scene"',body+'<a-scene id="scene"');return html.replace('</body></html>',script+'</body></html>')
