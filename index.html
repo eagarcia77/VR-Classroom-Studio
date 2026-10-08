@@ -40,11 +40,12 @@
 <link rel="stylesheet" href="v29.css">
 <link rel="stylesheet" href="v30.css">
 <link rel="stylesheet" href="v31.css">
+<link rel="stylesheet" href="v32.css">
 </head>
 <body>
 <header><div class="logo">XR</div><div class="title"><b>VR Classroom Studio</b><small>Blackboard · SCORM 2004 · WebXR / AR</small></div><div class="actions"><button class="btn secondary" id="previewBtn">Preview Student</button><button class="btn secondary" id="validateBtn">Validate</button><button class="btn primary" id="exportBtn">Export SCORM</button></div></header>
 <div class="layout">
-<aside><div class="nav"><h4>AUTHORING</h4><button class="active">🏛 Room Builder <span class="badge">V31</span></button><button onclick="document.getElementById('objectivesCard').scrollIntoView({behavior:'smooth'})">🎯 Learning Objectives</button><button onclick="document.getElementById('templatesCard').scrollIntoView({behavior:'smooth'})">🧩 Templates</button><button onclick="document.getElementById('objectsCard').scrollIntoView({behavior:'smooth'})">🧱 Object Library</button><button onclick="document.getElementById('xrCard').scrollIntoView({behavior:'smooth'})">🥽 XR Settings</button><button onclick="document.getElementById('accessCard').scrollIntoView({behavior:'smooth'})">♿ Accessibility</button><h4>DELIVERY</h4><button>♿ Accessibility</button><button>📊 Grade & Tracking</button><button>🥽 Device Preview</button><button>📦 SCORM Export</button></div></aside>
+<aside><div class="nav"><h4>AUTHORING</h4><button class="active">🏛 Room Builder <span class="badge">V32</span></button><button onclick="document.getElementById('objectivesCard').scrollIntoView({behavior:'smooth'})">🎯 Learning Objectives</button><button onclick="document.getElementById('templatesCard').scrollIntoView({behavior:'smooth'})">🧩 Templates</button><button onclick="document.getElementById('objectsCard').scrollIntoView({behavior:'smooth'})">🧱 Object Library</button><button onclick="document.getElementById('xrCard').scrollIntoView({behavior:'smooth'})">🥽 XR Settings</button><button onclick="document.getElementById('accessCard').scrollIntoView({behavior:'smooth'})">♿ Accessibility</button><h4>DELIVERY</h4><button>♿ Accessibility</button><button>📊 Grade & Tracking</button><button>🥽 Device Preview</button><button>📦 SCORM Export</button></div></aside>
 <main class="workspace">
 <div class="topgrid">
 <section class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><h2 id="previewTitle" style="margin:0 0 4px">Immersive Academic Hub — Virtual Learning Environment</h2><div class="muted">Instructor authoring environment</div></div><span class="status" id="validStatus">● Ready</span></div><div class="preview" id="visualPreview"><div class="floor"></div><div class="mall">IMMERSIVE ACADEMIC HUB</div><div class="vrhint">Desktop 3D fallback · WebXR-ready runtime</div></div></section>
@@ -68,7 +69,7 @@ Complete the immersive assessment successfully.</textarea></div><div class="tool
     <span class="muted">Third-party libraries, standards, trademarks, platform names and externally supplied content remain subject to their respective owners, licenses and terms.</span>
   </div>
 </section>
-<div class="footer">VR Classroom Studio V31 · Owner &amp; Creator: Eduardo Augusto García Rodríguez · © 2026 · Authentic Performance Tasks for Blackboard SCORM, VR/AR and Desktop 3D.</div>
+<div class="footer">VR Classroom Studio V32 · Owner &amp; Creator: Eduardo Augusto García Rodríguez · © 2026 · Assessment Blueprint and Objective Scoring for Blackboard SCORM, VR/AR and Desktop 3D.</div>
 </main>
 <section class="inspector"><h3 style="margin-top:0">Selected Station</h3><div id="emptyInspector" class="muted">Select a station to edit it.</div><div id="editor" class="hidden"><div class="field"><label>Name</label><input id="sName"></div><div class="field"><label>Interaction</label><select id="sType"><option value="resource">Learning resource</option><option value="question">Question / challenge</option><option value="video">Video</option><option value="reflection">Reflection</option><option value="teleport">Teleport / navigation</option></select></div><div class="field"><label>Instructions / content</label><textarea id="sContent"></textarea></div><div class="field"><label>Points</label><input id="sPoints" type="number" min="0" max="1000"></div><div class="field"><label>Required</label><select id="sRequired"><option value="true">Yes</option><option value="false">No</option></select></div><div class="field"><label>Accessibility label</label><textarea id="sAlt"></textarea></div><div class="toolbar"><button class="btn primary" id="saveStation">Save station</button><button class="btn danger" id="deleteStation">Delete</button></div></div></section>
 </div>
@@ -140,4 +141,5 @@ $('exportBtn').onclick=async()=>{syncAdvanced();const issues=validateProject();i
 <script src="v29.js"></script>
 <script src="v30.js"></script>
 <script src="v31.js"></script>
+<script src="v32.js"></script>
 </body></html>
