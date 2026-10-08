@@ -96,7 +96,7 @@ function normalize(){
 }
 function restore(){
  const n=state.v32.lastNormalization;if(!n?.weights?.length)return alert('No V32 normalization snapshot is available.');
- for(const w of n.weights){const all=[...(state.stations||[]),...(state.questions||[])],x=all.find(v=>String(v.id)===String(w.id));if(x)x.points=Number(w.points||0)}
+ for(const w of n.weights){const collection=(w.kind==='question'||w.kind==='reflection')?(state.questions||[]):(state.stations||[]),x=collection.find(v=>String(v.id)===String(w.id));if(x)x.points=Number(w.points||0)}
  state.v32.lastNormalization=null;if(typeof render==='function')render();renderAll()
 }
 A32('v32Normalize').onclick=normalize;A32('v32Restore').onclick=restore;
@@ -124,11 +124,11 @@ runtimeHTML=function(preview=false){
    let max=0,earned=0,done=0,count=0;
    stationIds.forEach(id=>{const s=(project.stations||[]).find(x=>String(x.id)===String(id));if(!s)return;const pts=Number(s.points||0);max+=pts;count++;if(hasCompleted(id)){earned+=pts;done++}});
    questionIds.forEach(id=>{const q=(project.questions||[]).find(x=>String(x.id)===String(id));if(!q)return;max+=Number(q.points||0);count++;if(hasAnswered(id)){done++;earned+=questionEarned(id)}});
-   const raw=max>0?Math.max(0,Math.min(100,Math.round(earned/max*100))):0,progress=count?Math.min(1,done/count):0,complete=count>0&&done===count,threshold=Math.max(0,Math.min(100,Number(o.threshold??cfg.passing||0)));
+   const raw=max>0?Math.max(0,Math.min(100,Math.round(earned/max*100))):0,progress=count?Math.min(1,done/count):0,complete=count>0&&done===count,threshold=Math.max(0,Math.min(100,Number((o.threshold??cfg.passing)||0)));
    SCORM.set(base+'.id','objective_'+(Number(o.index)+1));SCORM.set(base+'.score.min','0');SCORM.set(base+'.score.max','100');SCORM.set(base+'.score.raw',raw);SCORM.set(base+'.score.scaled',(raw/100).toFixed(4));SCORM.set(base+'.progress_measure',progress.toFixed(4));SCORM.set(base+'.completion_status',complete?'completed':'incomplete');SCORM.set(base+'.success_status',complete?(raw>=threshold?'passed':'failed'):'unknown')
   });SCORM.commit()
  }
- const oldUpdate=update;update=function(){const r=oldUpdate();report();return r};setTimeout(report,0);window.V32Objectives={report}
+ const oldUpdate=update;update=function(){const r=oldUpdate();setTimeout(report,20);return r};setTimeout(report,30);window.V32Objectives={report}
  })();
  <\/script>`;
  return html.replace('</body></html>',script+'</body></html>')
