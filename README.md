@@ -1,5 +1,24 @@
 # VR Classroom Studio
 
+## V34 — Question Banks & Randomized Immersive Assessments
+
+V34 completes the original question-bank priority with station-level randomized assessment pools for the immersive SCORM runtime.
+
+Each pool is attached to one immersive station and uses that station's authored questions as candidates. The instructor chooses how many questions are delivered and whether answer choices are shuffled. The learner receives a deterministic random subset whose seed and selected question IDs are persisted in SCORM 2004 `cmi.suspend_data`, so exiting and re-entering the activity restores the same assessment rather than drawing a new one.
+
+The runtime filters the project question set before the existing scoring, Learning Evidence Record (V29) and objective mastery reporting (V32) initialize. This keeps one grading model: only the questions actually delivered to the learner contribute to runtime score, evidence and objective status.
+
+V34 adds authoring safeguards for:
+- one randomized pool per immersive station;
+- valid draw size;
+- at least two candidate questions;
+- equal point values inside a randomized pool;
+- objective-consistent randomized pools;
+- objective attribution for every randomly selectable question;
+- advisory detection when a pool draws every candidate and therefore is not actually randomized.
+
+Answer-choice shuffling is resume-stable and keeps the authored correct-answer value intact. No external backend is required.
+
 ## V33 — Guided Immersive Course Builder
 
 V33 adds a single no-code production path that orchestrates the existing authoring, assessment, accessibility and Blackboard QA modules instead of requiring instructors to know which versioned tool to open next.
@@ -333,7 +352,6 @@ https://vr-classroom-studio.onrender.com
 - 360° images and video environments
 - Rich media manager
 - Branching rules and conditional portals
-- Question banks and randomized assessment pools
 - AR placement workflow
 - Scene thumbnails and room cloning
 - Autosave/version history
