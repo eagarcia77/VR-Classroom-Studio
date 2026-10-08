@@ -1,0 +1,69 @@
+ta.passedSent;meta.sentInteractions=meta.sentInteractions||{};
+function root(ep){return ep.endsWith('/')?ep:ep+'/'}
+function api(path){return new URL(path,root(ctx.endpoint)).toString()}
+function headers(json=true){const h={'Authorization':ctx.auth,'X-Experience-API-Version':XVER};if(json)h['Content-Type']='application/json';return h}
+function q(url,obj){const u=new URL(url);Object.entries(obj).forEach(([k,v])=>u.searchParams.set(k,String(v)));return u.toString()}
+function uuid(){if(crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==='x'?r:(r&3|8);return v.toString(16)})}
+function dur(ms){let s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600);s-=h*3600;let m=Math.floor(s/60);s-=m*60;return 'PT'+h+'H'+m+'M'+s+'S'}
+function clone(v){return JSON.parse(JSON.stringify(v||{}))}
+function addActivity(arr,id){arr=Array.isArray(arr)?arr:[];if(!arr.some(x=>String(x.id)===id))arr.push({id});return arr}
+function context(defined,result){
+ const c=clone(ctx.launchData?.contextTemplate||{});c.registration=ctx.registration;c.contextActivities=c.contextActivities||{};c.contextActivities.category=Array.isArray(c.contextActivities.category)?c.contextActivities.category:[];
+ if(defined)c.contextActivities.category=addActivity(c.contextActivities.category,CMI5);
+ if(defined&&result&&(Object.prototype.hasOwnProperty.call(result,'success')||Object.prototype.hasOwnProperty.call(result,'completion')))c.contextActivities.category=addActivity(c.contextActivities.category,MOVEON);
+ return c
+}
+function statement(verb,display,result,defined=true,objId){
+ const s={id:uuid(),actor:ctx.actor,verb:{id:verb,display:{'en-US':display}},object:{id:objId||ctx.activityId,objectType:'Activity'},context:context(defined,result),timestamp:new Date().toISOString()};
+ if(result&&Object.keys(result).length)s.result=result;return s
+}
+function postStatement(s,keepalive=false){return fetch(api('statements'),{method:'POST',headers:headers(),body:JSON.stringify(s),keepalive}).then(r=>{if(!r.ok)throw new Error('xAPI statement HTTP '+r.status);return r}).catch(e=>{errors.push(String(e.message||e));throw e})}
+function enqueue(task){queue=queue.then(task).catch(e=>{errors.push(String(e.message||e));console.error('V36 cmi5 bridge:',e)});return queue}
+function scoreResult(){
+ const raw=Number(store['cmi.score.raw']),min=Number(store['cmi.score.min']),max=Number(store['cmi.score.max']),scaled=Number(store['cmi.score.scaled']);const r={};
+ if(Number.isFinite(scaled))r.scaled=Math.max(-1,Math.min(1,scaled));
+ if(Number.isFinite(raw))r.raw=raw;if(Number.isFinite(min))r.min=min;if(Number.isFinite(max))r.max=max;return r
+}
+function progress(){const p=Number(store['cmi.progress_measure']);return Number.isFinite(p)?Math.max(0,Math.min(1,p)):null}
+function statePayload(){return {version:36,cmi:store,meta,updatedAt:new Date().toISOString()}}
+function saveState(){
+ if(!ctx)return Promise.resolve(false);const url=q(api('activities/state'),{activityId:ctx.activityId,agent:JSON.stringify(ctx.actor),registration:ctx.registration,stateId:ctx.runtimeStateId});
+ return fetch(url,{method:'PUT',headers:headers(),body:JSON.stringify(statePayload())}).then(r=>{if(!r.ok)throw new Error('xAPI state HTTP '+r.status);return true})
+}
+function masteryOutcome(){
+ const ld=ctx?.launchData||{},scaled=Number(store['cmi.score.scaled']);if(Number.isFinite(Number(ld.masteryScore))&&Number.isFinite(scaled))return scaled>=Number(ld.masteryScore)?'passed':'failed';
+ const s=String(store['cmi.success_status']||'').toLowerCase();return s==='passed'||s==='failed'?s:null
+}
+function definedResult(kind){
+ const r={},elapsed=dur(Date.now()-start);
+ if(kind==='completed'||kind==='passed'||kind==='failed'){const score=scoreResult();if(Object.keys(score).length)r.score=score}
+ if(kind==='completed'){r.completion=true;r.duration=elapsed;const p=progress();r.extensions={'https://w3id.org/xapi/cmi5/result/extensions/progress':p===null?100:Math.round(p*100)}}
+ if(kind==='passed'){r.success=true;r.duration=elapsed}
+ if(kind==='failed'){r.success=false;r.duration=elapsed}
+ if(kind==='terminated'){r.duration=elapsed}
+ return r
+}
+function sendDefined(kind,keepalive=false){
+ const verbs={initialized:['http://adlnet.gov/expapi/verbs/initialized','initialized'],completed:['http://adlnet.gov/expapi/verbs/completed','completed'],passed:['http://adlnet.gov/expapi/verbs/passed','passed'],failed:['http://adlnet.gov/expapi/verbs/failed','failed'],terminated:['http://adlnet.gov/expapi/verbs/terminated','terminated']};
+ const v=verbs[kind];return postStatement(statement(v[0],v[1],definedResult(kind),true),keepalive)
+}
+function interactionStatements(){
+ if(ctx?.launchData?.launchMode!=='Normal')return [];
+ const count=Math.max(0,Number(store['cmi.interactions._count']||0)),arr=[];
+ for(let i=0;i<count;i++){const b='cmi.interactions.'+i,id=store[b+'.id'],resp=store[b+'.learner_response'],result=store[b+'.result'];if(!id||resp===undefined||!result||meta.sentInteractions[id])continue;
+  const success=result==='correct'?true:result==='incorrect'?false:undefined,rr={response:String(resp)};if(success!==undefined)rr.success=success;
+  const obj=ctx.activityId.replace(/\/$/,'')+'/interaction/'+encodeURIComponent(String(id)),s=statement('http://adlnet.gov/expapi/verbs/answered','answered',rr,false,obj);
+  s.object.definition={type:'http://adlnet.gov/expapi/activities/cmi.interaction',name:{'en-US':String(store[b+'.description']||id)}};const typ=store[b+'.type'];if(typ)s.object.definition.interactionType=typ;
+  const pattern=store[b+'.correct_responses.0.pattern'];if(pattern)s.object.definition.correctResponsesPattern=[String(pattern)];
+  arr.push({id:String(id),statement:s})
+ }return arr
+}
+function evaluate(){
+ if(!ctx||ctx.launchData?.launchMode!=='Normal'||terminated)return;
+ if(String(store['cmi.completion_status']).toLowerCase()==='completed'&&!meta.completedSent){meta.completedSent=true;enqueue(()=>sendDefined('completed'))}
+ const outcome=masteryOutcome();if(!sessionOutcomeSent&&outcome==='passed'&&!meta.passedSent){sessionOutcomeSent=true;meta.passedSent=true;enqueue(()=>sendDefined('passed'))}
+ else if(!sessionOutcomeSent&&outcome==='failed'&&!meta.passedSent){sessionOutcomeSent=true;enqueue(()=>sendDefined('failed'))}
+ for(const x of interactionStatements()){meta.sentInteractions[x.id]=true;enqueue(()=>postStatement(x.statement))}
+}
+function applyPrefs(){
+ const p=ctx?.prefs||{},lang=String(p.languagePrefere
