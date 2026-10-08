@@ -460,3 +460,19 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Adds compact guided progress indicator and optional Guided Mode mini status without changing learner runtime behavior.
 - Adds V33 QA checks for guided production completion, learning foundation, objective-linked world, assessment readiness, current-state learner preview, package self-test evidence and Blackboard test path.
 - Added Guided Immersive Course Builder to the global command palette.
+
+## V34 audit extension
+- Added Question Bank & Randomized Assessment Studio for station-level immersive question pools.
+- Each bank dynamically uses the questions attached to its selected station as candidates.
+- Added configurable draw count and optional answer-choice shuffling.
+- Runtime selection happens immediately after SCORM initialization and before the existing assessment/evidence/objective layers initialize.
+- Selected question IDs plus a random seed are persisted in cmi.suspend_data under a compact V34 record.
+- Resume restores the same question subset and the same shuffled choice order.
+- Unbanked stations continue to deliver all of their authored questions.
+- The runtime mutates only the learner-side project copy; authoring question banks remain intact in the source project.
+- Existing V3 scoring, V29 Learning Evidence Record and V32 objective reporting consume the filtered learner question set, avoiding a parallel grade model.
+- Added validation blockers for missing bank stations, duplicate pools on one station, invalid draw counts, fewer than two candidates, unequal point weights, cross-objective randomization and unmapped randomized questions.
+- Added an advisory when a bank draws its entire candidate set because question selection is then not randomized.
+- Added V34 checks to Production Audit and final validateProject() gating.
+- Added the V34 studio to side navigation and the V25 global command palette.
+- No external service is required for randomization or resume persistence.

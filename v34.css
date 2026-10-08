@@ -1,0 +1,13 @@
+/* V34 Question Bank & Randomized Assessment Studio */
+.v34-shell{background:#fff;border:1px solid #dde3e9;color:#263142}
+.v34-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.v34-head h3{margin:0;color:#1f2a3a}.v34-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v34-card{border:1px solid #e1e6eb;border-radius:13px;background:#fbfcfd;padding:12px}
+.v34-runtime{display:grid;gap:9px}.v34-runtime>div{border:1px solid #e4e8ec;border-radius:10px;background:#fff;padding:10px}
+.v34-runtime b,.v34-runtime small{display:block}.v34-runtime small{color:#748093;margin-top:3px;line-height:1.35}
+.v34-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.v34-metrics>div{border:1px solid #e2e7eb;border-radius:11px;background:#fff;padding:10px}.v34-metrics b{display:block;font-size:18px;color:#253143}.v34-metrics small{color:#788394}
+.v34-bank{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;border:1px solid #e1e6ea;border-radius:12px;background:#fff;padding:10px;margin-top:8px}.v34-bank.active{border-color:#aebdce;background:#f8fafc}.v34-bank b,.v34-bank small{display:block}.v34-bank small{color:#748093;margin-top:3px}
+.v34-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dde3e8;border-radius:999px;padding:5px 8px;background:#fff;color:#607083;font-size:10px;font-weight:700}.v34-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.v34-dot.warn{background:#d97706}.v34-dot.fail{background:#dc2626}
+.v34-qa{display:grid;gap:7px}.v34-check{display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:start;border:1px solid #e4e8ec;border-radius:10px;background:#fff;padding:9px}.v34-check b,.v34-check small{display:block}.v34-check small{color:#788394;margin-top:2px;line-height:1.35}.v34-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:800;background:#edf8f2;color:#166534}.v34-icon.warn{background:#fff8e9;color:#92400e}.v34-icon.fail{background:#fff0f0;color:#b42318}
+.v34-empty{border:1px dashed #d6dde4;border-radius:12px;padding:14px;color:#748093;background:#fbfcfd}
+@media(max-width:900px){.v34-grid{grid-template-columns:1fr}.v34-metrics{grid-template-columns:repeat(2,1fr)}.v34-bank{grid-template-columns:1fr auto}.v34-bank>.btn{grid-column:1/3;justify-self:start}}
