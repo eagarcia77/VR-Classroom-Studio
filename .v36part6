@@ -1,6 +1,0 @@
-'warn').length,f=all.filter(x=>x.level==='fail').length;if(I36('auditPass'))I36('auditPass').textContent=p;if(I36('auditWarn'))I36('auditWarn').textContent=w;if(I36('auditFail'))I36('auditFail').textContent=f;if(I36('auditResults'))I36('auditResults').insertAdjacentHTML('beforeend',extras.map(x=>'<div class="station"><span class="num">'+(x.level==='pass'?'✓':'!')+'</span><div><b>'+esc36(x.name)+'</b><div class="muted">'+esc36(x.detail)+'</div></div><span class="v3-pill">'+x.level.toUpperCase()+'</span></div>').join(''));return all};
-
-const oldRender=window.render;window.render=function(){oldRender();ensureV36();setTimeout(renderAll,0)};
-renderAll();
-window.VRCMI5V36={cmi5XML,launchHTML,cmi5Bridge,buildPackage,runPackageQA,strictChecks};
-})();
