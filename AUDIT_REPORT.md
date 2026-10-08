@@ -476,3 +476,21 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V34 checks to Production Audit and final validateProject() gating.
 - Added the V34 studio to side navigation and the V25 global command palette.
 - No external service is required for randomization or resume persistence.
+
+## V35 audit extension
+- Added Adaptive Assessment & Remediation as a learner-performance layer over V34 randomized banks.
+- Added Foundation, Core and Challenge difficulty tags for every bank candidate question.
+- Added configurable lower/upper mastery thresholds for difficulty selection.
+- Uses prior V29 automatically scored objective evidence when available; no evidence defaults safely to Core.
+- Preserves the first selected tier and question IDs in SCORM cmi.suspend_data so resume never silently changes an assessment.
+- Keeps V34 as the random selection mechanism and uses deterministic seeded question/choice ordering.
+- Uses the original full candidate-question snapshot at runtime so V35 can supersede the initial V34 subset without deleting authoring content.
+- Existing V3 scoring, V29 evidence, V32 objective reporting and Blackboard grade/completion remain the only grading path.
+- Added optional remediation and advanced/mastery scene targets for each adaptive bank.
+- Default route mode offers the learner a choice; optional automatic routing is supported and existing V17 scene routing remains authoritative.
+- Added learner-facing targeted feedback after an adaptive bank is completed.
+- Added validation blockers for invalid mastery bands, untagged adaptive candidates, reflection items in correctness-based adaptive banks, missing Core baseline and broken scene targets.
+- Added advisory checks when a difficulty tier contains fewer candidates than the configured V34 draw count; runtime blends adjacent tiers deterministically in that case.
+- Added V35 checks to Production Audit and final validateProject() gating.
+- Added Adaptive Assessment & Remediation to side navigation and the V25 global command palette.
+- No external AI service, learner-profile backend or parallel grading model is required.
