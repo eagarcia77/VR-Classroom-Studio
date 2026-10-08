@@ -1,5 +1,29 @@
 # VR Classroom Studio
 
+## V33 — Guided Immersive Course Builder
+
+V33 adds a single no-code production path that orchestrates the existing authoring, assessment, accessibility and Blackboard QA modules instead of requiring instructors to know which versioned tool to open next.
+
+The guided workflow continuously evaluates ten production steps:
+1. learning objectives;
+2. immersive world and objective-linked evidence;
+3. spatial authoring;
+4. instructional logic;
+5. assessment blueprint;
+6. accessible learner experience;
+7. instructor review;
+8. current-state student preview;
+9. SCORM package self-test;
+10. Blackboard test matrix / Release Candidate policy.
+
+The interface identifies the first unresolved step, explains why it is pending and opens the correct existing authoring tool. Manually authored projects and automatically generated V26/V27 projects are both supported.
+
+V33 records a lightweight authoring signature whenever Student Preview is launched. If meaningful course structure changes afterward, the guided workflow marks the preview stale and requires the current state to be previewed again before the Blackboard-ready path is considered complete.
+
+Release Candidate evidence is required by V33 only when the existing V20 project policy explicitly requires it.
+
+
+
 ## V32 — Assessment Blueprint & Objective Scoring
 
 V32 unifies scoring across learning stations, questions and authentic performance tasks and adds objective-level SCORM 2004 reporting.
