@@ -1,0 +1,43 @@
+ VR Classroom Studio.';
+ const lang=state.v36.language||'en-US',scoreAttr=scoreConfigured()?' masteryScore="'+(Math.max(0,Math.min(100,Number(state.passing||0)))/100).toFixed(4)+'"':'';
+ return '<?xml version="1.0" encoding="UTF-8"?>\n'+
+ '<courseStructure xmlns="https://w3id.org/xapi/profiles/cmi5/v1/CourseStructure.xsd">\n'+
+ '  <course id="'+xml36(state.v36.courseIri)+'">\n'+
+ '    <title><langstring lang="'+xml36(lang)+'">'+xml36(title)+'</langstring></title>\n'+
+ '    <description><langstring lang="'+xml36(lang)+'">'+xml36(description)+'</langstring></description>\n'+
+ '  </course>\n'+
+ '  <au id="'+xml36(state.v36.auIri)+'" launchMethod="'+xml36(state.v36.launchMethod)+'" moveOn="'+xml36(state.v36.moveOn)+'"'+scoreAttr+'>\n'+
+ '    <title><langstring lang="'+xml36(lang)+'">'+xml36(title)+'</langstring></title>\n'+
+ '    <description><langstring lang="'+xml36(lang)+'">'+xml36(description)+'</langstring></description>\n'+
+ '    <url>launch.html</url>\n'+
+ '  </au>\n'+
+ '</courseStructure>\n'
+}
+
+function launchHTML(){
+ const publisher=JSON.stringify(state.v36.auIri),runtimeStateId=JSON.stringify(state.v36.auIri.replace(/\/$/,'')+'/state/vr-classroom-v1');
+ return '<!doctype html><html lang="'+esc36(state.v36.language)+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Launching '+esc36(state.title||'VR Classroom')+'</title><style>body{margin:0;font-family:system-ui;background:#f8fafc;color:#1f2937;display:grid;place-items:center;min-height:100vh}.box{width:min(620px,calc(100vw - 32px));border:1px solid #dfe5ea;border-radius:16px;background:#fff;padding:22px;box-shadow:0 16px 50px #0f172a12}.bar{height:6px;background:#e8edf2;border-radius:999px;overflow:hidden;margin-top:16px}.bar span{display:block;height:100%;width:40%;background:#64748b;animation:p 1.1s infinite alternate}@keyframes p{to{transform:translateX(150%)}}.err{color:#b42318;white-space:pre-wrap}</style></head><body><div class="box"><b>Preparing cmi5 learning session</b><p id="status">Validating LMS launch parameters and learner state…</p><div class="bar"><span></span></div></div><script>'+ 
+ '(async function(){const status=document.getElementById("status"),publisherId='+publisher+',runtimeStateId='+runtimeStateId+',KEY="vrc-cmi5-v36";'+ 
+ 'function fail(m){status.className="err";status.textContent="cmi5 launch blocked: "+m;throw new Error(m)}'+ 
+ 'function root(ep){return ep.endsWith("/")?ep:ep+"/"}'+ 
+ 'function api(ep,path){return new URL(path,root(ep)).toString()}'+ 
+ 'function query(url,obj){const u=new URL(url);Object.entries(obj).forEach(([k,v])=>u.searchParams.set(k,String(v)));return u.toString()}'+ 
+ 'async function getJSON(url,headers,allow404){const r=await fetch(url,{headers,cache:"no-store"});if(allow404&&r.status===404)return null;if(!r.ok)fail("LRS request failed ("+r.status+") for "+url);return r.status===204?null:await r.json()}'+ 
+ 'const p=new URLSearchParams(location.search),needed=["endpoint","fetch","actor","registration","activityId"],missing=needed.filter(k=>!p.get(k));if(missing.length)fail("Missing launch parameter(s): "+missing.join(", "));'+ 
+ 'let actor;try{actor=JSON.parse(p.get("actor"))}catch(e){fail("actor is not valid JSON.")}if(!actor||actor.objectType!=="Agent"||!actor.account)fail("actor must be an xAPI Agent with an account.");'+ 
+ 'const endpoint=p.get("endpoint"),fetchUrl=p.get("fetch"),registration=p.get("registration"),activityId=p.get("activityId");'+ 
+ 'try{const prior=JSON.parse(sessionStorage.getItem(KEY)||"null");if(prior&&prior.registration===registration&&prior.activityId===activityId&&prior.endpoint===endpoint&&prior.auth){location.replace("index.html");return}}catch(e){}'+ 
+ 'status.textContent="Requesting one-time cmi5 authorization token…";const tokenRes=await fetch(fetchUrl,{method:"POST",cache:"no-store",credentials:"include"});if(!tokenRes.ok)fail("Authorization fetch failed with HTTP "+tokenRes.status+".");const tokenData=await tokenRes.json();if(!tokenData["auth-token"])fail(tokenData["error-text"]||"Authorization response did not include auth-token.");const token=String(tokenData["auth-token"]),auth=/^[A-Za-z]+\\s/.test(token)?token:"Basic "+token;const headers={"Authorization":auth,"X-Experience-API-Version":"1.0.3","Accept":"application/json"};const agent=JSON.stringify(actor);'+ 
+ 'status.textContent="Retrieving LMS.LaunchData…";const common={activityId,agent,registration};const launchData=await getJSON(query(api(endpoint,"activities/state"),{...common,stateId:"LMS.LaunchData"}),headers,false);if(!launchData||!launchData.contextTemplate)fail("LMS.LaunchData is missing contextTemplate.");if(!["Normal","Browse","Review"].includes(launchData.launchMode))fail("LMS.LaunchData launchMode is invalid.");const sid=launchData.contextTemplate?.extensions?.["https://w3id.org/xapi/cmi5/context/extensions/sessionid"];if(!sid)fail("contextTemplate is missing the cmi5 session ID.");const grouping=launchData.contextTemplate?.contextActivities?.grouping||[];if(!grouping.some(x=>String(x.id)===String(publisherId)))fail("contextTemplate grouping does not contain this AU publisher ID.");'+ 
+ 'status.textContent="Restoring learner state and preferences…";const runtimeState=await getJSON(query(api(endpoint,"activities/state"),{...common,stateId:runtimeStateId}),headers,true)||{};const prefs=await getJSON(query(api(endpoint,"agents/profile"),{profileId:"cmi5LearnerPreferences",agent}),headers,true)||{};'+ 
+ 'const ctx={version:36,endpoint,auth,actor,registration,activityId,publisherId,runtimeStateId,launchData,prefs,loadedAt:new Date().toISOString()};sessionStorage.setItem(KEY,JSON.stringify(ctx));status.textContent="cmi5 session ready. Opening immersive activity…";location.replace("index.html")'+ 
+ '})().catch(e=>console.error(e));<\/script></body></html>'
+}
+
+function cmi5Bridge(){
+ return `(function(){
+const KEY='vrc-cmi5-v36',XVER='1.0.3',CMI5='https://w3id.org/xapi/cmi5/context/categories/cmi5',MOVEON='https://w3id.org/xapi/cmi5/context/categories/moveon';
+let ctx=null,initialized=false,terminated=false,start=Date.now(),sessionOutcomeSent=false,queue=Promise.resolve(),errors=[];
+try{ctx=JSON.parse(sessionStorage.getItem(KEY)||'null')}catch(e){}
+const runtime=ctx?.runtimeState&&typeof ctx.runtimeState==='object'?ctx.runtimeState:{},store=runtime.cmi&&typeof runtime.cmi==='object'?runtime.cmi:{},meta=runtime.meta&&typeof runtime.meta==='object'?runtime.meta:{};
+meta.completedSent=!!meta.completedSent;meta.passedSent=!!me
