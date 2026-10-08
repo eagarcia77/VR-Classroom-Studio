@@ -2,7 +2,7 @@
 
 ## V35 — Adaptive Assessment & Remediation
 
-V35 connects the randomized question-bank engine from V34 with the mastery/evidence architecture already present in V17, V29 and V32.
+V35 adds an optional adaptive layer that connects the randomized question-bank engine from V34 with the mastery/evidence architecture already present in V17, V29 and V32. It is disabled by default so existing V34 projects continue to validate and export unchanged until an author explicitly enables adaptive delivery.
 
 Authors can classify every candidate question in a V34 bank as **Foundation**, **Core** or **Challenge**. When a learner first opens an adaptive bank, the runtime evaluates prior automatically scored evidence for that bank's learning objective and selects an appropriate difficulty band:
 
