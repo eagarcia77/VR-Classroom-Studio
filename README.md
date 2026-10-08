@@ -1,5 +1,21 @@
 # VR Classroom Studio
 
+## V31 — Authentic Performance Tasks
+
+V31 extends immersive assessment beyond quizzes by requiring learners to perform actions inside the 3D environment. Each task is linked to a real scene, a learning objective and a SCORM-scored station. The station cannot be manually completed from its modal; successful spatial performance is required.
+
+Supported task models:
+- **Procedure / Sequence:** select spatial steps in the authored order.
+- **Classification:** assign each spatial item to its authored category.
+- **Spatial Decision:** choose the one authored correct option after reviewing the scene evidence.
+- **Inspection Checklist:** inspect all required evidence objects in any order.
+
+Task progress is persisted in SCORM suspend_data. Successful completion marks the linked station complete, updates the normal SCORM score/completion model and sends a detailed performance evidence record to V29, including the final response path and number of attempts. No second grading model is introduced.
+
+Every V31 task requires explicit instructor review before final SCORM export.
+
+
+
 ## V30 — Functional 3D Scene Builder
 
 V30 repairs and extends the Live 3D Authoring Studio so an empty scene is no longer a dead end. The author can select scenes, create scenes, build a starter instructional scene, place existing learning stations into 3D, and add evidence objects, learning stations, hotspots, work surfaces, presentation screens, trigger zones and portals directly from the Studio.
