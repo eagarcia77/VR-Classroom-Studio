@@ -1,5 +1,24 @@
 # VR Classroom Studio
 
+## V35 — Adaptive Assessment & Remediation
+
+V35 connects the randomized question-bank engine from V34 with the mastery/evidence architecture already present in V17, V29 and V32.
+
+Authors can classify every candidate question in a V34 bank as **Foundation**, **Core** or **Challenge**. When a learner first opens an adaptive bank, the runtime evaluates prior automatically scored evidence for that bank's learning objective and selects an appropriate difficulty band:
+
+- below the Foundation threshold → Foundation;
+- between the two thresholds → Core;
+- at or above the Challenge threshold → Challenge;
+- no prior correctness evidence → Core.
+
+The chosen difficulty tier and selected question IDs are stored in SCORM 2004 `cmi.suspend_data`. A learner who exits and resumes therefore receives the same adaptive assessment rather than a different random examination.
+
+V35 preserves a single scoring model. It does not award independent adaptive points. The selected questions continue through the existing V3 scoring engine, V29 Learning Evidence Record, V32 objective reporting and Blackboard SCORM grade/completion workflow.
+
+Each adaptive bank can optionally identify a remediation scene and an advanced/mastery scene. After the selected questions are completed, the learner receives targeted feedback and can be offered a route to the appropriate immersive scene. Automatic routing is optional; the default behavior leaves the decision with the learner. Existing V17 scene-routing rules remain authoritative when they intercept a destination.
+
+Production safeguards verify mastery-band thresholds, complete difficulty tagging, automatically scorable adaptive items, a Core baseline, question-depth warnings for each tier and the integrity of remediation/mastery scene references.
+
 ## V34 — Question Banks & Randomized Immersive Assessments
 
 V34 completes the original question-bank priority with station-level randomized assessment pools for the immersive SCORM runtime.
