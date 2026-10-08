@@ -444,3 +444,19 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V32 validation blockers for duplicate scoring, unmapped scored evidence and missing objective score coverage.
 - Added Assessment Blueprint & Objective Scoring to the global command palette.
 - Real Blackboard cmi.objectives behavior still requires institutional post-upload validation.
+
+
+## V33 audit extension
+- Added Guided Immersive Course Builder as an end-to-end no-code production workflow.
+- Orchestrates existing V18, V19, V20, V26, V27, V30, V31 and V32 capabilities without duplicating their underlying data models.
+- Adds ten-step readiness path covering learning foundation, immersive world, spatial representation, instructional logic, assessment, accessibility, instructor review, learner preview, package QA and Blackboard test evidence.
+- Detects the first unresolved production step and provides a direct action to the appropriate authoring/QA module.
+- Supports manually authored projects as well as V26/V27 generated instructional worlds.
+- Uses existing required-station/objective mappings rather than requiring V26-specific metadata.
+- Adds lightweight authoring-state signature tracking for Student Preview.
+- Marks Student Preview stale when objectives, scenes, stations, questions, objects or authentic-performance tasks change after the preview.
+- Requires V19 package self-test evidence before the guided path reaches final-ready status.
+- Requires V20 test-matrix evidence and honors the existing Release Candidate policy only when V20 requireReleaseCandidate is enabled.
+- Adds compact guided progress indicator and optional Guided Mode mini status without changing learner runtime behavior.
+- Adds V33 QA checks for guided production completion, learning foundation, objective-linked world, assessment readiness, current-state learner preview, package self-test evidence and Blackboard test path.
+- Added Guided Immersive Course Builder to the global command palette.
