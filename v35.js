@@ -3,8 +3,8 @@ const A35=id=>document.getElementById(id);
 const esc35=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function ensureV35(){
  state.version=35;
- state.v35=state.v35||{enabled:true,lowThreshold:60,highThreshold:85,selectedBankId:null,routes:{}};
- if(state.v35.enabled===undefined)state.v35.enabled=true;
+ state.v35=state.v35||{enabled:false,lowThreshold:60,highThreshold:85,selectedBankId:null,routes:{}};
+ if(state.v35.enabled===undefined)state.v35.enabled=false;
  if(!Number.isFinite(Number(state.v35.lowThreshold)))state.v35.lowThreshold=60;
  if(!Number.isFinite(Number(state.v35.highThreshold)))state.v35.highThreshold=85;
  state.v35.routes=state.v35.routes||{};
