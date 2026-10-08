@@ -1,0 +1,13 @@
+/* V31 Authentic Performance Tasks */
+.v31-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.v31-panel{border:1px solid #e2e6ea;border-radius:14px;background:#fff;padding:14px}
+.v31-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v31-metrics>div{border:1px solid #e4e8ec;border-radius:10px;background:#fafbfc;padding:10px}
+.v31-metrics b{display:block;font-size:20px;color:#1f2937}.v31-metrics small{color:#748093}
+.v31-task{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f2}
+.v31-task:last-child{border-bottom:0}.v31-icon{width:34px;height:34px;border-radius:10px;background:#eef2f6;display:grid;place-items:center;color:#44546a;font-weight:750}
+.v31-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dfe4e9;border-radius:999px;background:#fff;padding:4px 8px;font-size:11px;color:#647083;margin:2px}
+.v31-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.v31-dot.warn{background:#d97706}.v31-dot.fail{background:#dc2626}
+.v31-note{padding:10px 12px;border-radius:10px;background:#f7f9fb;border:1px solid #e4e8ec;color:#556174;font-size:12px}
+.v31-editor textarea{min-height:132px}
+@media(max-width:900px){.v31-grid{grid-template-columns:1fr}.v31-metrics{grid-template-columns:1fr 1fr}}
