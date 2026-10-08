@@ -143,6 +143,7 @@ function checks(){
   {level:state.v32.enforceObjectiveCoverage&&missing.length?'fail':'pass',name:'V32 objective score coverage',detail:missing.length?missing.length+' objective(s) have no scored evidence.':'Every learning objective has scored evidence.'},
   {level:s.total===100?'pass':'warn',name:'V32 normalized blueprint',detail:'Current assessment total is '+s.total+' points.'},
   {level:state.v32.reportObjectives?'pass':'warn',name:'V32 SCORM objective reporting',detail:state.v32.reportObjectives?'Runtime reports objective score, progress, completion and success through cmi.objectives.':'Objective reporting is disabled.'},
+  {level:state.v32.reportObjectives&&s.scored.some(x=>x.kind==='question'||x.kind==='reflection')&&state.v29?.enabled===false?'fail':'pass',name:'V32 resumable question mastery',detail:state.v32.reportObjectives&&s.scored.some(x=>x.kind==='question'||x.kind==='reflection')&&state.v29?.enabled===false?'Enable V29 evidence recording or disable V32 objective reporting; resumable per-question objective scoring needs the question evidence ledger.':'Question-level objective mastery can be reconstructed across resumed sessions.'},
   {level:Number(state.passing)>=0&&Number(state.passing)<=100?'pass':'fail',name:'V32 passing threshold',detail:'Passing score is '+Number(state.passing||0)+'%.'}
  ]
 }
