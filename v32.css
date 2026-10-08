@@ -1,0 +1,14 @@
+/* V32 Assessment Blueprint & Objective Scoring */
+.v32-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.v32-panel{border:1px solid #e2e6ea;border-radius:14px;background:#fff;padding:14px}
+.v32-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v32-metrics>div{border:1px solid #e4e8ec;border-radius:10px;background:#fafbfc;padding:10px}
+.v32-metrics b{display:block;font-size:20px;color:#1f2937}.v32-metrics small{color:#748093}
+.v32-row{display:grid;grid-template-columns:42px 1.2fr .8fr 90px 110px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f2}
+.v32-row:last-child{border-bottom:0}
+.v32-num{width:34px;height:34px;border-radius:10px;background:#eef2f6;display:grid;place-items:center;color:#44546a;font-weight:750}
+.v32-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dfe4e9;border-radius:999px;background:#fff;padding:4px 8px;font-size:11px;color:#647083}
+.v32-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.v32-dot.warn{background:#d97706}.v32-dot.fail{background:#dc2626}
+.v32-note{padding:10px 12px;border-radius:10px;background:#f7f9fb;border:1px solid #e4e8ec;color:#556174;font-size:12px}
+.v32-bar{height:7px;border-radius:999px;background:#e9edf1;overflow:hidden;margin-top:7px}.v32-bar span{display:block;height:100%;background:#64748b}
+@media(max-width:950px){.v32-grid{grid-template-columns:1fr}.v32-row{grid-template-columns:34px 1fr}.v32-row>*:nth-child(n+3){grid-column:2}.v32-metrics{grid-template-columns:1fr 1fr}}
