@@ -1,0 +1,71 @@
+(()=>{
+const I36=id=>document.getElementById(id);
+const esc36=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function slug(v){return String(v||'immersive-course').normalize('NFKD').replace(/[^\w\s-]/g,'').trim().replace(/[\s_]+/g,'-').replace(/-+/g,'-').toLowerCase()||'immersive-course'}
+function xml36(v){return String(v??'').replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]))}
+function ensureV36(){
+ state.version=36;
+ const defaultCourse='https://vr-classroom-studio.onrender.com/cmi5/course/'+slug(state.title);
+ state.v36=state.v36||{enabled:false,courseIri:defaultCourse,auIri:defaultCourse+'/au/main',language:'en-US',launchMethod:'AnyWindow',moveOn:'CompletedAndPassed',strictPackageQA:true,lastTest:null};
+ if(state.v36.enabled===undefined)state.v36.enabled=false;
+ if(!state.v36.courseIri)state.v36.courseIri=defaultCourse;
+ if(!state.v36.auIri)state.v36.auIri=state.v36.courseIri.replace(/\/$/,'')+'/au/main';
+ if(!state.v36.language)state.v36.language='en-US';
+ if(!['AnyWindow','OwnWindow'].includes(state.v36.launchMethod))state.v36.launchMethod='AnyWindow';
+ if(!['Passed','Completed','CompletedAndPassed','CompletedOrPassed','NotApplicable'].includes(state.v36.moveOn))state.v36.moveOn='CompletedAndPassed';
+}
+ensureV36();
+const main=document.querySelector('main.workspace');if(!main)return;
+
+const card=document.createElement('section');card.className='card v36-shell';card.id='cmi5InteropBridgeCard';
+card.innerHTML=
+ '<div class="v36-head"><div><h3>cmi5 / xAPI Interoperability Bridge <span class="v6-badge">V36</span></h3><div class="muted">Keep Blackboard SCORM 2004 as the primary delivery format while generating an optional cmi5 Quartz / xAPI 1.0.3 package for compatible LMS/LRS platforms.</div></div><span id="v36Status" class="v36-pill"></span></div>'+ 
+ '<div class="v36-primary"><b>Primary delivery remains SCORM 2004.</b><span>V36 is an alternate export path only. Enabling it does not change the standard Blackboard package or learner grade model.</span></div>'+ 
+ '<div class="v36-grid" style="margin-top:12px">'+ 
+  '<div class="v36-card"><div class="field"><label>Alternate cmi5 export</label><select id="v36Enabled"><option value="false">Disabled · SCORM only</option><option value="true">Enabled · SCORM + cmi5</option></select></div>'+ 
+   '<div class="field"><label>Course IRI</label><input id="v36CourseIri"></div>'+ 
+   '<div class="field"><label>Assignable Unit (AU) publisher IRI</label><input id="v36AuIri"></div>'+ 
+   '<div class="row"><div class="field"><label>Language</label><input id="v36Language" placeholder="en-US"></div><div class="field"><label>Launch method</label><select id="v36LaunchMethod"><option value="AnyWindow">AnyWindow</option><option value="OwnWindow">OwnWindow</option></select></div></div>'+ 
+   '<div class="field"><label>moveOn</label><select id="v36MoveOn"><option value="CompletedAndPassed">CompletedAndPassed</option><option value="Passed">Passed</option><option value="Completed">Completed</option><option value="CompletedOrPassed">CompletedOrPassed</option><option value="NotApplicable">NotApplicable</option></select></div>'+ 
+  '</div>'+ 
+  '<div class="v36-card"><h4 style="margin-top:0">Standards bridge</h4><div class="v36-runtime">'+ 
+   '<div><b>cmi5 Course Package</b><small><code>cmi5.xml</code> is written at ZIP root and launches a relative <code>launch.html</code> AU.</small></div>'+ 
+   '<div><b>Launch Contract</b><small>Reads endpoint, fetch, actor, registration and activityId; the one-time fetch URL is POSTed before AU startup.</small></div>'+ 
+   '<div><b>xAPI Runtime</b><small>Retrieves LMS.LaunchData and cmi5LearnerPreferences, sends initialized/completed/passed-or-failed/terminated, and persists learner state through the xAPI State API.</small></div>'+ 
+   '<div><b>Compatibility Facade</b><small>The existing immersive runtime continues using its SCORM-shaped internal API while V36 translates lifecycle/state semantics to cmi5/xAPI.</small></div>'+ 
+  '</div></div>'+ 
+ '</div>'+ 
+ '<div id="v36Metrics" class="v36-metrics"></div>'+ 
+ '<div class="v36-actions"><button class="btn" id="v36RunQA">Run cmi5 Package QA</button><button class="btn" id="v36DownloadReport">Download Interop Report</button><button class="btn primary" id="v36Export">Export cmi5 ZIP</button></div>'+ 
+ '<div id="v36QA" class="v36-qa"></div>'+ 
+ '<div class="v36-disclaimer">Standards-aligned engineering support is not a formal cmi5 conformance certification. Final import/launch validation must be performed in the target cmi5-capable LMS/LRS.</div>';
+
+const anchor=I36('adaptiveAssessmentStudioCard')||I36('questionBankStudioCard')||I36('blackboardDeliveryCenter');
+if(anchor)anchor.insertAdjacentElement('afterend',card);else main.appendChild(card);
+const nav=document.querySelector('aside .nav');if(nav){const b=document.createElement('button');b.innerHTML='⇄ cmi5 / xAPI Bridge <span class="badge">V36</span>';b.onclick=()=>card.scrollIntoView({behavior:'smooth'});nav.appendChild(b)}
+
+function scoreWeight(){return window.VRDeliveryV19?.scoreWeight?.()??((state.stations||[]).reduce((a,s)=>a+Number(s.points||0),0)+(state.questions||[]).reduce((a,q)=>a+Number(q.points||0),0))}
+function absoluteIri(v){try{const u=new URL(String(v));return !!u.protocol&&u.protocol!==':' }catch(e){return false}}
+function scoreConfigured(){return scoreWeight()>0}
+function syncSettings(){
+ state.v36.enabled=I36('v36Enabled').value==='true';
+ state.v36.courseIri=I36('v36CourseIri').value.trim();
+ state.v36.auIri=I36('v36AuIri').value.trim();
+ state.v36.language=I36('v36Language').value.trim()||'en-US';
+ state.v36.launchMethod=I36('v36LaunchMethod').value;
+ state.v36.moveOn=I36('v36MoveOn').value;
+}
+function populate(){
+ ensureV36();
+ I36('v36Enabled').value=String(state.v36.enabled===true);
+ I36('v36CourseIri').value=state.v36.courseIri;
+ I36('v36AuIri').value=state.v36.auIri;
+ I36('v36Language').value=state.v36.language;
+ I36('v36LaunchMethod').value=state.v36.launchMethod;
+ I36('v36MoveOn').value=state.v36.moveOn;
+}
+['v36Enabled','v36CourseIri','v36AuIri','v36Language','v36LaunchMethod','v36MoveOn'].forEach(id=>I36(id).addEventListener('change',()=>{syncSettings();renderAll()}));
+
+function cmi5XML(){
+ syncSettings();
+ const title=state.title||'VR Classroom Activity',description=(state.instructions||'Immersive learning activity created with VR Classroom Studio.').trim()||'Immersive learning activity created with
