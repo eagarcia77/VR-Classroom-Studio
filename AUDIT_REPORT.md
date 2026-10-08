@@ -404,3 +404,22 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Kept the technical 3D canvas dark while restoring hierarchy and inspector panels to the approved minimalist white interface.
 - Added V30 QA for duplicate object IDs, portal targets, station spatial representation, empty scenes and custom-model sources.
 - Added Functional 3D Scene Builder to the global command palette.
+
+
+## V31 audit extension
+- Added Authentic Performance Tasks as spatial, objective-linked assessment.
+- Added Procedure/Sequence, Classification, Spatial Decision and Inspection Checklist task types.
+- Each performance task creates a required SCORM station and spatial task objects in the selected scene.
+- Performance-task stations cannot be bypassed with the ordinary Complete button; the runtime displays instructions and requires the spatial interaction.
+- Procedure/Sequence validates authored order.
+- Classification validates Item | Category mappings.
+- Spatial Decision requires exactly one authored correct choice and allows retry after incorrect choices.
+- Inspection Checklist requires all authored evidence items.
+- Task progress, assignments, attempts and completion are persisted in suspend_data.
+- Successful task performance completes the linked SCORM station so existing scoring, completion, mastery and Mission Runtime logic remain authoritative.
+- V29 was extended with recordPerformance() so detailed performance evidence is preserved without creating another grade model.
+- Performance evidence includes number of attempts plus the completed sequence/classification/decision/inspection record.
+- V30 spatial-station QA now recognizes V31 performance tasks as spatially represented by their task objects.
+- Added V31 QA for task scene integrity, SCORM station linkage, spatial item integrity, decision keys, classification keys and instructor review.
+- Added a final validateProject() review gate for unreviewed V31 tasks.
+- Added Authentic Performance Tasks to the global command palette.
