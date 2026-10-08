@@ -35,6 +35,7 @@ function commandList(){
     {id:'cmd:evidencerecord',type:'command',label:'Open Learning Evidence Record',meta:'Assessment Evidence',action:()=>P('learningEvidenceRecordCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:sceneBuilder',type:'command',label:'Open Functional 3D Scene Builder',meta:'Authoring',action:()=>P('live3DEditorCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:performanceTasks',type:'command',label:'Open Authentic Performance Tasks',meta:'Assessment',action:()=>P('authenticPerformanceTasksCard')?.scrollIntoView({behavior:'smooth'})},
+    {id:'cmd:assessmentBlueprint',type:'command',label:'Open Assessment Blueprint & Objective Scoring',meta:'Assessment',action:()=>P('assessmentBlueprintCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:audit',type:'command',label:'Run Production Audit',meta:'QA',action:()=>window.VRClassroomAudit?.run?.(true)},
     {id:'cmd:preview',type:'command',label:'Preview Student Experience',meta:'Runtime',action:()=>P('previewBtn')?.click()},
     {id:'cmd:export',type:'command',label:'Export Audited SCORM',meta:'Blackboard',action:()=>P('exportBtn')?.click()},
