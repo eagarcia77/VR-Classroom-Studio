@@ -43,6 +43,7 @@
 <link rel="stylesheet" href="v32.css">
 <link rel="stylesheet" href="v33.css">
 <link rel="stylesheet" href="v34.css">
+<link rel="stylesheet" href="v35.css">
 </head>
 <body>
 <header><div class="logo">XR</div><div class="title"><b>VR Classroom Studio</b><small>Blackboard · SCORM 2004 · WebXR / AR</small></div><div class="actions"><button class="btn secondary" id="previewBtn">Preview Student</button><button class="btn secondary" id="validateBtn">Validate</button><button class="btn primary" id="exportBtn">Export SCORM</button></div></header>
@@ -71,7 +72,7 @@ Complete the immersive assessment successfully.</textarea></div><div class="tool
     <span class="muted">Third-party libraries, standards, trademarks, platform names and externally supplied content remain subject to their respective owners, licenses and terms.</span>
   </div>
 </section>
-<div class="footer">VR Classroom Studio V34 · Owner &amp; Creator: Eduardo Augusto García Rodríguez · © 2026 · Question Banks, Guided Immersive Course Builder, Blackboard SCORM, VR/AR and Desktop 3D.</div>
+<div class="footer">VR Classroom Studio V35 · Owner &amp; Creator: Eduardo Augusto García Rodríguez · © 2026 · Adaptive Assessment, Question Banks, Guided Immersive Course Builder, Blackboard SCORM, VR/AR and Desktop 3D.</div>
 </main>
 <section class="inspector"><h3 style="margin-top:0">Selected Station</h3><div id="emptyInspector" class="muted">Select a station to edit it.</div><div id="editor" class="hidden"><div class="field"><label>Name</label><input id="sName"></div><div class="field"><label>Interaction</label><select id="sType"><option value="resource">Learning resource</option><option value="question">Question / challenge</option><option value="video">Video</option><option value="reflection">Reflection</option><option value="teleport">Teleport / navigation</option></select></div><div class="field"><label>Instructions / content</label><textarea id="sContent"></textarea></div><div class="field"><label>Points</label><input id="sPoints" type="number" min="0" max="1000"></div><div class="field"><label>Required</label><select id="sRequired"><option value="true">Yes</option><option value="false">No</option></select></div><div class="field"><label>Accessibility label</label><textarea id="sAlt"></textarea></div><div class="toolbar"><button class="btn primary" id="saveStation">Save station</button><button class="btn danger" id="deleteStation">Delete</button></div></div></section>
 </div>
@@ -146,4 +147,5 @@ $('exportBtn').onclick=async()=>{syncAdvanced();const issues=validateProject();i
 <script src="v32.js"></script>
 <script src="v33.js"></script>
 <script src="v34.js"></script>
+<script src="v35.js"></script>
 </body></html>
