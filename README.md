@@ -1,5 +1,25 @@
 # VR Classroom Studio
 
+## V32 — Assessment Blueprint & Objective Scoring
+
+V32 unifies scoring across learning stations, questions and authentic performance tasks and adds objective-level SCORM 2004 reporting.
+
+The Assessment Blueprint shows:
+- total project points;
+- scored evidence items;
+- objective coverage;
+- station/question double-scoring risks;
+- unmapped scored evidence;
+- weight by learning objective.
+
+Authors can optionally normalize all currently scored evidence to exactly 100 points while preserving relative weighting. A single normalization snapshot can be restored.
+
+When enabled, the learner runtime reports each mapped learning objective through `cmi.objectives`, including objective ID, raw/scaled score, progress, completion and success. Objective mastery uses existing station completion plus question evidence from V29. This does not create a second grade model; it derives objective status from the same scored evidence already used by the course runtime.
+
+V20 Blackboard Test Lab now includes a dedicated objective mastery reporting test and simulates `cmi.objectives._count`.
+
+
+
 ## V31 — Authentic Performance Tasks
 
 V31 extends immersive assessment beyond quizzes by requiring learners to perform actions inside the 3D environment. Each task is linked to a real scene, a learning objective and a SCORM-scored station. The station cannot be manually completed from its modal; successful spatial performance is required.
