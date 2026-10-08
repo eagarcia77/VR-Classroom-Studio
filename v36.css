@@ -1,0 +1,13 @@
+/* V36 cmi5 / xAPI Interoperability Bridge */
+.v36-shell{background:#fff;border:1px solid #dde3e9;color:#263142}
+.v36-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.v36-head h3{margin:0;color:#1f2a3a}
+.v36-primary{margin-top:12px;border:1px solid #dce4eb;border-radius:12px;background:#f8fafc;padding:11px 12px}.v36-primary b,.v36-primary span{display:block}.v36-primary span{margin-top:3px;color:#6f7b8c;font-size:11px}
+.v36-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.v36-card{border:1px solid #e1e6eb;border-radius:13px;background:#fbfcfd;padding:12px}
+.v36-runtime{display:grid;gap:8px}.v36-runtime>div{border:1px solid #e2e7eb;border-radius:10px;background:#fff;padding:10px}.v36-runtime b,.v36-runtime small{display:block}.v36-runtime small{margin-top:3px;color:#748093;line-height:1.4}.v36-runtime code{font-size:10px}
+.v36-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}.v36-metrics>div{border:1px solid #e2e7eb;border-radius:11px;background:#fff;padding:10px}.v36-metrics b{display:block;font-size:15px;color:#253143}.v36-metrics small{display:block;color:#788394;margin-top:2px}
+.v36-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.v36-qa{display:grid;gap:7px;margin-top:12px}.v36-check{display:grid;grid-template-columns:28px 1fr auto;gap:9px;align-items:start;border:1px solid #e4e8ec;border-radius:10px;background:#fff;padding:9px}.v36-check b,.v36-check small{display:block}.v36-check small{color:#788394;margin-top:2px;line-height:1.35}.v36-level{font-size:9px;font-weight:800;color:#718096}
+.v36-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:800;background:#edf8f2;color:#166534}.v36-icon.warn{background:#fff8e9;color:#92400e}.v36-icon.fail{background:#fff0f0;color:#b42318}
+.v36-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dde3e8;border-radius:999px;padding:5px 8px;background:#fff;color:#607083;font-size:10px;font-weight:700}.v36-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.v36-dot.warn{background:#d97706}.v36-dot.fail{background:#dc2626}
+.v36-disclaimer{margin-top:12px;border:1px solid #e4e8ec;border-radius:10px;background:#fbfcfd;padding:9px;color:#788394;font-size:10px;line-height:1.4}
+@media(max-width:900px){.v36-grid{grid-template-columns:1fr}.v36-metrics{grid-template-columns:repeat(2,1fr)}.v36-check{grid-template-columns:28px 1fr}.v36-level{grid-column:2}}

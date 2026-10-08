@@ -494,3 +494,25 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V35 checks to Production Audit and final validateProject() gating.
 - Added Adaptive Assessment & Remediation to side navigation and the V25 global command palette.
 - No external AI service, learner-profile backend or parallel grading model is required.
+
+## V36 audit extension
+- Added an optional cmi5/xAPI interoperability export while preserving SCORM 2004 as the primary Blackboard delivery format.
+- V36 is disabled by default and does not block or modify the standard SCORM export when unused.
+- Added cmi5 CourseStructure generation with cmi5.xml at ZIP root and a packaged relative launch.html AU URL.
+- Added configurable Course IRI, AU publisher IRI, language, launchMethod and moveOn authoring controls.
+- Mastery score derives from the existing project passing score when scored evidence is configured.
+- Added launch handling for endpoint, fetch, actor, registration and activityId.
+- The one-time fetch URL is POSTed before runtime startup and its authorization token is retained only in sessionStorage for the active browser session.
+- Added retrieval and validation of LMS.LaunchData, including contextTemplate, launchMode, cmi5 session ID and publisher AU grouping.
+- Added retrieval of the cmi5LearnerPreferences Agent Profile and runtime application of language/audio preferences.
+- Added a SCORM-shaped compatibility facade that translates the existing learner runtime into xAPI State API persistence and cmi5 lifecycle behavior.
+- Existing V29 interaction evidence and V32 objective data remain in the same runtime state model; no parallel grading model is introduced.
+- Added Initialized, Completed, Passed/Failed and Terminated cmi5-defined statement handling with registration and LMS contextTemplate preservation.
+- Browse and Review launches are constrained to lifecycle behavior and do not emit normal learner outcome/interactions.
+- Added optional learner return-to-LMS action when LMS.LaunchData provides returnURL.
+- cmi5/xAPI package targeting is explicitly cmi5 Quartz 1st Edition with xAPI 1.0.3, matching the cmi5 specification reference.
+- Added dedicated cmi5 package QA for identifiers, moveOn/mastery semantics, local media availability, JavaScript bridge syntax, course structure, required launch contract, authorization bootstrap, package contents, runtime bridge binding, xAPI version, lifecycle wiring and State API continuity.
+- Production Audit treats V36 as an optional interoperability advisory so cmi5-specific configuration issues cannot block the primary Blackboard SCORM export.
+- V36 package export itself remains strict and blocks when cmi5-specific QA failures remain.
+- Added V36 to side navigation and the V25 global command palette.
+- V36 engineering checks do not claim formal cmi5 certification; target LMS/LRS import and launch validation remain required.

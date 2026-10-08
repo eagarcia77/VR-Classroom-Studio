@@ -39,6 +39,7 @@ function commandList(){
     {id:'cmd:guidedBuilder',type:'command',label:'Open Guided Immersive Course Builder',meta:'Authoring Workflow',action:()=>P('guidedImmersiveBuilderCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:questionbanks',type:'command',label:'Open Question Bank & Randomized Assessment Studio',meta:'Assessment',action:()=>P('questionBankStudioCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:adaptiveassessment',type:'command',label:'Open Adaptive Assessment & Remediation',meta:'Adaptive Learning',action:()=>P('adaptiveAssessmentStudioCard')?.scrollIntoView({behavior:'smooth'})},
+    {id:'cmd:cmi5bridge',type:'command',label:'Open cmi5 / xAPI Interoperability Bridge',meta:'Interoperability',action:()=>P('cmi5InteropBridgeCard')?.scrollIntoView({behavior:'smooth'})},
     {id:'cmd:audit',type:'command',label:'Run Production Audit',meta:'QA',action:()=>window.VRClassroomAudit?.run?.(true)},
     {id:'cmd:preview',type:'command',label:'Preview Student Experience',meta:'Runtime',action:()=>P('previewBtn')?.click()},
     {id:'cmd:export',type:'command',label:'Export Audited SCORM',meta:'Blackboard',action:()=>P('exportBtn')?.click()},

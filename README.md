@@ -1,5 +1,17 @@
 # VR Classroom Studio
 
+## V36 — cmi5 / xAPI Interoperability Bridge
+
+V36 adds an **optional alternate delivery path** for cmi5-capable LMS/LRS platforms while keeping **SCORM 2004 as the primary Blackboard delivery format**. The feature is disabled by default and does not alter the existing Blackboard export, grading model, learner evidence model or release workflow.
+
+The cmi5 export produces a ZIP with `cmi5.xml` at the package root and a relative `launch.html` Assignable Unit entry point. The launch bootstrap consumes the cmi5 LMS launch parameters `endpoint`, `fetch`, `actor`, `registration` and `activityId`, POSTs the one-time fetch URL for authorization, retrieves `LMS.LaunchData` and `cmi5LearnerPreferences`, and restores learner state before opening the immersive runtime.
+
+A V36 compatibility bridge exposes the same internal `window.SCORM` facade already used throughout the learner runtime. For a cmi5 package it translates that interface into xAPI State API persistence and cmi5 lifecycle statements rather than creating another course logic or grade model. Existing V29 interaction evidence and V32 objective reporting continue to operate against the same learner activity state.
+
+The bridge targets **cmi5 Quartz 1st Edition** and its referenced **xAPI 1.0.3** protocol. It sends cmi5-defined Initialized, Completed, Passed/Failed and Terminated lifecycle statements, preserves the LMS context template and registration, supports Browse/Review launch semantics, applies learner language/audio preferences, and provides an LMS return action when `returnURL` is supplied.
+
+V36 includes a dedicated in-memory package QA path covering identifiers, moveOn/mastery semantics, root course structure, relative AU launch, required launch parameters, one-time authorization fetch, State API continuity, local media packaging, bridge syntax, lifecycle wiring and protocol version. These checks support engineering readiness but **do not claim formal cmi5 conformance certification**; final validation in the target cmi5 LMS/LRS remains required.
+
 ## V35 — Adaptive Assessment & Remediation
 
 V35 adds an optional adaptive layer that connects the randomized question-bank engine from V34 with the mastery/evidence architecture already present in V17, V29 and V32. It is disabled by default so existing V34 projects continue to validate and export unchanged until an author explicitly enables adaptive delivery.
@@ -375,6 +387,5 @@ https://vr-classroom-studio.onrender.com
 - Scene thumbnails and room cloning
 - Autosave/version history
 - WCAG-oriented authoring audit
-- xAPI/cmi5 output
 - LTI 1.3 institutional integration
 - AI-assisted scene, assessment and learning-objective generation
