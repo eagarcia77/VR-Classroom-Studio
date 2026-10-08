@@ -80,6 +80,7 @@ function validateInput(type,items){
 }
 function place(i,n){const radius=Math.max(3,Math.min(6,2+n*.5)),a=-Math.PI/2+(i/Math.max(1,n))*Math.PI*2;return{x:+(Math.cos(a)*radius).toFixed(2),y:1.1,z:+(-5+Math.sin(a)*radius*.55).toFixed(2)}}
 function createTask(){
+ if(!objectives().length)return alert('Add at least one learning objective before creating an authentic performance task.');
  const sceneId=T31('v31Scene').value,scene=(state.scenes||[]).find(s=>String(s.id)===String(sceneId));if(!scene)return alert('Choose a valid scene.');
  const type=T31('v31Type').value,items=parseItems(type,T31('v31Items').value),err=validateInput(type,items);if(err)return alert(err);
  const title=T31('v31Title').value.trim()||({sequence:'Procedure Sequence',classify:'Classification Task',decision:'Spatial Decision',inspect:'Inspection Checklist'}[type]);
@@ -159,7 +160,7 @@ runtimeHTML=function(preview=false){
  function responseText(t,p){if(t.type==='classify')return Object.entries(p.assignments||{}).map(([id,cat])=>{const it=t.items.find(x=>String(x.id)===String(id));return (it?.label||id)+' → '+cat}).join('; ');return(p.selected||[]).map(id=>t.items.find(x=>String(x.id)===String(id))?.label||id).join(' → ')}
  function completeTask(t){
   const p=stateFor(t);if(p.complete)return;p.complete=true;
-  const s=stationFor(t);if(s&&!completed.has(s.id)){completed.add(s.id);if(window.V29Evidence?.recordPerformance)window.V29Evidence.recordPerformance(t,responseText(t,p),'completed',s);else if(window.V29Evidence?.recordStation)window.V29Evidence.recordStation(s);update();showScene(currentScene)}
+  const s=stationFor(t);if(s&&!completed.has(s.id)){completed.add(s.id);const evidence='Attempts: '+Number(p.attempts||0)+'; '+responseText(t,p);if(window.V29Evidence?.recordPerformance)window.V29Evidence.recordPerformance(t,evidence,'completed',s);else if(window.V29Evidence?.recordStation)window.V29Evidence.recordStation(s);update();showScene(currentScene)}
   save();say('Performance task complete: '+t.title)
  }
  function classify(t,item){
