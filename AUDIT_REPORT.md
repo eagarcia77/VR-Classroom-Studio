@@ -423,3 +423,24 @@ Repository: https://github.com/eagarcia77/VR-Classroom-Studio
 - Added V31 QA for task scene integrity, SCORM station linkage, spatial item integrity, decision keys, classification keys and instructor review.
 - Added a final validateProject() review gate for unreviewed V31 tasks.
 - Added Authentic Performance Tasks to the global command palette.
+
+
+## V32 audit extension
+- Added Assessment Blueprint & Objective Scoring as the central scoring audit and configuration layer.
+- Aggregates station, question, reflection and authentic-performance evidence into one scored inventory.
+- Detects station/question double-scoring where both a station and its linked questions award points.
+- Detects scored evidence that is not attributable to a learning objective.
+- Detects learning objectives with no scored evidence when objective coverage enforcement is enabled.
+- Adds optional proportional normalization of all positive score weights to exactly 100 points.
+- Normalization preserves relative weighting using a largest-remainder allocation and stores one restorable pre-normalization snapshot.
+- Keeps informational zero-point stations/questions at zero during normalization.
+- Adds direct passing-score synchronization with the base Activity Blueprint.
+- Adds SCORM 2004 objective-level reporting via cmi.objectives for ID, score min/max/raw/scaled, progress_measure, completion_status and success_status.
+- Objective score reporting derives station credit from existing completion state and question credit from V29 evidence records; no parallel grading system is introduced.
+- Adds a guard that blocks resumable question-level objective reporting if V29 evidence recording is disabled while scored questions are present.
+- Delays objective reporting briefly after runtime updates so V29 can persist the latest answer before mastery is recalculated.
+- Extended V20 mock LMS to maintain cmi.objectives._count.
+- Added V20 SCORM objective mastery reporting test covering objective ID, score, progress, completion and success.
+- Added V32 validation blockers for duplicate scoring, unmapped scored evidence and missing objective score coverage.
+- Added Assessment Blueprint & Objective Scoring to the global command palette.
+- Real Blackboard cmi.objectives behavior still requires institutional post-upload validation.
