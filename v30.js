@@ -143,7 +143,7 @@ function checks(){
  const scenes=state.scenes||[],objects=state.objects||[],stations=state.stations||[];
  const dup=objects.length-new Set(objects.map(o=>String(o.id))).size;
  const badPortals=objects.filter(o=>o.type==='portal'&&!scenes.some(s=>String(s.id)===String(o.targetSceneId)));
- const missingMarkers=stations.filter(st=>!objects.some(o=>o.type==='station'&&String(o.stationId)===String(st.id)));
+ const missingMarkers=stations.filter(st=>!st.performanceTaskId&&!objects.some(o=>o.type==='station'&&String(o.stationId)===String(st.id)));
  const empty=scenes.filter(s=>!objects.some(o=>String(o.sceneId)===String(s.id))&&!stations.some(st=>String(st.sceneId)===String(s.id)));
  const unsupported=objects.filter(o=>o.type==='custom'&&!o.url&&!o.assetId);
  return[
